@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Pragya Yadav</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+
+    .about-page{
+        padding:120px 5% 80px;
+        background:var(--dark-bg);
+        min-height:100vh;
+    }
+
+    .about-container{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:60px;
+        align-items:center;
+        margin-bottom:80px;
+    }
+
+    .about-image img{
+        width:100%;
+        max-width:420px;
+        border-radius:20px;
+        border:3px solid var(--accent);
+        box-shadow:0 0 35px var(--accent-glow);
+    }
+
+    .about-content h1{
+        font-size:3rem;
+        color:var(--accent);
+        margin-bottom:15px;
+    }
+
+    .about-content h2{
+        font-size:2rem;
+        margin-bottom:20px;
+    }
+
+    .about-content p{
+        color:#ccc;
+        line-height:1.8;
+        margin-bottom:18px;
+    }
+
+    .about-boxes{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+        gap:25px;
+    }
+
+    .about-box{
+        background:#111;
+        padding:30px;
+        border-radius:15px;
+        border:1px solid rgba(255,255,255,.08);
+        text-align:center;
+        transition:.4s;
+    }
+
+    .about-box i{
+        color:var(--accent);
+        font-size:40px;
+        margin-bottom:15px;
+    }
+
+    .about-box:hover{
+        transform:translateY(-10px);
+        border-color:var(--accent);
+        box-shadow:0 15px 35px var(--accent-glow);
+    }
+
+    @media(max-width:768px){
+
+        .about-container{
+            grid-template-columns:1fr;
+            text-align:center;
+        }
+
+        .about-image{
+            text-align:center;
+        }
+
+        .about-image img{
+            max-width:280px;
+        }
+
+        .about-content h1{
+            font-size:2.3rem;
+        }
+
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<a href="index.html" class="logo">AjmalMansoori</a>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="gallery.html">Gallery</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="About-us.html">About Us</a></li>
+</ul>
+
+</nav>
+
+<section class="about-page">
+
+<div class="about-container">
+
+<div class="about-image">
+<img src="pragya.jpg" alt="Pragya Yadav">
+</div>
+
+<div class="about-content">
+
+<h1>About Me</h1>
+
+<h2>PRAGYA YADAV</h2>
+
+<p>
+Hello! I'm Pragya Yadav, a passionate web developer and digital creator with a strong interest in building modern, responsive, and user-friendly websites.
+</p>
+
+<p>
+I enjoy learning new technologies, designing clean interfaces, and creating projects that combine creativity with functionality. Along with web development, I also create educational content related to universities, admissions, and student guidance.
+</p>
+
+<p>
+My goal is to build useful digital platforms that help students and provide a smooth experience for every visitor.
+</p>
+
+<a href="gallery.html" class="cta-button">View Gallery</a>
+
+</div>
+
+</div>
+
+<div class="about-boxes">
+
+<div class="about-box">
+<i class="fa-solid fa-code"></i>
+<h3>Web Development</h3>
+<p>Building responsive and modern websites using HTML, CSS and JavaScript.</p>
+</div>
+
+<div class="about-box">
+<i class="fa-solid fa-graduation-cap"></i>
+<h3>Student Guidance</h3>
+<p>Sharing useful information related to universities, admissions and courses.</p>
+</div>
+
+<div class="about-box">
+<i class="fa-solid fa-lightbulb"></i>
+<h3>Creative Ideas</h3>
+<p>Focused on creating simple, elegant and user-friendly digital experiences.</p>
+</div>
+
+<div class="about-box">
+<i class="fa-solid fa-bullseye"></i>
+<h3>Mission</h3>
+<p>To keep learning, building quality projects and helping people through technology.</p>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>&copy; 2026 Ajmal Mansoori. All Rights Reserved.</p>
+
+<div class="social-links">
+<a href="#"><i class="fa-brands fa-github"></i></a>
+<a href="#"><i class="fa-brands fa-instagram"></i></a>
+<a href="#"><i class="fa-brands fa-facebook"></i></a>
+<a href="#"><i class="fa-brands fa-twitter"></i></a>
+</div>
+
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
+```
