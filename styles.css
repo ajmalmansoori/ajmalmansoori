@@ -384,5 +384,34 @@ justify-content:center;
 .footer-right{
 text-align:center;
 }
+/* ===== Simple Footer ===== */
 
+footer{
+    background: var(--darker-bg);
+    padding: 40px 20px;
+    text-align: center;
+    border-top: 1px solid rgba(255,255,255,.1);
+}
+
+footer p{
+    margin-bottom: 20px;
+    color: #bbb;
+}
+
+.social-links{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.social-links a{
+    color: #fff;
+    font-size: 24px;
+    transition: .3s;
+}
+
+.social-links a:hover{
+    color: var(--accent);
+    transform: translateY(-4px);
 }
