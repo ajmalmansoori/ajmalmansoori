@@ -200,9 +200,18 @@ color:#9c9c9c;
 line-height:1.9;
 max-width:430px;
 }
+.footer-left{
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+}
 
 .footer-icons{
 display:flex;
+justify-content:center;
+align-items:center;
 gap:18px;
 margin-top:30px;
 }
@@ -233,6 +242,7 @@ gap:35px;
 .footer-box{
 display:flex;
 flex-direction:column;
+align-items:center;
 }
 
 .footer-box h3{
@@ -357,6 +367,22 @@ overflow:hidden;
 
 .footer-box a{
 word-break:break-word;
+}
+ .footer-left{
+align-items:center;
+text-align:center;
+}
+
+.footer-box{
+align-items:center;
+}
+
+.footer-icons{
+justify-content:center;
+}
+
+.footer-right{
+text-align:center;
 }
 
 }
