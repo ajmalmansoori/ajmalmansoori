@@ -139,6 +139,72 @@ body{
 }
 
 /* Skills Section */
+/* ===== Browse Section ===== */
+
+.browse{
+    padding:80px 5%;
+    text-align:center;
+    background:#050505;
+}
+
+.browse h2{
+    font-size:2.5rem;
+    color:#fff;
+    margin-bottom:10px;
+}
+
+.browse p{
+    color:#aaa;
+    margin-bottom:50px;
+}
+
+.browse-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+}
+
+.browse-card{
+    background:#111;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:35px 20px;
+    text-decoration:none;
+    transition:.35s;
+}
+
+.browse-card i{
+    font-size:48px;
+    color:var(--accent);
+    margin-bottom:18px;
+}
+
+.browse-card h3{
+    color:#fff;
+    font-size:1.2rem;
+}
+
+.browse-card:hover{
+    transform:translateY(-8px);
+    border-color:var(--accent);
+    box-shadow:0 15px 35px var(--accent-glow);
+}
+
+@media(max-width:768px){
+
+.browse{
+    padding:60px 20px;
+}
+
+.browse h2{
+    font-size:2rem;
+}
+
+.browse-grid{
+    grid-template-columns:1fr;
+}
+
+}
 .skills {
    padding: 5rem 5%;
    background: var(--darker-bg);
