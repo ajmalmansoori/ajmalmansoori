@@ -137,6 +137,10 @@ body{
    position: relative;
    overflow:hidden;
 }
+.cta-button:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--accent-glow);
+}
 
 /* ===========================
    Browse Section
