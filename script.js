@@ -32,3 +32,18 @@ window.addEventListener('scroll', () => {
         navbar.style.boxShadow = 'none';
     }
 });
+const slider = document.getElementById("browseSlider");
+
+document.getElementById("next").onclick = () => {
+    slider.scrollBy({
+        left:320,
+        behavior:"smooth"
+    });
+};
+
+document.getElementById("prev").onclick = () => {
+    slider.scrollBy({
+        left:-320,
+        behavior:"smooth"
+    });
+};
