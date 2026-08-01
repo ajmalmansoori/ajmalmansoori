@@ -228,25 +228,7 @@ transform:translateY(-5px);
 box-shadow:0 15px 35px rgba(46,206,113,.35);
 
 }
-
-.browse-wrapper{
-
-overflow:hidden;
-position:relative;
-
-}
-
-.browse-track{
-
-display:flex;
-gap:28px;
-transition:.45s ease;
-
-}
-
 .browse-card{
-
-min-width:330px;
 background:#111;
 border:1px solid rgba(255,255,255,.08);
 border-radius:28px;
@@ -260,7 +242,6 @@ flex-direction:column;
 }
 
 .browse-card:hover{
-
 transform:translateY(-12px);
 border-color:#2ecc71;
 box-shadow:
@@ -573,12 +554,8 @@ min-width:280px;
 }
 
 .browse-card{
-
-    flex-shrink:0;
-
-    width:330px;
-
-    min-height:470px;
+ width:100%;
+ min-height:470px;
 
     background:rgba(18,18,18,.88);
 
