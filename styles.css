@@ -508,6 +508,7 @@ gap:60px;
 
 .footer-right{
 grid-template-columns:repeat(2,1fr);
+ flex-shrink: 0;
 }
 
 }
