@@ -15,53 +15,73 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ==============================
-// Navbar Scroll Effect
-// ==============================
-window.addEventListener("scroll", () => {
+// ======================================
+// PREMIUM BROWSE SWIPER
+// ======================================
 
-    const navbar = document.querySelector(".navbar");
+const browseSwiper = new Swiper(".browseSwiper", {
 
-    if (window.scrollY > 50) {
-        navbar.style.background = "rgba(10,10,10,.98)";
-        navbar.style.boxShadow = "0 5px 20px rgba(0,0,0,.4)";
-    } else {
-        navbar.style.background = "rgba(10,10,10,.95)";
-        navbar.style.boxShadow = "none";
-    }
-
-});
-
-// ==============================
-// Browse Premium Slider
-// ==============================
-
-const swiper = new Swiper(".browseSwiper", {
-
-    slidesPerView: 1.2,
-    spaceBetween: 25,
     loop: true,
-    speed: 700,
+    speed: 800,
     grabCursor: true,
+    centeredSlides: false,
+
+    spaceBetween: 28,
+
+    slidesPerView: 1.15,
 
     autoplay: {
+
         delay: 3000,
         disableOnInteraction: false,
+        pauseOnMouseEnter: true,
+
     },
 
     navigation: {
+
         nextEl: "#next",
         prevEl: "#prev",
+
+    },
+
+    pagination: {
+
+        el: ".swiper-pagination",
+        clickable: true,
+
     },
 
     breakpoints: {
 
+        576: {
+
+            slidesPerView: 1.4,
+
+        },
+
         768: {
+
             slidesPerView: 2,
+
+        },
+
+        992: {
+
+            slidesPerView: 3,
+
         },
 
         1200: {
-            slidesPerView: 3,
+
+            slidesPerView: 4,
+
+        },
+
+        1600: {
+
+            slidesPerView: 5,
+
         }
 
     }
