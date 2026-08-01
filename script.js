@@ -17,46 +17,35 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 
 // ==============================
-// Navbar Scroll Effect
+// Browse Premium Slider
 // ==============================
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
 
-    if (!navbar) return;
-
-    if (window.scrollY > 50) {
-        navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.98)';
-        navbar.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
-    } else {
-        navbar.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.boxShadow = 'none';
-    }
-});
 const swiper = new Swiper(".browseSwiper", {
-
     slidesPerView: 1.2,
-
     spaceBetween: 25,
-
     loop: true,
-
+    speed: 700,
     grabCursor: true,
+    centeredSlides: false,
 
     navigation: {
         nextEl: "#next",
         prevEl: "#prev",
     },
 
-    breakpoints: {
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+    },
 
+    breakpoints: {
         768: {
             slidesPerView: 2,
+            spaceBetween: 25,
         },
-
-        1200: {
+        1024: {
             slidesPerView: 3,
-        }
-
+            spaceBetween: 30,
+        },
     }
-
 });
