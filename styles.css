@@ -751,6 +751,126 @@ font-size:15px;
 }
 
 }
+/*=========================
+    FEATURES SECTION
+=========================*/
+
+.features{
+    padding:90px 6%;
+    background:#050505;
+}
+
+.section-heading{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-heading span{
+    display:inline-block;
+    padding:8px 18px;
+    background:rgba(46,206,113,.12);
+    color:#2ecc71;
+    border-radius:30px;
+    font-weight:600;
+    margin-bottom:15px;
+}
+
+.section-heading h2{
+    font-size:48px;
+    color:#fff;
+    margin-bottom:12px;
+}
+
+.section-heading p{
+    color:#9ca3af;
+    max-width:600px;
+    margin:auto;
+}
+
+.feature-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+
+.feature-card{
+    background:#111;
+    border:1px solid rgba(46,206,113,.15);
+    border-radius:24px;
+    padding:35px;
+    text-decoration:none;
+    color:#fff;
+    transition:.4s;
+    position:relative;
+    overflow:hidden;
+}
+
+.feature-card::before{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    background:radial-gradient(circle,rgba(46,206,113,.18),transparent 70%);
+    top:-120px;
+    right:-120px;
+    opacity:0;
+    transition:.4s;
+}
+
+.feature-card:hover::before{
+    opacity:1;
+}
+
+.feature-card:hover{
+    transform:translateY(-10px);
+    border-color:#2ecc71;
+    box-shadow:0 20px 45px rgba(46,206,113,.18);
+}
+
+.feature-card i{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    background:rgba(46,206,113,.12);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:30px;
+    color:#2ecc71;
+    margin-bottom:25px;
+    transition:.4s;
+}
+
+.feature-card:hover i{
+    background:#2ecc71;
+    color:#fff;
+}
+
+.feature-card h3{
+    font-size:26px;
+    margin-bottom:12px;
+}
+
+.feature-card p{
+    color:#9ca3af;
+    line-height:1.7;
+}
+
+@media(max-width:768px){
+
+.section-heading h2{
+    font-size:34px;
+}
+
+.features{
+    padding:70px 20px;
+}
+
+.feature-card{
+    padding:28px;
+}
+
+}
 /*======================
 PREMIUM FOOTER
 =======================*/
