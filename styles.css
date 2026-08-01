@@ -229,18 +229,21 @@ box-shadow:0 15px 35px rgba(46,206,113,.35);
 
 }
 .browse-card{
-background:#111;
-border:1px solid rgba(255,255,255,.08);
-border-radius:28px;
-padding:30px;
-position:relative;
-overflow:hidden;
-transition:.35s;
-display:flex;
-flex-direction:column;
-
+    width:100%;
+    min-height:470px;
+    background:rgba(18,18,18,.88);
+    border:1px solid rgba(46,206,113,.18);
+    border-radius:28px;
+    padding:35px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    overflow:hidden;
+    backdrop-filter:blur(18px);
+    transition:.4s;
+    color:#fff;
+    text-decoration:none;
 }
-
 .browse-card:hover{
 transform:translateY(-12px);
 border-color:#2ecc71;
@@ -585,48 +588,6 @@ min-width:280px;
 .browse-card:hover::after{
 
     border-color:rgba(46,206,113,.35);
-
-}
-
-.browse-card{
- width:100%;
- min-height:470px;
-
-    background:rgba(18,18,18,.88);
-
-    border:1px solid rgba(46,206,113,.18);
-
-    border-radius:28px;
-
-    padding:35px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    text-decoration:none;
-
-    color:#fff;
-
-    position:relative;
-
-    transition:.4s;
-
-    overflow:hidden;
-
-    backdrop-filter:blur(18px);
-
-}
-
-.browse-card:hover{
-
-    transform:translateY(-12px);
-
-    border-color:#2ecc71;
-
-    box-shadow:
-    0 25px 60px rgba(46,206,113,.18);
-
 }
 .browse-card:hover{
 transform:translateY(-12px);
