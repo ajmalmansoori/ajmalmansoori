@@ -32,18 +32,31 @@ window.addEventListener('scroll', () => {
         navbar.style.boxShadow = 'none';
     }
 });
-const slider = document.getElementById("browseSlider");
+const swiper = new Swiper(".browseSwiper", {
 
-document.getElementById("next").onclick = () => {
-    slider.scrollBy({
-        left:320,
-        behavior:"smooth"
-    });
-};
+    slidesPerView:1.15,
 
-document.getElementById("prev").onclick = () => {
-    slider.scrollBy({
-        left:-320,
-        behavior:"smooth"
-    });
-};
+    spaceBetween:25,
+
+    loop:true,
+
+    speed:700,
+
+    grabCursor:true,
+
+    navigation:{
+        nextEl:"#next",
+        prevEl:"#prev"
+    },
+    breakpoints:{
+        768:{
+            slidesPerView:2
+        },
+        1100:{
+            slidesPerView:3
+        },
+        1400:{
+            slidesPerView:4
+        }
+    }
+});
