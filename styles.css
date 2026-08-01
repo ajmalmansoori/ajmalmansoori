@@ -378,22 +378,6 @@ min-width:280px;
 /* ===================================
    CARD DETAILS
 =================================== */
-
-.card-badge{
-    position:absolute;
-    top:25px;
-    right:25px;
-    padding:7px 16px;
-    border-radius:50px;
-    background:linear-gradient(135deg,#2ecc71,#27ae60);
-    color:#fff;
-    font-size:13px;
-    font-weight:700;
-    letter-spacing:.5px;
-    box-shadow:0 10px 25px rgba(46,206,113,.35);
-    z-index:2;
-}
-
 .card-icon i{
 
     font-size:38px;
@@ -609,21 +593,6 @@ font-weight:700;
 }
 
 /* Glow */
-
-.browse-card::before{
-    content:"";
-    position:absolute;
-    width:220px;
-    height:220px;
-    background:rgba(46,206,113,.15);
-    border-radius:50%;
-    top:-100px;
-    right:-100px;
-    filter:blur(70px);
-    opacity:0;
-    transition:.4s;
-}
-
 .browse-card:hover::before{
     opacity:1;
 }
