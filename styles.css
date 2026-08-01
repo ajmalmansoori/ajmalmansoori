@@ -145,97 +145,125 @@ body{
 /* ===========================
    Browse Section
 =========================== */
+/* ===================================
+   PREMIUM BROWSE SECTION
+=================================== */
 
 .browse{
-    position: relative;
-    padding: 90px 5%;
-    background:
-    radial-gradient(circle at top right, rgba(46,206,113,.12), transparent 40%),
-    radial-gradient(circle at bottom left, rgba(46,206,113,.08), transparent 35%),
-    #050505;
-    overflow: hidden;
+    position:relative;
+    padding:90px 6%;
+    background:#050505;
+    overflow:hidden;
 }
+
+.browse::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    radial-gradient(circle at top right,rgba(46,206,113,.10),transparent 30%),
+    radial-gradient(circle at bottom left,rgba(46,206,113,.08),transparent 35%);
+    pointer-events:none;
+}
+
+.browse-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:45px;
+}
+
 .browse-title h2{
-    font-size:3rem;
-    font-weight:700;
+    font-size:4rem;
+    font-weight:800;
     color:#fff;
     margin-bottom:8px;
 }
 
 .browse-title p{
     color:#9ca3af;
-    font-size:16px;
-}
-
-.browse-header h2{
-
-font-size:3rem;
-font-weight:700;
-
+    font-size:18px;
 }
 
 .browse-btns{
-
-display:flex;
-gap:15px;
-
+    display:flex;
+    gap:15px;
 }
 
 .browse-btns button{
-
-width:55px;
-height:55px;
-border:none;
-cursor:pointer;
-border-radius:14px;
-background:var(--accent);
-color:#fff;
-font-size:20px;
-transition:.3s;
-
+    width:60px;
+    height:60px;
+    border:none;
+    border-radius:18px;
+    background:#2ecc71;
+    color:#fff;
+    cursor:pointer;
+    transition:.35s;
+    font-size:22px;
 }
 
 .browse-btns button:hover{
-
-transform:translateY(-5px);
-box-shadow:0 10px 25px var(--accent-glow);
-
+    transform:translateY(-5px);
+    box-shadow:0 12px 35px rgba(46,206,113,.35);
 }
 
 .browse-slider{
-align-items: stretch;
-padding: 15px 0;
-display:flex;
-gap:25px;
-overflow-x:auto;
-scroll-behavior:smooth;
-padding-bottom:10px;
-
+    display:flex;
+    gap:30px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    scrollbar-width:none;
+    padding:15px 0;
 }
 
 .browse-slider::-webkit-scrollbar{
-
-display:none;
-
+    display:none;
 }
 
 .browse-card{
-    position:relative;
-    min-width:300px;
-    min-height:330px;
-    background:rgba(18,18,18,.75);
-    backdrop-filter:blur(18px);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:26px;
-    padding:28px;
+
+    flex-shrink:0;
+
+    width:330px;
+
+    min-height:470px;
+
+    background:rgba(18,18,18,.88);
+
+    border:1px solid rgba(46,206,113,.18);
+
+    border-radius:28px;
+
+    padding:35px;
+
     display:flex;
+
     flex-direction:column;
+
     text-decoration:none;
+
     color:#fff;
+
+    position:relative;
+
     transition:.4s;
+
     overflow:hidden;
+
+    backdrop-filter:blur(18px);
+
 }
 
+.browse-card:hover{
+
+    transform:translateY(-12px);
+
+    border-color:#2ecc71;
+
+    box-shadow:
+    0 25px 60px rgba(46,206,113,.18);
+
+}
 .browse-card:hover{
 transform:translateY(-12px);
 border-color:#2ecc71;
