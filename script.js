@@ -34,29 +34,29 @@ window.addEventListener('scroll', () => {
 });
 const swiper = new Swiper(".browseSwiper", {
 
-    slidesPerView:1.15,
+    slidesPerView: 1.2,
 
-    spaceBetween:25,
+    spaceBetween: 25,
 
-    loop:true,
+    loop: true,
 
-    speed:700,
+    grabCursor: true,
 
-    grabCursor:true,
-
-    navigation:{
-        nextEl:"#next",
-        prevEl:"#prev"
+    navigation: {
+        nextEl: "#next",
+        prevEl: "#prev",
     },
-    breakpoints:{
-        768:{
-            slidesPerView:2
+
+    breakpoints: {
+
+        768: {
+            slidesPerView: 2,
         },
-        1100:{
-            slidesPerView:3
-        },
-        1400:{
-            slidesPerView:4
+
+        1200: {
+            slidesPerView: 3,
         }
+
     }
+
 });
