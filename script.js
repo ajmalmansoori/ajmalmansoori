@@ -88,6 +88,45 @@ const browseSwiper = new Swiper(".browseSwiper", {
 
 });
 // ==============================
+// Feature Slider
+// ==============================
+
+const featureSwiper = new Swiper(".featureSwiper", {
+
+    slidesPerView: 1.2,
+    spaceBetween: 25,
+    loop: true,
+    speed: 700,
+    grabCursor: true,
+
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+
+    navigation: {
+        nextEl: "#featureNext",
+        prevEl: "#featurePrev",
+    },
+
+    breakpoints: {
+
+        768: {
+            slidesPerView: 2,
+        },
+
+        1024: {
+            slidesPerView: 3,
+        },
+
+        1400: {
+            slidesPerView: 4,
+        }
+
+    }
+
+});
+// ==============================
 // FEATURES ANIMATION
 // ==============================
 
