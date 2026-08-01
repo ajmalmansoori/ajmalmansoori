@@ -207,17 +207,19 @@ body{
     box-shadow:0 12px 35px rgba(46,206,113,.35);
 }
 
-.browse-slider{
-    display:flex;
-    gap:30px;
-    overflow-x:auto;
-    scroll-behavior:smooth;
-    scrollbar-width:none;
+.browseSwiper{
+    overflow:hidden;
     padding:15px 0;
 }
 
-.browse-slider::-webkit-scrollbar{
-    display:none;
+.swiper-wrapper{
+    display:flex;
+    align-items:stretch;
+}
+
+.swiper-slide{
+    height:auto;
+}
 }
 /* ===================================
    CARD DETAILS
