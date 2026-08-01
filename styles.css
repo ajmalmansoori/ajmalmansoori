@@ -203,7 +203,8 @@ box-shadow:0 10px 25px var(--accent-glow);
 }
 
 .browse-slider{
-
+align-items: stretch;
+padding: 15px 0;
 display:flex;
 gap:25px;
 overflow-x:auto;
