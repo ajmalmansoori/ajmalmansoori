@@ -147,19 +147,24 @@ body{
 =========================== */
 
 .browse{
-
-padding:80px 5%;
-background:var(--darker-bg);
-
+    position: relative;
+    padding: 90px 5%;
+    background:
+    radial-gradient(circle at top right, rgba(46,206,113,.12), transparent 40%),
+    radial-gradient(circle at bottom left, rgba(46,206,113,.08), transparent 35%),
+    #050505;
+    overflow: hidden;
+}
+.browse-title h2{
+    font-size:3rem;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:8px;
 }
 
-.browse-header{
-
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:35px;
-
+.browse-title p{
+    color:#9ca3af;
+    font-size:16px;
 }
 
 .browse-header h2{
@@ -214,31 +219,29 @@ display:none;
 }
 
 .browse-card{
-
-min-width:270px;
-height:180px;
-background:#111;
-border-radius:22px;
-padding:30px;
-text-decoration:none;
-color:#fff;
-border:1px solid rgba(255,255,255,.08);
-transition:.35s;
-
-display:flex;
-flex-direction:column;
-justify-content:center;
-
+    position:relative;
+    min-width:300px;
+    min-height:330px;
+    background:rgba(18,18,18,.75);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:26px;
+    padding:28px;
+    display:flex;
+    flex-direction:column;
+    text-decoration:none;
+    color:#fff;
+    transition:.4s;
+    overflow:hidden;
 }
 
 .browse-card:hover{
-
-transform:translateY(-10px);
-border-color:var(--accent);
-box-shadow:0 15px 35px var(--accent-glow);
-
+transform:translateY(-12px);
+border-color:#2ecc71;
+box-shadow:
+0 20px 40px rgba(46,206,113,.15),
+0 0 60px rgba(46,206,113,.12);
 }
-
 .browse-card i{
 
 font-size:42px;
