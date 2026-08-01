@@ -362,6 +362,41 @@ min-width:280px;
 }
 
 }
+/* Swiper */
+
+.browseSwiper{
+    width:100%;
+    overflow:hidden;
+    padding:10px 5px 40px;
+}
+
+.browseSwiper .swiper-wrapper{
+    align-items:stretch;
+}
+
+.browseSwiper .swiper-slide{
+    height:auto;
+    display:flex;
+}
+
+/* Navigation Buttons */
+
+#prev,
+#next{
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:15px;
+    background:#151515;
+    color:#fff;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#prev:hover,
+#next:hover{
+    background:#2ecc71;
+}
 /* ===================================
    CARD DETAILS
 =================================== */
