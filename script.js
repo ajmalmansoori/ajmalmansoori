@@ -87,3 +87,42 @@ const browseSwiper = new Swiper(".browseSwiper", {
     }
 
 });
+// ==============================
+// FEATURES ANIMATION
+// ==============================
+
+const featureCards = document.querySelectorAll(".feature-card");
+
+featureCards.forEach((card, index) => {
+
+    card.style.opacity = "0";
+    card.style.transform = "translateY(40px)";
+
+    setTimeout(() => {
+
+        card.style.transition = "all .6s ease";
+        card.style.opacity = "1";
+        card.style.transform = "translateY(0)";
+
+    }, index * 150);
+
+});
+// ==============================
+// FEATURE CARD HOVER EFFECT
+// ==============================
+
+featureCards.forEach(card => {
+
+    card.addEventListener("mouseenter", () => {
+
+        card.style.transform = "translateY(-12px) scale(1.02)";
+
+    });
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform = "translateY(0) scale(1)";
+
+    });
+
+});
