@@ -1698,6 +1698,80 @@ font-size:22px;
 display:block;
 
 }
+/*=========================================
+DOWNLOAD BUTTONS
+=========================================*/
+
+.download-buttons{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+/*========================
+YouTube Button
+========================*/
+
+.youtube-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:18px;
+    padding:18px 30px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#ff0000,#cc0000);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    transition:all .35s ease;
+    box-shadow:0 10px 30px rgba(255,0,0,.30);
+}
+
+.youtube-btn:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 45px rgba(255,0,0,.45);
+}
+
+.youtube-btn i{
+    font-size:34px;
+}
+
+.youtube-btn small{
+    display:block;
+    font-size:12px;
+    letter-spacing:1px;
+    opacity:.9;
+}
+
+.youtube-btn strong{
+    display:block;
+    font-size:22px;
+    font-weight:700;
+}
+
+/*========================
+Responsive
+========================*/
+
+@media(max-width:768px){
+
+.download-buttons{
+    flex-direction:column;
+    align-items:stretch;
+}
+
+.playstore-btn,
+.youtube-btn{
+    width:100%;
+    justify-content:center;
+}
+
+.youtube-btn{
+    margin-top:15px;
+}
+
+}
 
 /*============================*/
 
