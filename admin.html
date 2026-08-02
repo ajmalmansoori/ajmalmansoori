@@ -5,16 +5,725 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS Dashboard | Learnify Classes</title>
   
-  <link rel="stylesheet" href="admin.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary-color: #0f172a;
+      --accent-color: #2563eb;
+      --bg-main: #f8fafc;
+      --border-color: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --sidebar-width: 260px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      overflow-x: hidden;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(2px);
+      z-index: 99;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: var(--sidebar-width);
+      background: #ffffff;
+      border-right: 1px solid var(--border-color);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 16px;
+      transform: translateX(-100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.03);
+      overflow-y: auto;
+    }
+
+    .sidebar.open {
+      transform: translateX(0);
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      margin-bottom: 20px;
+    }
+
+    .brand-icon-box {
+      width: 38px;
+      height: 38px;
+      background: var(--primary-color);
+      color: #fff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .brand-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.5px;
+    }
+
+    .sidebar-search {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .sidebar-search i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .sidebar-search input {
+      width: 100%;
+      padding: 10px 12px 10px 38px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      font-size: 0.85rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .sidebar-search input:focus {
+      border-color: var(--accent-color);
+      background: #fff;
+    }
+
+    .menu-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .menu-item a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border-radius: 10px;
+      transition: all 0.2s;
+    }
+
+    .menu-item a:hover {
+      background: #f1f5f9;
+      color: var(--text-main);
+    }
+
+    .menu-item.active > a {
+      background: #f1f5f9;
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .left-icon {
+      margin-right: 12px;
+      width: 18px;
+      font-size: 0.95rem;
+    }
+
+    .arrow-icon {
+      font-size: 0.75rem;
+      transition: transform 0.2s ease;
+    }
+
+    .arrow-icon.rotate {
+      transform: rotate(180deg);
+    }
+
+    .sub-menu {
+      list-style: none;
+      padding-left: 32px;
+      display: none;
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .sub-menu.show {
+      display: block;
+    }
+
+    .sub-menu li a {
+      padding: 8px 12px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .sub-menu li.active a {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .wrapper {
+      width: 100%;
+      min-height: 100vh;
+    }
+
+    .top-header {
+      height: 70px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .toggle-btn {
+      background: none;
+      border: 1px solid var(--border-color);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+
+    .toggle-btn:hover {
+      background: #f1f5f9;
+    }
+
+    .header-search {
+      position: relative;
+      width: 320px;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #94a3b8;
+    }
+
+    .header-search input {
+      width: 100%;
+      padding: 8px 12px 8px 38px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      font-size: 0.85rem;
+      outline: none;
+    }
+
+    .user-profile-wrapper {
+      position: relative;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .user-profile:hover {
+      background: #f8fafc;
+      border-color: var(--border-color);
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #3b82f6;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .profile-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .arrow-profile {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .profile-dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 120%;
+      right: 0;
+      width: 260px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border-color);
+      z-index: 100;
+      padding: 14px;
+    }
+
+    .profile-dropdown-menu.show {
+      display: block;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .profile-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    .user-display-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .user-email {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .dropdown-divider {
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      margin: 10px 0;
+    }
+
+    .profile-menu-items {
+      list-style: none;
+    }
+
+    .profile-menu-items li a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.15s;
+    }
+
+    .profile-menu-items li a:hover {
+      background: #f1f5f9;
+    }
+
+    .profile-menu-items li a.logout-item {
+      color: #ef4444;
+    }
+
+    .profile-menu-items li a.logout-item:hover {
+      background: #fef2f2;
+    }
+
+    .main-content {
+      padding: 32px 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .tab-section {
+      display: none;
+    }
+
+    .tab-section.active {
+      display: block;
+    }
+
+    .page-head {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .dash-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .sub-date {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .btn-filter {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .metric-card {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+    }
+
+    .card-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .card-val {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .card-prev {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .card-foot {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin-top: 10px;
+    }
+
+    .card-head-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .stat-badge {
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    .line-bar-bg {
+      height: 4px;
+      background: #f1f5f9;
+      border-radius: 2px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+
+    .line-bar-fill {
+      height: 100%;
+      background: var(--accent-color);
+    }
+
+    /* Common Card & Data Table Component Styles */
+    .data-card-container {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 20px;
+    }
+
+    .table-header-tools {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .btn-action-primary {
+      background: var(--accent-color);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .custom-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .custom-table th {
+      text-align: left;
+      padding: 12px;
+      background: #f8fafc;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border-color);
+      font-weight: 600;
+    }
+
+    .custom-table td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
+      color: var(--text-main);
+    }
+
+    .badge-status {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-success { background: #dcfce7; color: #166534; }
+    .badge-warning { background: #fef9c3; color: #854d0e; }
+
+    /* Profile Page Layout */
+    .profile-tabs-header {
+      display: flex;
+      gap: 8px;
+      background: #ffffff;
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      margin-bottom: 24px;
+      width: fit-content;
+    }
+
+    .prof-tab-btn {
+      background: transparent;
+      border: none;
+      padding: 8px 18px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+
+    .prof-tab-btn.active {
+      background: #f1f5f9;
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .profile-card-container {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 760px;
+    }
+
+    .prof-subtab-content {
+      display: none;
+    }
+
+    .prof-subtab-content.active {
+      display: block;
+    }
+
+    .profile-pic-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .avatar-large-container {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #eff6ff;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-ph {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .btn-upload-pic {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .form-section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin: 20px 0 12px 0;
+    }
+
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .form-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .input-icon-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      color: #94a3b8;
+      font-size: 0.85rem;
+    }
+
+    .input-icon-wrapper input {
+      width: 100%;
+      padding: 10px 12px 10px 36px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text-main);
+      outline: none;
+    }
+
+    .input-icon-wrapper input:focus {
+      border-color: var(--accent-color);
+    }
+
+    .reset-password-link {
+      align-self: flex-end;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-top: 4px;
+    }
+
+    .form-actions-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-secondary-reset {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .btn-primary-save {
+      background: var(--primary-color);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Dark Background Overlay for Drawer -->
   <div class="sidebar-overlay" id="overlay"></div>
 
-  <!-- Sliding Drawer Sidebar Navigation -->
+  <!-- Sidebar Navigation Drawer -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon-box"><i class="fa-solid fa-layer-group"></i></div>
@@ -27,12 +736,11 @@
     </div>
 
     <ul class="menu-list">
-      <!-- DASHBOARD -->
       <li class="menu-item active" data-tab="sec-dashboard">
         <a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a>
       </li>
 
-      <!-- 1. OFFERINGS DROPDOWN -->
+      <!-- 1. OFFERINGS -->
       <li class="menu-item dropdown" id="offeringsParent">
         <a href="javascript:void(0)" id="offeringsToggle">
           <span class="item-label"><i class="fa-solid fa-box left-icon"></i> Offerings</span> 
@@ -53,7 +761,7 @@
         <a href="#"><span class="item-label"><i class="fa-solid fa-file-pen left-icon"></i> Test Portal</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
       </li>
 
-      <!-- 2. REPORTS DROPDOWN -->
+      <!-- 2. REPORTS -->
       <li class="menu-item dropdown" id="reportsParent">
         <a href="javascript:void(0)" id="reportsToggle">
           <span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Reports</span> 
@@ -66,7 +774,7 @@
         </ul>
       </li>
 
-      <!-- 3. MARKETING DROPDOWN -->
+      <!-- 3. MARKETING -->
       <li class="menu-item dropdown" id="marketingParent">
         <a href="javascript:void(0)" id="marketingToggle">
           <span class="item-label"><i class="fa-solid fa-bullhorn left-icon"></i> Marketing</span> 
@@ -84,7 +792,7 @@
         </ul>
       </li>
 
-      <!-- 4. SUPPORT DROPDOWN -->
+      <!-- 4. SUPPORT -->
       <li class="menu-item dropdown" id="supportParent">
         <a href="javascript:void(0)" id="supportToggle">
           <span class="item-label"><i class="fa-solid fa-headset left-icon"></i> Support</span> 
@@ -96,7 +804,7 @@
         </ul>
       </li>
 
-      <!-- 5. SETTINGS DROPDOWN -->
+      <!-- 5. SETTINGS -->
       <li class="menu-item dropdown" id="settingsParent">
         <a href="javascript:void(0)" id="settingsToggle">
           <span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Settings</span> 
@@ -110,7 +818,7 @@
         </ul>
       </li>
 
-      <!-- 6. CUSTOM SECTIONS DROPDOWN -->
+      <!-- 6. CUSTOM SECTIONS -->
       <li class="menu-item dropdown" id="customParent">
         <a href="javascript:void(0)" id="customToggle">
           <span class="item-label"><i class="fa-solid fa-sliders left-icon"></i> Custom Sections</span> 
@@ -127,7 +835,7 @@
     </ul>
   </aside>
 
-  <!-- Main Content Wrapper -->
+  <!-- Main Content Layout Wrapper -->
   <div class="wrapper">
     <header class="top-header">
       <div class="left-header">
@@ -142,7 +850,6 @@
       </div>
 
       <div class="header-right">
-        <!-- User Profile Dropdown Button -->
         <div class="user-profile-wrapper">
           <div class="user-profile" id="profileDropdownBtn">
             <div class="avatar">AM</div>
@@ -150,7 +857,6 @@
             <i class="fa-solid fa-chevron-down arrow-profile"></i>
           </div>
 
-          <!-- Profile Popup Dropdown Menu -->
           <div class="profile-dropdown-menu" id="profileDropdownMenu">
             <div class="profile-header">
               <div class="profile-avatar">AM</div>
@@ -177,7 +883,6 @@
       </div>
     </header>
 
-    <!-- Content Sections -->
     <main class="main-content">
 
       <!-- DASHBOARD TAB -->
@@ -206,22 +911,22 @@
               <span class="stat-badge">▶ 0%</span>
             </div>
             <div>
-              <div class="card-val">0</div>
-              <div class="card-prev">Previous: 0</div>
+              <div class="card-val">124</div>
+              <div class="card-prev">Previous: 110</div>
             </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 0%;"></div></div>
+            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 65%;"></div></div>
           </div>
 
           <div class="metric-card">
             <div class="card-head-row">
               <span class="card-label">Revenue</span>
-              <span class="stat-badge">▶ 0%</span>
+              <span class="stat-badge">▲ 12%</span>
             </div>
             <div>
-              <div class="card-val">₹0</div>
-              <div class="card-prev">Previous: 0</div>
+              <div class="card-val">₹45,200</div>
+              <div class="card-prev">Previous: ₹40,000</div>
             </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 0%;"></div></div>
+            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 80%;"></div></div>
           </div>
         </div>
       </div>
@@ -235,7 +940,6 @@
         </div>
 
         <div class="profile-card-container">
-          <!-- Subtab 1: General Profile -->
           <div id="prof-tab-general" class="prof-subtab-content active">
             <div class="profile-pic-section">
               <div class="avatar-large-container">
@@ -279,25 +983,6 @@
                 </div>
               </div>
 
-              <div class="form-section-title">Panel Credentials</div>
-              <div class="form-grid-2">
-                <div class="input-group">
-                  <label>User Name</label>
-                  <div class="input-icon-wrapper">
-                    <i class="fa-regular fa-user input-icon"></i>
-                    <input type="text" value="learnifyclasses" placeholder="User Name">
-                  </div>
-                </div>
-                <div class="input-group">
-                  <label>Password</label>
-                  <div class="input-icon-wrapper">
-                    <i class="fa-solid fa-lock input-icon"></i>
-                    <input type="password" value="1234567890" placeholder="Password">
-                  </div>
-                  <a href="#" class="reset-password-link">Reset Password</a>
-                </div>
-              </div>
-
               <div class="form-actions-bar">
                 <button type="reset" class="btn-secondary-reset">Reset</button>
                 <button type="submit" class="btn-primary-save">Save Changes</button>
@@ -305,53 +990,297 @@
             </form>
           </div>
 
-          <!-- Subtab 2: Financial Details -->
           <div id="prof-tab-financial" class="prof-subtab-content">
             <div class="form-section-title">Financial Details</div>
-            <p style="color:#6b7280; font-size:0.9rem;">Bank accounts, payout setup, and billing information.</p>
+            <p style="color:#6b7280; font-size:0.9rem;">Bank Account details setup for automated payouts.</p>
           </div>
 
-          <!-- Subtab 3: Social Links -->
           <div id="prof-tab-social" class="prof-subtab-content">
             <div class="form-section-title">Social Links</div>
-            <p style="color:#6b7280; font-size:0.9rem;">Social handles, YouTube links, and social channel integration.</p>
+            <p style="color:#6b7280; font-size:0.9rem;">Connect your social media channels & YouTube handles.</p>
           </div>
         </div>
       </div>
 
-      <!-- DYNAMIC TAB PLACEHOLDERS -->
-      <div id="sec-digital-products" class="tab-section"><h2 class="page-head">Digital Products</h2></div>
-      <div id="sec-store" class="tab-section"><h2 class="page-head">Store</h2></div>
-      <div id="sec-blogs" class="tab-section"><h2 class="page-head">Blogs</h2></div>
-      <div id="sec-quick-links" class="tab-section"><h2 class="page-head">Quick Links</h2></div>
-      <div id="sec-ebooks" class="tab-section"><h2 class="page-head">E-Books</h2></div>
-      <div id="sec-ai-agent" class="tab-section"><h2 class="page-head">AI Agent</h2></div>
-      <div id="sec-tests" class="tab-section"><h2 class="page-head">Test Portal</h2></div>
-      <div id="sec-sales" class="tab-section"><h2 class="page-head">Sales Report</h2></div>
-      <div id="sec-orders" class="tab-section"><h2 class="page-head">Orders Report</h2></div>
-      <div id="sec-users" class="tab-section"><h2 class="page-head">Users Report</h2></div>
-      <div id="sec-graphics" class="tab-section"><h2 class="page-head">Graphics</h2></div>
-      <div id="sec-notifications" class="tab-section"><h2 class="page-head">Notifications</h2></div>
-      <div id="sec-leads" class="tab-section"><h2 class="page-head">Leads</h2></div>
-      <div id="sec-coupons" class="tab-section"><h2 class="page-head">Coupons</h2></div>
-      <div id="sec-payment-pages" class="tab-section"><h2 class="page-head">Payment Pages</h2></div>
-      <div id="sec-testimonials" class="tab-section"><h2 class="page-head">Testimonials</h2></div>
-      <div id="sec-form-builder" class="tab-section"><h2 class="page-head">Form Builder</h2></div>
-      <div id="sec-gamification" class="tab-section"><h2 class="page-head">Gamification</h2></div>
-      <div id="sec-queries" class="tab-section"><h2 class="page-head">Queries</h2></div>
-      <div id="sec-chat" class="tab-section"><h2 class="page-head">Chat</h2></div>
-      <div id="sec-blocked-users" class="tab-section"><h2 class="page-head">Blocked Users</h2></div>
-      <div id="sec-sections" class="tab-section"><h2 class="page-head">Sections</h2></div>
-      <div id="sec-categories" class="tab-section"><h2 class="page-head">Categories</h2></div>
-      <div id="sec-chat-manager" class="tab-section"><h2 class="page-head">Chat Manager</h2></div>
-      <div id="sec-meetings" class="tab-section"><h2 class="page-head">Meetings</h2></div>
-      <div id="sec-job-alerts" class="tab-section"><h2 class="page-head">Job Alerts</h2></div>
-      <div id="sec-yt-courses" class="tab-section"><h2 class="page-head">YT Courses</h2></div>
-      <div id="sec-documents" class="tab-section"><h2 class="page-head">Documents</h2></div>
+      <!-- DYNAMIC CONTENT SECTIONS WITH MOCK DATA & TABLES -->
+
+      <!-- DIGITAL PRODUCTS -->
+      <div id="sec-digital-products" class="tab-section">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Digital Products</h2>
+          <button class="btn-action-primary">+ Add New Product</button>
+        </div>
+        <div class="data-card-container">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CUET UG General Test Course</td>
+                <td>Courses</td>
+                <td>₹999</td>
+                <td><span class="badge-status badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>Allahabad University PGAT Notes</td>
+                <td>Notes PDF</td>
+                <td>₹499</td>
+                <td><span class="badge-status badge-success">Active</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- STORE -->
+      <div id="sec-store" class="tab-section">
+        <h2 class="page-head">Store Overview</h2>
+        <div class="data-card-container">
+          <p style="color: var(--text-muted);">Manage physical merchandise, books, and study material kits.</p>
+        </div>
+      </div>
+
+      <!-- BLOGS -->
+      <div id="sec-blogs" class="tab-section">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Blog Articles</h2>
+          <button class="btn-action-primary">+ Write Blog</button>
+        </div>
+        <div class="data-card-container">
+          <table class="custom-table">
+            <thead>
+              <tr><th>Title</th><th>Author</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>CUET UG Preparation Strategy</td><td>Ajmal Mansoori</td><td>02 Aug 2026</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- EBOOKS -->
+      <div id="sec-ebooks" class="tab-section">
+        <h2 class="page-head">E-Books Library</h2>
+        <div class="data-card-container">
+          <p style="color: var(--text-muted);">Available PDF Question Banks & Class 10th Notes.</p>
+        </div>
+      </div>
+
+      <!-- AI AGENT -->
+      <div id="sec-ai-agent" class="tab-section">
+        <h2 class="page-head">AI Agent Settings</h2>
+        <div class="data-card-container">
+          <p style="color: var(--text-muted);">Configure automated doubt-solving chatbot behavior.</p>
+        </div>
+      </div>
+
+      <!-- TEST PORTAL -->
+      <div id="sec-tests" class="tab-section">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Test Portal</h2>
+          <button class="btn-action-primary">+ Create Mock Test</button>
+        </div>
+        <div class="data-card-container">
+          <table class="custom-table">
+            <thead>
+              <tr><th>Test Name</th><th>Total MCQs</th><th>Time Limit</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>History Mock Practice Test 1</td><td>30 Qs</td><td>45 Mins</td></tr>
+              <tr><td>General Awareness Quiz</td><td>50 Qs</td><td>60 Mins</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SALES REPORT -->
+      <div id="sec-sales" class="tab-section">
+        <h2 class="page-head">Sales Report</h2>
+        <div class="data-card-container">
+          <table class="custom-table">
+            <thead>
+              <tr><th>Transaction ID</th><th>User</th><th>Amount</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#TXN-9821</td><td>Aman Sharma</td><td>₹999</td><td><span class="badge-status badge-success">Completed</span></td></tr>
+              <tr><td>#TXN-9822</td><td>Pooja Verma</td><td>₹499</td><td><span class="badge-status badge-success">Completed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ORDERS REPORT -->
+      <div id="sec-orders" class="tab-section">
+        <h2 class="page-head">Orders Management</h2>
+        <div class="data-card-container">
+          <p style="color: var(--text-muted);">Track course admissions and digital access approvals.</p>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div id="sec-users" class="tab-section">
+        <h2 class="page-head">Enrolled Users</h2>
+        <div class="data-card-container">
+          <table class="custom-table">
+            <thead>
+              <tr><th>Name</th><th>Email</th><th>Target Exam</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Rahul Kumar</td><td>rahul@example.com</td><td>CUET UG 2026</td></tr>
+              <tr><td>Siddharth Singh</td><td>siddharth@example.com</td><td>AU PGAT</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MARKETING TABS -->
+      <div id="sec-graphics" class="tab-section"><h2 class="page-head">Graphics & Banners</h2><div class="data-card-container"><p style="color: var(--text-muted);">Upload course thumbnails and app promo banners.</p></div></div>
+      <div id="sec-notifications" class="tab-section"><h2 class="page-head">Push Notifications</h2><div class="data-card-container"><p style="color: var(--text-muted);">Send app alerts to all enrolled students.</p></div></div>
+      <div id="sec-leads" class="tab-section"><h2 class="page-head">Leads Management</h2><div class="data-card-container"><p style="color: var(--text-muted);">Manage inquiries from YouTube & website forms.</p></div></div>
+      <div id="sec-coupons" class="tab-section"><h2 class="page-head">Discount Coupons</h2><div class="data-card-container"><p style="color: var(--text-muted);">Create promo codes for course discounts.</p></div></div>
+      <div id="sec-payment-pages" class="tab-section"><h2 class="page-head">Payment Pages</h2><div class="data-card-container"><p style="color: var(--text-muted);">Custom direct-checkout links.</p></div></div>
+      <div id="sec-testimonials" class="tab-section"><h2 class="page-head">Testimonials</h2><div class="data-card-container"><p style="color: var(--text-muted);">Manage student reviews & feedback.</p></div></div>
+      <div id="sec-form-builder" class="tab-section"><h2 class="page-head">Form Builder</h2><div class="data-card-container"><p style="color: var(--text-muted);">Build custom admission or counseling forms.</p></div></div>
+      <div id="sec-gamification" class="tab-section"><h2 class="page-head">Gamification & Badges</h2><div class="data-card-container"><p style="color: var(--text-muted);">Leaderboard and reward points settings.</p></div></div>
+
+      <!-- SUPPORT TABS -->
+      <div id="sec-queries" class="tab-section"><h2 class="page-head">Student Queries</h2><div class="data-card-container"><p style="color: var(--text-muted);">Helpdesk tickets submitted by students.</p></div></div>
+      <div id="sec-chat" class="tab-section"><h2 class="page-head">Live Chat Support</h2><div class="data-card-container"><p style="color: var(--text-muted);">Real-time messaging console.</p></div></div>
+
+      <!-- SETTINGS & CUSTOM SECTIONS -->
+      <div id="sec-blocked-users" class="tab-section"><h2 class="page-head">Blocked Users</h2><div class="data-card-container"><p style="color: var(--text-muted);">List of restricted student accounts.</p></div></div>
+      <div id="sec-sections" class="tab-section"><h2 class="page-head">Home Screen Sections</h2><div class="data-card-container"><p style="color: var(--text-muted);">Reorder app homepage layout UI.</p></div></div>
+      <div id="sec-categories" class="tab-section"><h2 class="page-head">Categories</h2><div class="data-card-container"><p style="color: var(--text-muted);">Subject & Exam category taxonomy.</p></div></div>
+      <div id="sec-quick-links" class="tab-section"><h2 class="page-head">Quick Links</h2><div class="data-card-container"><p style="color: var(--text-muted);">App navigation shortcuts.</p></div></div>
+      <div id="sec-chat-manager" class="tab-section"><h2 class="page-head">Chat Manager</h2><div class="data-card-container"><p style="color: var(--text-muted);">Group chat channel settings.</p></div></div>
+      <div id="sec-meetings" class="tab-section"><h2 class="page-head">Live Classes / Meetings</h2><div class="data-card-container"><p style="color: var(--text-muted);">Zoom / Google Meet integration links.</p></div></div>
+      <div id="sec-job-alerts" class="tab-section"><h2 class="page-head">Job & Admission Alerts</h2><div class="data-card-container"><p style="color: var(--text-muted);">Post updates for university notifications.</p></div></div>
+      <div id="sec-yt-courses" class="tab-section"><h2 class="page-head">YouTube Free Courses</h2><div class="data-card-container"><p style="color: var(--text-muted);">Embed public playlists into the app.</p></div></div>
+      <div id="sec-documents" class="tab-section"><h2 class="page-head">Free Study Material (PDFs)</h2><div class="data-card-container"><p style="color: var(--text-muted);">Syllabus & PYQ PDF documents manager.</p></div></div>
 
     </main>
   </div>
 
-  <script type="module" src="admin.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const toggleBtn = document.getElementById('sidebarToggleBtn');
+
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+      }
+
+      toggleBtn.addEventListener('click', toggleSidebar);
+      overlay.addEventListener('click', toggleSidebar);
+
+      function setupDropdown(toggleId, subMenuId, arrowId) {
+        const toggle = document.getElementById(toggleId);
+        const subMenu = document.getElementById(subMenuId);
+        const arrow = document.getElementById(arrowId);
+
+        if (toggle) {
+          toggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            subMenu.classList.toggle('show');
+            arrow.classList.toggle('rotate');
+          });
+        }
+      }
+
+      setupDropdown('offeringsToggle', 'offeringsSubMenu', 'offeringsArrow');
+      setupDropdown('reportsToggle', 'reportsSubMenu', 'reportsArrow');
+      setupDropdown('marketingToggle', 'marketingSubMenu', 'marketingArrow');
+      setupDropdown('supportToggle', 'supportSubMenu', 'supportArrow');
+      setupDropdown('settingsToggle', 'settingsSubMenu', 'settingsArrow');
+      setupDropdown('customToggle', 'customSubMenu', 'customArrow');
+
+      function switchTab(targetTabId) {
+        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.sub-menu li').forEach(i => i.classList.remove('active'));
+        document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+
+        const targetSection = document.getElementById(targetTabId);
+        if (targetSection) {
+          targetSection.classList.add('active');
+        }
+
+        if (sidebar.classList.contains('open')) {
+          toggleSidebar();
+        }
+      }
+
+      document.querySelectorAll('.menu-list > .menu-item:not(.dropdown)').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const tabId = item.getAttribute('data-tab');
+          item.classList.add('active');
+          switchTab(tabId);
+        });
+      });
+
+      document.querySelectorAll('.sub-menu a').forEach(subLink => {
+        subLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          const tabId = subLink.getAttribute('data-tab');
+          
+          const parentMenu = subLink.closest('.dropdown');
+          if (parentMenu) parentMenu.classList.add('active');
+          subLink.parentElement.classList.add('active');
+
+          switchTab(tabId);
+        });
+      });
+
+      const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+      const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+
+      profileDropdownBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        profileDropdownMenu.classList.toggle('show');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!profileDropdownMenu.contains(e.target) && !profileDropdownBtn.contains(e.target)) {
+          profileDropdownMenu.classList.remove('show');
+        }
+      });
+
+      document.getElementById('profileMenuLink').addEventListener('click', (e) => {
+        e.preventDefault();
+        profileDropdownMenu.classList.remove('show');
+        switchTab('sec-profile');
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        alert('Logged out successfully!');
+      });
+
+      window.switchProfileSubTab = function(subTabId) {
+        document.querySelectorAll('.prof-subtab-content').forEach(tab => {
+          tab.classList.remove('active');
+        });
+        
+        document.querySelectorAll('.prof-tab-btn').forEach(btn => {
+          btn.classList.remove('active');
+        });
+
+        const targetSubTab = document.getElementById(subTabId);
+        if (targetSubTab) {
+          targetSubTab.classList.add('active');
+        }
+
+        event.currentTarget.classList.add('active');
+      };
+    });
+  </script>
 </body>
 </html>
