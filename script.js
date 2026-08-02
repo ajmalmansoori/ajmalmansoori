@@ -175,3 +175,85 @@ cards.forEach(card => {
 // ===============================
 // End
 // ===============================
+// ===============================
+// LATEST UPDATES ANIMATION
+// ===============================
+
+const updates = document.querySelectorAll(".update-item");
+
+const updateObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+
+            updateObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+}, {
+    threshold: 0.15
+});
+
+updates.forEach((item, index) => {
+
+    item.style.opacity = "0";
+    item.style.transform = "translateY(40px)";
+    item.style.transition = `all .6s ease ${index * 0.08}s`;
+
+    updateObserver.observe(item);
+
+});
+
+// ===============================
+// HOVER RIPPLE EFFECT
+// ===============================
+
+updates.forEach(item => {
+
+    item.addEventListener("mousemove", (e) => {
+
+        const rect = item.getBoundingClientRect();
+
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        item.style.background = `
+        radial-gradient(circle at ${x}px ${y}px,
+        rgba(32,255,105,.12),
+        #111 70%)`;
+
+    });
+
+    item.addEventListener("mouseleave", () => {
+
+        item.style.background = "#0d0d0d";
+
+    });
+
+});
+
+// ===============================
+// NEW BADGE PULSE
+// ===============================
+
+document.querySelectorAll(".new-badge").forEach(badge => {
+
+    setInterval(() => {
+
+        badge.animate([
+            { transform: "scale(1)" },
+            { transform: "scale(1.08)" },
+            { transform: "scale(1)" }
+        ], {
+            duration: 800
+        });
+
+    }, 2500);
+
+});
