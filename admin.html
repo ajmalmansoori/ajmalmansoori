@@ -5,57 +5,134 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CMS Dashboard | Learnify Classes</title>
   
-  <!-- CSS Files & Google Fonts / FontAwesome -->
   <link rel="stylesheet" href="admin.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-  <!-- Dark Background Overlay for Sliding Sidebar -->
+  <!-- Dark Background Overlay for Drawer -->
   <div class="sidebar-overlay" id="overlay"></div>
 
   <!-- Sliding Drawer Sidebar Navigation -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <i class="fa-solid fa-layer-group brand-icon"></i> APPX
+      <div class="brand-icon-box"><i class="fa-solid fa-layer-group"></i></div>
+      <span class="brand-title">APPX</span>
     </div>
 
     <div class="sidebar-search">
       <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search">
+      <input type="text" placeholder="Search menu...">
     </div>
 
     <ul class="menu-list">
+      <!-- DASHBOARD -->
       <li class="menu-item active" data-tab="sec-dashboard">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-border-all left-icon"></i> Dashboard</span></a>
+        <a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a>
       </li>
-      <li class="menu-item" data-tab="sec-courses">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-box left-icon"></i> Offerings</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
+
+      <!-- 1. OFFERINGS DROPDOWN -->
+      <li class="menu-item dropdown" id="offeringsParent">
+        <a href="javascript:void(0)" id="offeringsToggle">
+          <span class="item-label"><i class="fa-solid fa-box left-icon"></i> Offerings</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="offeringsArrow"></i>
+        </a>
+        <ul class="sub-menu" id="offeringsSubMenu">
+          <li><a href="#" data-tab="sec-digital-products">Digital Products</a></li>
+          <li><a href="#" data-tab="sec-store">Store</a></li>
+          <li><a href="#" data-tab="sec-blogs">Blogs</a></li>
+          <li><a href="#" data-tab="sec-quick-links">Quick Links</a></li>
+          <li><a href="#" data-tab="sec-ebooks">E-Books</a></li>
+          <li><a href="#" data-tab="sec-ai-agent">AI Agent</a></li>
+        </ul>
       </li>
+
+      <!-- TEST PORTAL -->
       <li class="menu-item" data-tab="sec-tests">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-file-signature left-icon"></i> Test Portal</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
+        <a href="#"><span class="item-label"><i class="fa-solid fa-file-pen left-icon"></i> Test Portal</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
       </li>
-      <li class="menu-item" data-tab="sec-announcements">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-bullhorn left-icon"></i> Announcements</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
+
+      <!-- 2. REPORTS DROPDOWN -->
+      <li class="menu-item dropdown" id="reportsParent">
+        <a href="javascript:void(0)" id="reportsToggle">
+          <span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Reports</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="reportsArrow"></i>
+        </a>
+        <ul class="sub-menu" id="reportsSubMenu">
+          <li><a href="#" data-tab="sec-sales">Sales</a></li>
+          <li><a href="#" data-tab="sec-orders">Orders</a></li>
+          <li><a href="#" data-tab="sec-users">Users</a></li>
+        </ul>
       </li>
-      <li class="menu-item" data-tab="sec-reports">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Reports</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
+
+      <!-- 3. MARKETING DROPDOWN -->
+      <li class="menu-item dropdown" id="marketingParent">
+        <a href="javascript:void(0)" id="marketingToggle">
+          <span class="item-label"><i class="fa-solid fa-bullhorn left-icon"></i> Marketing</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="marketingArrow"></i>
+        </a>
+        <ul class="sub-menu" id="marketingSubMenu">
+          <li><a href="#" data-tab="sec-graphics">Graphics</a></li>
+          <li><a href="#" data-tab="sec-notifications">Notifications</a></li>
+          <li><a href="#" data-tab="sec-leads">Leads</a></li>
+          <li><a href="#" data-tab="sec-coupons">Coupons</a></li>
+          <li><a href="#" data-tab="sec-payment-pages">Payment Pages</a></li>
+          <li><a href="#" data-tab="sec-testimonials">Testimonials</a></li>
+          <li><a href="#" data-tab="sec-form-builder">Form Builder</a></li>
+          <li><a href="#" data-tab="sec-gamification">Gamification</a></li>
+        </ul>
       </li>
-      <li class="menu-item" data-tab="sec-settings">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Settings</span> <i class="fa-solid fa-chevron-right arrow-icon"></i></a>
+
+      <!-- 4. SUPPORT DROPDOWN -->
+      <li class="menu-item dropdown" id="supportParent">
+        <a href="javascript:void(0)" id="supportToggle">
+          <span class="item-label"><i class="fa-solid fa-headset left-icon"></i> Support</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="supportArrow"></i>
+        </a>
+        <ul class="sub-menu" id="supportSubMenu">
+          <li><a href="#" data-tab="sec-queries">Queries</a></li>
+          <li><a href="#" data-tab="sec-chat">Chat</a></li>
+        </ul>
+      </li>
+
+      <!-- 5. SETTINGS DROPDOWN -->
+      <li class="menu-item dropdown" id="settingsParent">
+        <a href="javascript:void(0)" id="settingsToggle">
+          <span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Settings</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="settingsArrow"></i>
+        </a>
+        <ul class="sub-menu" id="settingsSubMenu">
+          <li><a href="#" data-tab="sec-profile">Profile</a></li>
+          <li><a href="#" data-tab="sec-blocked-users">Blocked Users</a></li>
+          <li><a href="#" data-tab="sec-sections">Sections</a></li>
+          <li><a href="#" data-tab="sec-categories">Categories</a></li>
+        </ul>
+      </li>
+
+      <!-- 6. CUSTOM SECTIONS DROPDOWN -->
+      <li class="menu-item dropdown" id="customParent">
+        <a href="javascript:void(0)" id="customToggle">
+          <span class="item-label"><i class="fa-solid fa-sliders left-icon"></i> Custom Sections</span> 
+          <i class="fa-solid fa-chevron-down arrow-icon" id="customArrow"></i>
+        </a>
+        <ul class="sub-menu" id="customSubMenu">
+          <li><a href="#" data-tab="sec-chat-manager">Chat Manager</a></li>
+          <li><a href="#" data-tab="sec-meetings">Meetings</a></li>
+          <li><a href="#" data-tab="sec-job-alerts">Job Alerts</a></li>
+          <li><a href="#" data-tab="sec-yt-courses">YT Courses</a></li>
+          <li><a href="#" data-tab="sec-documents">Documents</a></li>
+        </ul>
       </li>
     </ul>
   </aside>
 
-  <!-- Main View Area -->
+  <!-- Main Content Wrapper -->
   <div class="wrapper">
-    
-    <!-- Top Bar Header -->
     <header class="top-header">
       <div class="left-header">
         <button class="toggle-btn" id="sidebarToggleBtn">
-          <i class="fa-solid fa-bars"></i>
+          <i class="fa-solid fa-bars-staggered"></i>
         </button>
       </div>
 
@@ -64,29 +141,56 @@
         <input type="text" placeholder="Search ⌘/">
       </div>
 
-      <div class="user-profile">
-        <div class="avatar">AM</div>
-        <span class="profile-name">Learnifyclasses</span>
-        <i class="fa-solid fa-chevron-down" style="font-size:0.75rem; color:#6B7280;"></i>
+      <div class="header-right">
+        <!-- User Profile Dropdown Button -->
+        <div class="user-profile-wrapper">
+          <div class="user-profile" id="profileDropdownBtn">
+            <div class="avatar">AM</div>
+            <span class="profile-name">Learnifyclasses</span>
+            <i class="fa-solid fa-chevron-down arrow-profile"></i>
+          </div>
+
+          <!-- Profile Popup Dropdown Menu -->
+          <div class="profile-dropdown-menu" id="profileDropdownMenu">
+            <div class="profile-header">
+              <div class="profile-avatar">AM</div>
+              <div class="profile-info">
+                <h4 class="user-display-name">Learnifyclasses</h4>
+                <p class="user-email">ajmalalimansoori@gmail.com</p>
+              </div>
+            </div>
+            <hr class="dropdown-divider">
+            <ul class="profile-menu-items">
+              <li>
+                <a href="#" id="profileMenuLink">
+                  <i class="fa-regular fa-user"></i> Profile
+                </a>
+              </li>
+              <li>
+                <a href="#" id="logoutBtn" class="logout-item">
+                  <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </header>
 
-    <!-- Main Content Panels -->
+    <!-- Content Sections -->
     <main class="main-content">
 
-      <!-- ================= 1. ANALYTICS DASHBOARD ================= -->
+      <!-- DASHBOARD TAB -->
       <div id="sec-dashboard" class="tab-section active">
         <div class="dash-top-bar">
           <div>
             <h1 class="page-head">Analytics</h1>
-            <p class="sub-date" id="currentDateText">2nd Aug 2026</p>
+            <p class="sub-date">Overview of platform metrics</p>
           </div>
           <button class="btn-filter"><i class="fa-solid fa-sliders"></i> Filters</button>
         </div>
 
-        <!-- Metric Grid Cards -->
         <div class="metrics-grid">
-          
           <div class="metric-card">
             <div class="card-label">Rank</div>
             <div>
@@ -105,7 +209,7 @@
               <div class="card-val">0</div>
               <div class="card-prev">Previous: 0</div>
             </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 40%;"></div></div>
+            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 0%;"></div></div>
           </div>
 
           <div class="metric-card">
@@ -117,163 +221,137 @@
               <div class="card-val">₹0</div>
               <div class="card-prev">Previous: 0</div>
             </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 35%;"></div></div>
+            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 0%;"></div></div>
           </div>
+        </div>
+      </div>
 
-          <div class="metric-card">
-            <div class="card-head-row">
-              <span class="card-label">Signups</span>
-              <span class="stat-badge">▶ 0%</span>
+      <!-- PROFILE TAB -->
+      <div id="sec-profile" class="tab-section">
+        <div class="profile-tabs-header">
+          <button class="prof-tab-btn active" onclick="switchProfileSubTab('prof-tab-general')">Profile</button>
+          <button class="prof-tab-btn" onclick="switchProfileSubTab('prof-tab-financial')">Financial Details</button>
+          <button class="prof-tab-btn" onclick="switchProfileSubTab('prof-tab-social')">Social Links</button>
+        </div>
+
+        <div class="profile-card-container">
+          <!-- Subtab 1: General Profile -->
+          <div id="prof-tab-general" class="prof-subtab-content active">
+            <div class="profile-pic-section">
+              <div class="avatar-large-container">
+                <div class="avatar-ph">AM</div>
+              </div>
+              <button class="btn-upload-pic">Upload</button>
             </div>
-            <div>
-              <div class="card-val">0</div>
-              <div class="card-prev">Previous: 0</div>
-            </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 30%;"></div></div>
-          </div>
 
-        </div>
+            <form id="profileForm" onsubmit="event.preventDefault();">
+              <div class="form-section-title">Primary Details</div>
+              <div class="form-grid-2">
+                <div class="input-group">
+                  <label>Full Name</label>
+                  <div class="input-icon-wrapper">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    <input type="text" value="Ajmal Mansoori" placeholder="Full Name">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label>Email</label>
+                  <div class="input-icon-wrapper">
+                    <i class="fa-regular fa-envelope input-icon"></i>
+                    <input type="email" value="ajmalalimansoori@gmail.com" placeholder="Email">
+                  </div>
+                </div>
+              </div>
 
-        <!-- Analysis Graph Section -->
-        <div class="analysis-header">
-          <h2 class="section-title">Analysis</h2>
-          <div class="select-wrapper">
-            <select class="custom-select">
-              <option value="sales">Sales</option>
-              <option value="signups">Signups</option>
-              <option value="revenue">Revenue</option>
-            </select>
-            <i class="fa-solid fa-chevron-down select-icon"></i>
-          </div>
-        </div>
+              <div class="form-section-title">Contact Information</div>
+              <div class="input-group full-width">
+                <label>Mobile</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-phone input-icon"></i>
+                  <input type="text" value="09984919392" placeholder="Mobile">
+                </div>
+              </div>
+              <div class="input-group full-width">
+                <label>Address</label>
+                <div class="input-icon-wrapper">
+                  <i class="fa-solid fa-house input-icon"></i>
+                  <input type="text" value="Civil Line, Azamgarh, Uttar Pradesh, India, Pin - 2627001" placeholder="Address">
+                </div>
+              </div>
 
-        <div class="analysis-box">
-          <p style="color: #9CA3AF;">Graph/Data chart view area</p>
-        </div>
-      </div>
+              <div class="form-section-title">Panel Credentials</div>
+              <div class="form-grid-2">
+                <div class="input-group">
+                  <label>User Name</label>
+                  <div class="input-icon-wrapper">
+                    <i class="fa-regular fa-user input-icon"></i>
+                    <input type="text" value="learnifyclasses" placeholder="User Name">
+                  </div>
+                </div>
+                <div class="input-group">
+                  <label>Password</label>
+                  <div class="input-icon-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" value="1234567890" placeholder="Password">
+                  </div>
+                  <a href="#" class="reset-password-link">Reset Password</a>
+                </div>
+              </div>
 
-      <!-- ================= 2. OFFERINGS / COURSES ================= -->
-      <div id="sec-courses" class="tab-section">
-        <h2 class="page-head">Offerings / Batches Manager</h2>
-        <div class="form-grid">
-          <div class="panel-card">
-            <h3>Create New Batch</h3>
-            <form id="courseForm">
-              <div class="form-group">
-                <label>Batch Name</label>
-                <input type="text" id="courseTitle" required placeholder="e.g. CUET UG 2026 Targeted Batch">
+              <div class="form-actions-bar">
+                <button type="reset" class="btn-secondary-reset">Reset</button>
+                <button type="submit" class="btn-primary-save">Save Changes</button>
               </div>
-              <div class="form-group">
-                <label>Target Category</label>
-                <select id="courseCategory">
-                  <option value="CUET UG 2026">CUET UG 2026</option>
-                  <option value="AU PGAT 2026">AU PGAT 2026</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Price (₹)</label>
-                <input type="number" id="coursePrice" required placeholder="e.g. 499">
-              </div>
-              <div class="form-group">
-                <label>Link / Drive URL</label>
-                <input type="url" id="courseLink" required placeholder="https://drive.google.com/...">
-              </div>
-              <button type="submit" class="btn-submit">Publish Course</button>
             </form>
           </div>
-          <div class="panel-card">
-            <h3>Live Batches</h3>
-            <div class="data-list" id="coursesList">Loading...</div>
+
+          <!-- Subtab 2: Financial Details -->
+          <div id="prof-tab-financial" class="prof-subtab-content">
+            <div class="form-section-title">Financial Details</div>
+            <p style="color:#6b7280; font-size:0.9rem;">Bank accounts, payout setup, and billing information.</p>
+          </div>
+
+          <!-- Subtab 3: Social Links -->
+          <div id="prof-tab-social" class="prof-subtab-content">
+            <div class="form-section-title">Social Links</div>
+            <p style="color:#6b7280; font-size:0.9rem;">Social handles, YouTube links, and social channel integration.</p>
           </div>
         </div>
       </div>
 
-      <!-- ================= 3. TEST PORTAL ================= -->
-      <div id="sec-tests" class="tab-section">
-        <h2 class="page-head">Test Series & Booklets</h2>
-        <div class="form-grid">
-          <div class="panel-card">
-            <h3>Add Practice Test</h3>
-            <form id="testForm">
-              <div class="form-group">
-                <label>Test Title</label>
-                <input type="text" id="testTitle" required placeholder="History 300 MCQ Booklet">
-              </div>
-              <div class="form-group">
-                <label>Tag</label>
-                <select id="testCategory">
-                  <option value="CUET History">CUET History</option>
-                  <option value="General Test">General Test</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>MCQ PDF Link</label>
-                <input type="url" id="testLink" required placeholder="https://drive.google.com/...">
-              </div>
-              <button type="submit" class="btn-submit">Publish Test Booklet</button>
-            </form>
-          </div>
-          <div class="panel-card">
-            <h3>Published Tests</h3>
-            <div class="data-list" id="testsList">Loading...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= 4. ANNOUNCEMENTS ================= -->
-      <div id="sec-announcements" class="tab-section">
-        <h2 class="page-head">Announcements & Bulletins</h2>
-        <div class="form-grid">
-          <div class="panel-card">
-            <h3>Publish Notice</h3>
-            <form id="announcementForm">
-              <div class="form-group">
-                <label>Title</label>
-                <input type="text" id="noticeTitle" required placeholder="Notice title...">
-              </div>
-              <div class="form-group">
-                <label>Tag</label>
-                <select id="alertBadge">
-                  <option value="NEW">NEW</option>
-                  <option value="URGENT">URGENT</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Link (Optional)</label>
-                <input type="url" id="noticeLink" placeholder="https://...">
-              </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea id="noticeDescription" rows="3" required></textarea>
-              </div>
-              <button type="submit" class="btn-submit">Publish Announcement</button>
-            </form>
-          </div>
-          <div class="panel-card">
-            <h3>Active Notices</h3>
-            <div class="data-list" id="noticesList">Loading...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ================= 5. REPORTS & SETTINGS ================= -->
-      <div id="sec-reports" class="tab-section">
-        <h2 class="page-head">Reports</h2>
-        <div class="panel-card"><p style="color:#6B7280;">No sales reports generated yet.</p></div>
-      </div>
-
-      <div id="sec-settings" class="tab-section">
-        <h2 class="page-head">Settings</h2>
-        <div class="panel-card">
-          <p style="margin-bottom:15px; color:#6B7280;">System Version 2.0 synchronized with Firebase Firestore.</p>
-          <button class="btn-submit" onclick="location.reload()" style="width:auto; padding:8px 16px;">Refresh Admin</button>
-        </div>
-      </div>
+      <!-- DYNAMIC TAB PLACEHOLDERS -->
+      <div id="sec-digital-products" class="tab-section"><h2 class="page-head">Digital Products</h2></div>
+      <div id="sec-store" class="tab-section"><h2 class="page-head">Store</h2></div>
+      <div id="sec-blogs" class="tab-section"><h2 class="page-head">Blogs</h2></div>
+      <div id="sec-quick-links" class="tab-section"><h2 class="page-head">Quick Links</h2></div>
+      <div id="sec-ebooks" class="tab-section"><h2 class="page-head">E-Books</h2></div>
+      <div id="sec-ai-agent" class="tab-section"><h2 class="page-head">AI Agent</h2></div>
+      <div id="sec-tests" class="tab-section"><h2 class="page-head">Test Portal</h2></div>
+      <div id="sec-sales" class="tab-section"><h2 class="page-head">Sales Report</h2></div>
+      <div id="sec-orders" class="tab-section"><h2 class="page-head">Orders Report</h2></div>
+      <div id="sec-users" class="tab-section"><h2 class="page-head">Users Report</h2></div>
+      <div id="sec-graphics" class="tab-section"><h2 class="page-head">Graphics</h2></div>
+      <div id="sec-notifications" class="tab-section"><h2 class="page-head">Notifications</h2></div>
+      <div id="sec-leads" class="tab-section"><h2 class="page-head">Leads</h2></div>
+      <div id="sec-coupons" class="tab-section"><h2 class="page-head">Coupons</h2></div>
+      <div id="sec-payment-pages" class="tab-section"><h2 class="page-head">Payment Pages</h2></div>
+      <div id="sec-testimonials" class="tab-section"><h2 class="page-head">Testimonials</h2></div>
+      <div id="sec-form-builder" class="tab-section"><h2 class="page-head">Form Builder</h2></div>
+      <div id="sec-gamification" class="tab-section"><h2 class="page-head">Gamification</h2></div>
+      <div id="sec-queries" class="tab-section"><h2 class="page-head">Queries</h2></div>
+      <div id="sec-chat" class="tab-section"><h2 class="page-head">Chat</h2></div>
+      <div id="sec-blocked-users" class="tab-section"><h2 class="page-head">Blocked Users</h2></div>
+      <div id="sec-sections" class="tab-section"><h2 class="page-head">Sections</h2></div>
+      <div id="sec-categories" class="tab-section"><h2 class="page-head">Categories</h2></div>
+      <div id="sec-chat-manager" class="tab-section"><h2 class="page-head">Chat Manager</h2></div>
+      <div id="sec-meetings" class="tab-section"><h2 class="page-head">Meetings</h2></div>
+      <div id="sec-job-alerts" class="tab-section"><h2 class="page-head">Job Alerts</h2></div>
+      <div id="sec-yt-courses" class="tab-section"><h2 class="page-head">YT Courses</h2></div>
+      <div id="sec-documents" class="tab-section"><h2 class="page-head">Documents</h2></div>
 
     </main>
   </div>
 
-  <!-- JavaScript Modules -->
   <script type="module" src="admin.js"></script>
 </body>
 </html>
