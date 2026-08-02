@@ -5,316 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Login | CMS Admin</title>
 
-    <!-- Google Fonts & Font Awesome -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            /* Premium Dark Gradient Background */
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .brand-logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #2563eb, #3b82f6);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px auto;
-            color: white;
-            font-size: 28px;
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .login-header h2 {
-            color: #ffffff;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
-        }
-
-        .login-header p {
-            color: #94a3b8;
-            font-size: 0.95rem;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-group i.main-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px 14px 45px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            font-size: 1rem;
-            color: #ffffff;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .input-group input::placeholder {
-            color: #64748b;
-        }
-
-        .input-group input:focus {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-        }
-
-        .input-group input:focus + i.main-icon {
-            color: #3b82f6;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .toggle-password:hover {
-            color: #ffffff;
-        }
-
-        .action-links {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 28px;
-            font-size: 0.85rem;
-        }
-
-        .action-links a {
-            color: #94a3b8;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s;
-        }
-
-        .action-links a:hover {
-            color: #3b82f6;
-            text-decoration: underline;
-        }
-
-        .login-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .login-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
-        }
-
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Error Message Style */
-        #errorMsg {
-            color: #ef4444;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            text-align: center;
-            margin-top: 15px;
-            display: none;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .brand-logo { width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: white; font-size: 28px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+        .login-header { text-align: center; margin-bottom: 32px; }
+        .login-header h2 { color: #ffffff; font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+        .login-header p { color: #94a3b8; font-size: 0.95rem; }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i.main-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 1.1rem; transition: color 0.3s; }
+        .input-group input { width: 100%; padding: 14px 16px 14px 45px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; font-size: 1rem; color: #ffffff; outline: none; transition: all 0.3s; }
+        .input-group input:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .input-group input:focus + i.main-icon { color: #3b82f6; }
+        .toggle-password { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; transition: color 0.3s; }
+        .toggle-password:hover { color: #ffffff; }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; border-radius: 12px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
+        #errorMsg { color: #ef4444; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
 
     <div class="login-container">
-        <!-- Logo -->
-        <div class="brand-logo">
-            <i class="fa-solid fa-graduation-cap"></i>
-        </div>
-
-        <!-- Header -->
+        <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
         <div class="login-header">
             <h2>Welcome Back</h2>
             <p>Please sign in to access the dashboard</p>
         </div>
 
-        <!-- Login Form (Clean ID, No onsubmit alert) -->
         <form id="loginForm">
-            
-            <!-- Email Input -->
             <div class="input-group">
                 <input type="email" id="emailField" placeholder="Admin Email" required>
                 <i class="fa-regular fa-envelope main-icon"></i>
             </div>
-
-            <!-- Password Input -->
             <div class="input-group">
                 <input type="password" id="passwordField" placeholder="Password" required>
                 <i class="fa-solid fa-lock main-icon"></i>
-                <!-- Show/Hide Password Icon -->
                 <i class="fa-regular fa-eye-slash toggle-password" id="togglePasswordBtn"></i>
             </div>
-
-            <!-- Forgot Links -->
-            <div class="action-links">
-                <a href="#">Forgot Username?</a>
-                <a href="#">Forgot Password?</a>
-            </div>
-
-            <!-- Submit Button -->
             <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
-            
-            <!-- Dynamic Error Message Box -->
             <p id="errorMsg"></p>
         </form>
     </div>
 
-    <!-- UI Script: Toggle Password Visibility -->
+    <!-- UI Script -->
     <script>
         const passwordField = document.getElementById('passwordField');
         const togglePasswordBtn = document.getElementById('togglePasswordBtn');
-
         togglePasswordBtn.addEventListener('click', function () {
             const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
             passwordField.setAttribute('type', type);
-            
             this.classList.toggle('fa-eye');
             this.classList.toggle('fa-eye-slash');
         });
     </script>
-    <!-- Firebase Backend Script: Login & Redirection Logic -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // आपका असली Firebase Configuration
-    const firebaseConfig = {
-        apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
-        authDomain: "ajmalmansooriapp.firebaseapp.com",
-        projectId: "ajmalmansooriapp",
-        storageBucket: "ajmalmansooriapp.firebasestorage.app",
-        messagingSenderId: "65419237118",
-        appId: "1:65419237118:web:b815aebf50614cd98237af",
-        measurementId: "G-ZYW4JN8CW2"
-    };
+    <!-- Firebase Backend -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-    // Initialize Firebase & Auth
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+        const firebaseConfig = {
+            apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
+            authDomain: "ajmalmansooriapp.firebaseapp.com",
+            projectId: "ajmalmansooriapp",
+            storageBucket: "ajmalmansooriapp.firebasestorage.app",
+            messagingSenderId: "65419237118",
+            appId: "1:65419237118:web:b815aebf50614cd98237af",
+            measurementId: "G-ZYW4JN8CW2"
+        };
 
-    // Get Form Elements
-    const loginForm = document.getElementById('loginForm');
-    const loginBtn = document.getElementById('loginBtn');
-    const errorMsg = document.getElementById('errorMsg');
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
 
-    // Handle Login Submission
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const email = document.getElementById('emailField').value;
-        const password = document.getElementById('passwordField').value;
-        
-        // Show Loading State
-        loginBtn.innerText = "Signing in...";
-        errorMsg.style.display = "none";
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
 
-        // Authenticate with Firebase
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Success! Redirect to the admin dashboard
-                window.location.href = "admin.html"; 
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                console.error("Login Error:", errorCode);
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailField').value;
+            const password = document.getElementById('passwordField').value;
+            
+            loginBtn.innerText = "Signing in...";
+            errorMsg.style.display = "none";
 
-                // Handle Specific Firebase Errors
-                if (errorCode === 'auth/user-not-found') {
-                    errorMsg.innerText = "Invalid User: यह ईमेल रजिस्टर नहीं है!";
-                } 
-                else if (errorCode === 'auth/wrong-password') {
-                    errorMsg.innerText = "Invalid Password: आपने गलत पासवर्ड डाला है!";
-                } 
-                else if (errorCode === 'auth/invalid-email') {
-                    errorMsg.innerText = "Invalid Email: ईमेल का फॉर्मेट गलत है!";
-                } 
-                else if (errorCode === 'auth/invalid-credential') {
-                    errorMsg.innerText = "Error: ईमेल या पासवर्ड गलत है!";
-                } 
-                else {
-                    errorMsg.innerText = "Login Failed: कृपया दोबारा प्रयास करें!";
-                }
-
-                // Display Error and Reset Button
-                errorMsg.style.display = "block";
-                loginBtn.innerText = "Sign In";
-            });
-    });
-</script>
-
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = "admin.html"; 
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    if (errorCode === 'auth/user-not-found') errorMsg.innerText = "Invalid User: ईमेल रजिस्टर नहीं है!";
+                    else if (errorCode === 'auth/wrong-password') errorMsg.innerText = "Invalid Password: गलत पासवर्ड!";
+                    else errorMsg.innerText = "Error: ईमेल या पासवर्ड गलत है!";
+                    
+                    errorMsg.style.display = "block";
+                    loginBtn.innerText = "Sign In";
+                });
+        });
+    </script>
 </body>
 </html>
