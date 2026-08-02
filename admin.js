@@ -123,3 +123,67 @@ window.deleteItem = async (id) => {
     loadData();
   }
 };
+// Toggle Custom Title Input Field
+function toggleCustomTitleField() {
+    const noticeType = document.getElementById('noticeType').value;
+    const customGroup = document.getElementById('customTypeGroup');
+    if (noticeType === 'Custom') {
+        customGroup.style.display = 'block';
+    } else {
+        customGroup.style.display = 'none';
+    }
+}
+
+// Toggle Custom Date Field
+function toggleCustomDateField() {
+    const isAuto = document.getElementById('autoTiming').checked;
+    const customDateGroup = document.getElementById('customDateGroup');
+    if (isAuto) {
+        customDateGroup.style.display = 'none';
+    } else {
+        customDateGroup.style.display = 'block';
+    }
+}
+
+// Form Submission Handler
+document.getElementById('announcementForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const title = document.getElementById('noticeTitle').value;
+    const typeSelect = document.getElementById('noticeType').value;
+    const customType = document.getElementById('customNoticeType').value;
+    const badge = document.getElementById('alertBadge').value;
+    const isAutoTiming = document.getElementById('autoTiming').checked;
+    const customTime = document.getElementById('customDateTime').value;
+    const link = document.getElementById('noticeLink').value;
+    const description = document.getElementById('noticeDescription').value;
+
+    // Notice Type Final Value
+    const finalNoticeType = (typeSelect === 'Custom') ? customType : typeSelect;
+
+    // Timing Final Value
+    let finalTimestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    if (!isAutoTiming && customTime) {
+        finalTimestamp = new Date(customTime).toLocaleString('en-IN');
+    }
+
+    // Announcement Payload Object
+    const newNotice = {
+        title: title,
+        noticeType: finalNoticeType,
+        badgeTag: badge,
+        timestamp: finalTimestamp,
+        link: link,
+        description: description
+    };
+
+    console.log("Publishing Notice Data:", newNotice);
+
+    // Alert for testing
+    alert("Notice Published Successfully!");
+
+    // Optional: Reset form
+    this.reset();
+    toggleCustomTitleField();
+    toggleCustomDateField();
+});
