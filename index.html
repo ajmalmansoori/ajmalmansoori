@@ -1104,5 +1104,55 @@ Learnify Classes is a digital educational platform dedicated to helping students
 
   fetchPublicMaterials();
 </script>
+	<!-- Firebase Live Notices Script -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
+    authDomain: "ajmalmansooriapp.firebaseapp.com",
+    projectId: "ajmalmansooriapp",
+    storageBucket: "ajmalmansooriapp.firebasestorage.app",
+    messagingSenderId: "65419237118",
+    appId: "1:65419237118:web:b815aebf50614cd98237af"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function fetchLiveNotices() {
+    const container = document.getElementById('latest-updates-container');
+    if (!container) return;
+
+    try {
+      const snap = await getDocs(collection(db, "notices"));
+      if (snap.empty) {
+        container.innerHTML = `<p style="color: #64748B;">No recent updates.</p>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      snap.forEach((doc) => {
+        const item = doc.data();
+        container.innerHTML += `
+          <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 16px; margin-bottom:10px; background:#fff; border:1px solid #E2E8F0; border-radius:8px;">
+            <div>
+              <span style="background:#FEE2E2; color:#991B1B; font-weight:600; font-size:0.75rem; padding:3px 8px; border-radius:12px; margin-right:8px;">
+                ${item.tag || '🔥 UPDATE'}
+              </span>
+              <strong style="font-size:0.95rem; color:#0F172A;">${item.title}</strong>
+            </div>
+            ${item.link ? `<a href="${item.link}" target="_blank" style="color:#6366F1; font-weight:600; text-decoration:none; font-size:0.85rem;">Open Link</a>` : ''}
+          </div>
+        `;
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  fetchLiveNotices();
+</script>
 				</body>
 				</html>
