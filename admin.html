@@ -272,47 +272,84 @@
       </div>
 
       <!-- ================= 4. ANNOUNCEMENTS TAB ================= -->
-      <div id="sec-announcements" class="tab-section">
-        <div class="page-header">
-          <div class="page-title">
-            <h2>📢 Announcements & Bulletins</h2>
-            <p>Push instant updates, admit card alerts & notice board</p>
-          </div>
-        </div>
+<div class="admin-card">
+    <div class="card-header">
+        <h2><i class="ri-notification-3-line"></i> 📢 Create Announcement / Bulletin</h2>
+    </div>
 
-        <div class="section-grid">
-          <div class="card">
-            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Push Instant Notice</h3>
-            <form id="noticeForm">
-              <div class="form-group">
-                <label>Notice Title</label>
-                <input type="text" id="noticeTitle" required placeholder="e.g. AU PGAT Admit Card Released!">
-              </div>
-              <div class="form-group">
-                <label>Alert Badge Tag</label>
-                <select id="noticeTag">
-                  <option value="🔥 URGENT">🔥 URGENT</option>
-                  <option value="⚡ NEW">⚡ NEW</option>
-                  <option value="📌 IMPORTANT">📌 IMPORTANT</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Notice Link / PDF</label>
-                <input type="url" id="noticeLink" placeholder="https://allduniv.ac.in/...">
-              </div>
-              <button type="submit" class="btn-primary">Publish Notice</button>
-            </form>
-          </div>
-
-          <div class="card">
-            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Live Announcements</h3>
-            <div class="item-list" id="noticesList">
-              <p style="color: #64748B; font-size: 0.9rem;">Loading notices...</p>
+    <form id="announcementForm" class="admin-form">
+        <div class="form-grid">
+            <!-- Notice Title -->
+            <div class="form-group full-width">
+                <label for="noticeTitle">Notice Title <span class="required">*</span></label>
+                <input type="text" id="noticeTitle" placeholder="Enter notice title (e.g. CUET UG 2026 Admit Card Released)" required>
             </div>
-          </div>
-        </div>
-      </div>
 
+            <!-- Notice Type -->
+            <div class="form-group">
+                <label for="noticeType">Notice Type <span class="required">*</span></label>
+                <select id="noticeType" onchange="toggleCustomTitleField()" required>
+                    <option value="Admit Card">Admit Card</option>
+                    <option value="Result">Result</option>
+                    <option value="Vacancy">Vacancy</option>
+                    <option value="Latest News">Latest News</option>
+                    <option value="Custom">Custom Title (Other)</option>
+                </select>
+            </div>
+
+            <!-- Custom Notice Type Title (Hidden by default) -->
+            <div class="form-group" id="customTypeGroup" style="display: none;">
+                <label for="customNoticeType">Custom Type Name</label>
+                <input type="text" id="customNoticeType" placeholder="e.g. Syllabus / Exam Date / Cutoff">
+            </div>
+
+            <!-- Alert Badge Tag -->
+            <div class="form-group">
+                <label for="alertBadge">Alert Badge Tag</label>
+                <select id="alertBadge">
+                    <option value="NEW">NEW</option>
+                    <option value="URGENT">URGENT</option>
+                    <option value="IMPORTANT">IMPORTANT</option>
+                    <option value="UPDATED">UPDATED</option>
+                    <option value="NONE">None (No Badge)</option>
+                </select>
+            </div>
+
+            <!-- Timing (Auto or Custom) -->
+            <div class="form-group">
+                <label>Timing / Date Option</label>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="autoTiming" checked onchange="toggleCustomDateField()">
+                    <label for="autoTiming">Auto Timing (Use Current Time)</label>
+                </div>
+            </div>
+
+            <!-- Custom Date/Time Input -->
+            <div class="form-group" id="customDateGroup" style="display: none;">
+                <label for="customDateTime">Select Custom Date/Time</label>
+                <input type="datetime-local" id="customDateTime">
+            </div>
+
+            <!-- Target Link / URL (Optional) -->
+            <div class="form-group full-width">
+                <label for="noticeLink">Notice Link / URL (Optional)</label>
+                <input type="url" id="noticeLink" placeholder="https://example.com/pdf-or-page">
+            </div>
+
+            <!-- Description -->
+            <div class="form-group full-width">
+                <label for="noticeDescription">Description <span class="required">*</span></label>
+                <textarea id="noticeDescription" rows="4" placeholder="Enter full details/description of the notice..." required></textarea>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">
+                <i class="ri-send-plane-fill"></i> Publish Announcement
+            </button>
+        </div>
+    </form>
+</div>
       <!-- ================= 5. SETTINGS TAB ================= -->
       <div id="sec-settings" class="tab-section">
         <div class="page-header">
