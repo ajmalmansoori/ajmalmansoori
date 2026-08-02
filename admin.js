@@ -2,13 +2,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebas
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
+  apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
   authDomain: "ajmalmansooriapp.firebaseapp.com",
   projectId: "ajmalmansooriapp",
   storageBucket: "ajmalmansooriapp.firebasestorage.app",
   messagingSenderId: "65419237118",
-  appId: "1:65419237118:web:b815aebf50614cd98237af"
+  appId: "1:65419237118:web:b815aebf50614cd98237af",
+  measurementId: "G-ZYW4JN8CW2"
 };
 
 const app = initializeApp(firebaseConfig);
