@@ -1,1 +1,198 @@
+/* ==========================================
+   PREMIUM WHITE / LIGHT ADMIN DASHBOARD STYLES
+========================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: #f8fafc;
+    color: #0f172a;
+    line-height: 1.6;
+    padding: 40px 20px;
+}
+
+/* Base Card Styling */
+.admin-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 35px;
+    margin: 0 auto 40px auto;
+    max-width: 900px;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    transition: all 0.3s ease;
+}
+
+.admin-card:hover {
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+
+/* Card Header */
+.card-header h2 {
+    color: #0f172a;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    letter-spacing: -0.3px;
+}
+
+.card-header h2 i {
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+/* Form Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.required {
+    color: #ef4444;
+}
+
+/* Premium White Inputs & Selects */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: #ffffff;
+    border: 1.5px solid #e2e8f0;
+    color: #0f172a;
+    padding: 13px 18px;
+    border-radius: 12px;
+    outline: none;
+    font-size: 15px;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Input Focus Effects */
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+}
+
+.form-group input:hover,
+.form-group select:hover,
+.form-group textarea:hover {
+    border-color: #cbd5e1;
+}
+
+/* Custom Checkbox Container */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+    color: #334155;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #2563eb;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+/* Action Buttons */
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+
+.btn-submit:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* Responsive Support */
+@media (max-width: 768px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .admin-card {
+        padding: 22px;
+        border-radius: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .full-width {
+        grid-column: span 1;
+    }
+
+    .btn-submit {
+        width: 100%;
+        justify-content: center;
+    }
+}
