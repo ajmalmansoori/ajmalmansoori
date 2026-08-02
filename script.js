@@ -459,5 +459,207 @@ duration:2500
 },5000);
 
 // ==========================================
+// DOWNLOAD APP SECTION
+// ==========================================
+
+// Select Elements
+const downloadSection = document.querySelector(".download-app");
+const phone = document.querySelector(".phone");
+const playBtn = document.querySelector(".playstore-btn");
+const ratingBox = document.querySelector(".rating-box");
+const downloadBox = document.querySelector(".download-box");
+
+// =============================
+// Scroll Reveal Animation
+// =============================
+
+const appObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            entry.target.animate([
+                {
+                    opacity:0,
+                    transform:"translateY(60px)"
+                },
+                {
+                    opacity:1,
+                    transform:"translateY(0)"
+                }
+            ],{
+                duration:800,
+                fill:"forwards"
+            });
+
+            appObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+},{threshold:0.2});
+
+if(downloadSection){
+    appObserver.observe(downloadSection);
+}
+
+// =============================
+// Mouse Glow Effect
+// =============================
+
+if(phone){
+
+phone.addEventListener("mousemove",(e)=>{
+
+const rect=phone.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+
+phone.style.background=
+`radial-gradient(circle at ${x}px ${y}px,
+rgba(32,255,105,.18),
+#101010 70%)`;
+
+});
+
+phone.addEventListener("mouseleave",()=>{
+
+phone.style.background="#101010";
+
+});
+
+}
+
+// =============================
+// Play Button Click Animation
+// =============================
+
+if(playBtn){
+
+playBtn.addEventListener("click",()=>{
+
+playBtn.animate([
+
+{transform:"scale(1)"},
+
+{transform:"scale(.94)"},
+
+{transform:"scale(1.04)"},
+
+{transform:"scale(1)"}
+
+],{
+
+duration:350
+
+});
+
+});
+
+}
+
+// =============================
+// Floating Cards
+// =============================
+
+function floating(el,duration){
+
+if(!el) return;
+
+el.animate([
+
+{
+transform:"translateY(0px)"
+},
+
+{
+transform:"translateY(-10px)"
+},
+
+{
+transform:"translateY(0px)"
+}
+
+],{
+
+duration:duration,
+iterations:Infinity
+
+});
+
+}
+
+floating(ratingBox,2800);
+floating(downloadBox,3400);
+
+// =============================
+// Phone Tilt Effect
+// =============================
+
+if(phone){
+
+phone.addEventListener("mousemove",(e)=>{
+
+const rect=phone.getBoundingClientRect();
+
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+
+const rotateY=((x-rect.width/2)/28);
+const rotateX=((rect.height/2-y)/28);
+
+phone.style.transform=
+`perspective(1000px)
+rotateX(${rotateX}deg)
+rotateY(${rotateY}deg)
+translateY(-8px)`;
+
+});
+
+phone.addEventListener("mouseleave",()=>{
+
+phone.style.transform=
+"perspective(1000px) rotateX(0deg) rotateY(0deg)";
+
+});
+
+}
+
+// =============================
+// Auto Pulse Button
+// =============================
+
+if(playBtn){
+
+setInterval(()=>{
+
+playBtn.animate([
+
+{
+boxShadow:"0 0 0 rgba(32,255,105,0)"
+},
+
+{
+boxShadow:"0 0 35px rgba(32,255,105,.45)"
+},
+
+{
+boxShadow:"0 0 0 rgba(32,255,105,0)"
+}
+
+],{
+
+duration:1800
+
+});
+
+},4500);
+
+}
+
+// ==========================================
 // END
 // ==========================================
