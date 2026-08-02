@@ -15,153 +15,168 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ======================================
-// PREMIUM BROWSE SWIPER
-// ======================================
+// ===============================
+// Browse Slider
+// ===============================
 
 const browseSwiper = new Swiper(".browseSwiper", {
 
     loop: true,
-    speed: 800,
+
+    speed: 700,
+
+    spaceBetween: 30,
+
     grabCursor: true,
+
     centeredSlides: false,
 
-    spaceBetween: 28,
-
-    slidesPerView: 1.15,
-
     autoplay: {
-
-        delay: 3000,
+        delay: 3500,
         disableOnInteraction: false,
         pauseOnMouseEnter: true,
-
     },
 
     navigation: {
-
-        nextEl: "#next",
-        prevEl: "#prev",
-
+        nextEl: ".next-btn",
+        prevEl: ".prev-btn",
     },
 
     pagination: {
-
         el: ".swiper-pagination",
         clickable: true,
-
     },
 
     breakpoints: {
 
+        0: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+        },
+
         576: {
-
-            slidesPerView: 1.4,
-
+            slidesPerView: 1.2,
+            spaceBetween: 20,
         },
 
         768: {
-
             slidesPerView: 2,
-
+            spaceBetween: 25,
         },
 
         992: {
-
             slidesPerView: 3,
-
+            spaceBetween: 30,
         },
 
         1200: {
-
             slidesPerView: 4,
-
-        },
-
-        1600: {
-
-            slidesPerView: 5,
-
+            spaceBetween: 30,
         }
 
     }
 
 });
-// ==============================
-// Feature Slider
-// ==============================
 
-const featureSwiper = new Swiper(".featureSwiper", {
+// ===============================
+// Card Hover Animation
+// ===============================
 
-    slidesPerView: 1.2,
-    spaceBetween: 25,
-    loop: true,
-    speed: 700,
-    grabCursor: true,
+const cards = document.querySelectorAll(".card");
 
-    autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-    },
+cards.forEach(card => {
 
-    navigation: {
-        nextEl: "#featureNext",
-        prevEl: "#featurePrev",
-    },
+    card.addEventListener("mousemove", (e) => {
 
-    breakpoints: {
+        const rect = card.getBoundingClientRect();
 
-        768: {
-            slidesPerView: 2,
-        },
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-        1024: {
-            slidesPerView: 3,
-        },
-
-        1400: {
-            slidesPerView: 4,
-        }
-
-    }
-
-});
-// ==============================
-// FEATURES ANIMATION
-// ==============================
-
-const featureCards = document.querySelectorAll(".feature-card");
-
-featureCards.forEach((card, index) => {
-
-    card.style.opacity = "0";
-    card.style.transform = "translateY(40px)";
-
-    setTimeout(() => {
-
-        card.style.transition = "all .6s ease";
-        card.style.opacity = "1";
-        card.style.transform = "translateY(0)";
-
-    }, index * 150);
-
-});
-// ==============================
-// FEATURE CARD HOVER EFFECT
-// ==============================
-
-featureCards.forEach(card => {
-
-    card.addEventListener("mouseenter", () => {
-
-        card.style.transform = "translateY(-12px) scale(1.02)";
+        card.style.background = `
+        radial-gradient(
+            circle at ${x}px ${y}px,
+            rgba(32,255,105,.18),
+            #0b0f0e 55%
+        )`;
 
     });
 
     card.addEventListener("mouseleave", () => {
 
-        card.style.transform = "translateY(0) scale(1)";
+        card.style.background =
+            "linear-gradient(180deg,#0e1312,#09100d)";
 
     });
 
 });
+
+// ===============================
+// Arrow Click Animation
+// ===============================
+
+document.querySelectorAll(".prev-btn,.next-btn").forEach(btn => {
+
+    btn.addEventListener("click", () => {
+
+        btn.animate(
+
+            [
+
+                { transform: "scale(1)" },
+
+                { transform: "scale(.90)" },
+
+                { transform: "scale(1)" }
+
+            ],
+
+            {
+
+                duration: 250
+
+            }
+
+        );
+
+    });
+
+});
+
+// ===============================
+// Scroll Reveal Animation
+// ===============================
+
+const observer = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if (entry.isIntersecting) {
+
+            entry.target.style.opacity = "1";
+
+            entry.target.style.transform = "translateY(0px)";
+
+        }
+
+    });
+
+}, {
+    threshold: 0.15
+});
+
+cards.forEach(card => {
+
+    card.style.opacity = "0";
+
+    card.style.transform = "translateY(40px)";
+
+    card.style.transition = ".6s ease";
+
+    observer.observe(card);
+
+});
+
+// ===============================
+// End
+// ===============================
