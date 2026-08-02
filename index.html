@@ -956,135 +956,29 @@ Learnify Classes is a digital educational platform dedicated to helping students
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
-  async function fetchPublicMaterials() {
-    const container = document.getElementById('userMaterialsList');
-    if (!container) return;
-
-    try {
-      const snapshot = await getDocs(collection(db, "materials"));
-      if (snapshot.empty) {
-        container.innerHTML = `<p style="color: #64748B;">No study materials published yet.</p>`;
-        return;
-      }
-
-      container.innerHTML = "";
-      snapshot.forEach(docSnap => {
-        const data = docSnap.data();
-        container.innerHTML += `
-          <div style="background: #FFFFFF; border: 1px solid #E2E8F0; padding: 20px; border-radius: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.04); display: flex; flex-direction: column; justify-content: space-between;">
-            <div>
-              <span style="background: #E0E7FF; color: #4338CA; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;">${data.category}</span>
-              <h3 style="font-size: 1.1rem; margin: 12px 0 6px 0; color: #0F172A;">${data.title}</h3>
-              <p style="font-size: 0.85rem; color: #64748B; margin-bottom: 15px;">${data.description || 'No detailed description.'}</p>
-            </div>
-            <a href="${data.link}" target="_blank" style="display: inline-block; text-align: center; background: #6366F1; color: white; padding: 10px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">
-              Download / Open PDF
-            </a>
-          </div>
-        `;
-      });
-    } catch (err) {
-      container.innerHTML = `<p style="color: #EF4444;">Error loading materials.</p>`;
-    }
-  }
-
-  fetchPublicMaterials();
-</script>
-	<!-- Firebase Live Sync Script (Matches Your Website's Exact Dark Theme) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
-    authDomain: "ajmalmansooriapp.firebaseapp.com",
-    projectId: "ajmalmansooriapp",
-    storageBucket: "ajmalmansooriapp.firebasestorage.app",
-    messagingSenderId: "65419237118",
-    appId: "1:65419237118:web:b815aebf50614cd98237af"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
   async function fetchLiveNotices() {
     const container = document.getElementById('latest-updates-container');
     if (!container) return;
 
     try {
       const snap = await getDocs(collection(db, "notices"));
+      console.log("Total Notices Found:", snap.size); // Console me count dikhega
+
+      container.innerHTML = "";
+
       if (snap.empty) {
-        container.innerHTML = `<p style="color: #9CA3AF; font-size: 0.9rem;">No recent updates found.</p>`;
+        console.log("No notices in Firestore database!");
         return;
       }
 
-      container.innerHTML = "";
       snap.forEach((doc) => {
         const item = doc.data();
-        
-        // Exact Match with Your Site's Dark Cards Layout
-        container.innerHTML += `
-          <div style="background: #0D0D0D; border: 1px solid #1F2937; border-radius: 12px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s;">
-            <div>
-              <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-                <span style="color: #10B981; font-size: 0.8rem; font-weight: 600;">NEW</span>
-                <span style="background: rgba(239, 68, 68, 0.2); color: #EF4444; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px;">
-                  ${item.tag || '🔥 UPDATE'}
-                </span>
-              </div>
-              <h3 style="font-size: 1rem; font-weight: 600; color: #FFFFFF; margin: 0;">${item.title}</h3>
-            </div>
-            ${item.link ? `<a href="${item.link}" target="_blank" style="background: #10B981; color: #000000; font-weight: 700; text-decoration: none; font-size: 0.8rem; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px;">View <i class="fa-solid fa-chevron-right" style="font-size:0.75rem;"></i></a>` : ''}
-          </div>
-        `;
-      });
-    } catch (error) {
-      console.error("Error loading updates:", error);
-    }
-  }
-
-  fetchLiveNotices();
-</script>
-</script>
-	<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
-    authDomain: "ajmalmansooriapp.firebaseapp.com",
-    projectId: "ajmalmansooriapp",
-    storageBucket: "ajmalmansooriapp.firebasestorage.app",
-    messagingSenderId: "65419237118",
-    appId: "1:65419237118:web:b815aebf50614cd98237af"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  async function fetchLiveNotices() {
-    const container = document.getElementById('latest-updates-container');
-    if (!container) return;
-
-    try {
-      const q = query(collection(db, "notices"), orderBy("createdAt", "desc"));
-      const snap = await getDocs(q);
-
-      container.innerHTML = "";
-
-      snap.forEach((doc) => {
-        const item = doc.data();
-        
-        let formattedDate = "NEW";
-        if (item.createdAt && item.createdAt.toDate) {
-          const dateObj = item.createdAt.toDate();
-          formattedDate = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-        }
+        console.log("Notice Item:", item);
 
         container.innerHTML += `
           <a href="${item.link || '#'}" target="${item.link ? '_blank' : '_self'}" class="update-item">
             <div class="left">
-              <span class="date">${formattedDate}</span>
+              <span class="date">NEW</span>
               <h3>${item.title}</h3>
             </div>
             <div class="right">
@@ -1095,11 +989,12 @@ Learnify Classes is a digital educational platform dedicated to helping students
         `;
       });
     } catch (error) {
-      console.error("Error fetching live updates:", error);
+      console.error("Firestore Error:", error);
     }
   }
 
   fetchLiveNotices();
+</script>
 </script>
 				</body>
 				</html>
