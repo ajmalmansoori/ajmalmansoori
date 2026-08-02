@@ -1,9 +1,9 @@
- * {margin: 0;
- 	padding: 0;
- 	box-sizing: border-box;
- 	font-family: 'segoe UI', sans-serif;
- }
-
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
  :root {
  	--dark-bg: #0a0a0a;
  	--darker-bg: #050505;
@@ -141,7 +141,9 @@ body{
     transform: translateY(-5px);
     box-shadow: 0 10px 25px var(--accent-glow);
 }
+=============================
 /*-- Browser Section --*/
+=============================
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -150,16 +152,6 @@ body{
     padding:0;
     box-sizing:border-box;
     font-family:'Inter',sans-serif;
-}
-
-html{
-    scroll-behavior:smooth;
-}
-
-body{
-
-    background:#050606;
-    color:#fff;
 }
 
 /* Scrollbar */
@@ -291,12 +283,9 @@ Swiper
 =========================== */
 
 .swiper{
-
-    overflow:visible;
-    padding-bottom:70px;
-
+    overflow:hidden;
+    padding-bottom:0;
 }
-
 .swiper-slide{
 
     height:auto;
@@ -501,39 +490,6 @@ Button
 .card button:hover i{
 
     transform:translateX(6px);
-
-}
-
-/* ===========================
-Pagination
-=========================== */
-
-.swiper-pagination{
-
-    bottom:0 !important;
-
-}
-
-.swiper-pagination-bullet{
-
-    width:12px;
-    height:12px;
-
-    background:#555;
-
-    opacity:1;
-
-    transition:.3s;
-
-}
-
-.swiper-pagination-bullet-active{
-
-    width:34px;
-
-    border-radius:30px;
-
-    background:#20ff69;
 
 }
 
