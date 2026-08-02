@@ -2001,3 +2001,266 @@ padding:12px 18px;
 }
 
 }
+/*=========================================
+        JOIN COMMUNITY SECTION
+=========================================*/
+
+.join-community{
+    padding:110px 0;
+    background:#050505;
+    position:relative;
+    overflow:hidden;
+}
+
+.join-community::before{
+    content:"";
+    position:absolute;
+    width:420px;
+    height:420px;
+    background:rgba(32,255,105,.08);
+    border-radius:50%;
+    top:-180px;
+    left:-180px;
+    filter:blur(120px);
+}
+
+.join-community::after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    background:rgba(32,255,105,.06);
+    border-radius:50%;
+    bottom:-150px;
+    right:-150px;
+    filter:blur(120px);
+}
+
+.community-box{
+
+    max-width:900px;
+    margin:auto;
+    background:#101010;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:35px;
+    padding:70px;
+    text-align:center;
+    position:relative;
+    z-index:2;
+    transition:.35s;
+
+}
+
+.community-box:hover{
+
+    border-color:#20ff69;
+
+    box-shadow:
+    0 20px 60px rgba(32,255,105,.15);
+
+}
+
+.community-tag{
+
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:40px;
+    background:rgba(32,255,105,.12);
+    color:#20ff69;
+    font-weight:700;
+    margin-bottom:25px;
+
+}
+
+.community-box h2{
+
+    font-size:56px;
+    color:#fff;
+    line-height:1.2;
+    margin-bottom:20px;
+
+}
+
+.community-box p{
+
+    color:#b8b8b8;
+    font-size:18px;
+    line-height:1.9;
+    max-width:700px;
+    margin:auto;
+
+}
+
+/*========================*/
+
+.community-buttons{
+
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin:45px 0;
+
+}
+
+.telegram-btn,
+.youtube-community-btn{
+
+    display:flex;
+    align-items:center;
+    gap:16px;
+    text-decoration:none;
+    padding:18px 30px;
+    border-radius:18px;
+    font-weight:700;
+    transition:.35s;
+
+}
+
+.telegram-btn{
+
+    background:#229ED9;
+    color:#fff;
+
+}
+
+.youtube-community-btn{
+
+    background:#ff0000;
+    color:#fff;
+
+}
+
+.telegram-btn:hover,
+.youtube-community-btn:hover{
+
+    transform:translateY(-8px);
+
+}
+
+.telegram-btn i,
+.youtube-community-btn i{
+
+    font-size:34px;
+
+}
+
+.telegram-btn small,
+.youtube-community-btn small{
+
+    display:block;
+    font-size:12px;
+    letter-spacing:1px;
+
+}
+
+.telegram-btn strong,
+.youtube-community-btn strong{
+
+    display:block;
+    font-size:22px;
+
+}
+
+/*========================*/
+
+.newsletter-box{
+
+    display:flex;
+    gap:15px;
+    margin-top:30px;
+    justify-content:center;
+
+}
+
+.newsletter-box input{
+
+    width:100%;
+    max-width:500px;
+    height:60px;
+    background:#181818;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:16px;
+    padding:0 20px;
+    color:#fff;
+    outline:none;
+    font-size:16px;
+
+}
+
+.newsletter-box input:focus{
+
+    border-color:#20ff69;
+
+}
+
+.newsletter-box button{
+
+    height:60px;
+    padding:0 28px;
+    border:none;
+    border-radius:16px;
+    background:#20ff69;
+    color:#000;
+    font-weight:700;
+    cursor:pointer;
+    transition:.35s;
+
+}
+
+.newsletter-box button:hover{
+
+    transform:translateY(-5px);
+    box-shadow:0 15px 35px rgba(32,255,105,.25);
+
+}
+
+.newsletter-note{
+
+    margin-top:20px !important;
+    color:#8f8f8f !important;
+    font-size:15px !important;
+
+}
+
+/*========================*/
+
+@media(max-width:768px){
+
+.community-box{
+
+padding:40px 25px;
+
+}
+
+.community-box h2{
+
+font-size:36px;
+
+}
+
+.community-buttons{
+
+flex-direction:column;
+
+}
+
+.telegram-btn,
+.youtube-community-btn{
+
+justify-content:center;
+
+}
+
+.newsletter-box{
+
+flex-direction:column;
+
+}
+
+.newsletter-box button{
+
+width:100%;
+
+}
+
+}
