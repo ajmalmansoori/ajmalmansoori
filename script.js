@@ -659,7 +659,150 @@ duration:1800
 },4500);
 
 }
+/*=========================================
+        JOIN COMMUNITY JAVASCRIPT
+=========================================*/
 
+
+// Scroll Reveal Animation
+const communityBox = document.querySelector(".community-box");
+
+window.addEventListener("scroll",()=>{
+
+    let position = communityBox.getBoundingClientRect().top;
+    let screen = window.innerHeight;
+
+    if(position < screen - 100){
+
+        communityBox.style.opacity="1";
+        communityBox.style.transform="translateY(0)";
+
+    }
+
+});
+
+
+// Initial Animation Style
+communityBox.style.opacity="0";
+communityBox.style.transform="translateY(80px)";
+communityBox.style.transition="0.8s ease";
+
+
+
+// Newsletter Subscribe
+const subscribeBtn = document.querySelector(".newsletter-box button");
+const emailInput = document.querySelector(".newsletter-box input");
+
+
+subscribeBtn.addEventListener("click",()=>{
+
+
+    let email = emailInput.value.trim();
+
+
+    if(email === ""){
+
+        showMessage("⚠️ Please enter your email");
+
+    }
+
+    else if(!email.includes("@")){
+
+        showMessage("❌ Enter a valid email address");
+
+    }
+
+    else{
+
+
+        showMessage("🎉 Successfully Joined Learnify Community!");
+
+        emailInput.value="";
+
+
+    }
+
+
+});
+
+
+
+// Popup Message Function
+
+function showMessage(text){
+
+
+    let msg = document.createElement("div");
+
+    msg.innerHTML=text;
+
+    msg.style.position="fixed";
+    msg.style.bottom="30px";
+    msg.style.right="30px";
+    msg.style.background="#101010";
+    msg.style.color="#20ff69";
+    msg.style.padding="18px 25px";
+    msg.style.borderRadius="15px";
+    msg.style.border="1px solid #20ff69";
+    msg.style.fontWeight="700";
+    msg.style.zIndex="9999";
+    msg.style.boxShadow="0 15px 40px rgba(0,0,0,.5)";
+    msg.style.transition=".4s";
+
+
+    document.body.appendChild(msg);
+
+
+
+    setTimeout(()=>{
+
+        msg.style.opacity="0";
+        msg.style.transform="translateY(30px)";
+
+    },2500);
+
+
+
+    setTimeout(()=>{
+
+        msg.remove();
+
+    },3000);
+
+
+
+}
+
+
+
+// Button Click Animation
+
+const communityButtons = document.querySelectorAll(
+".telegram-btn, .youtube-community-btn"
+);
+
+
+communityButtons.forEach(btn=>{
+
+
+    btn.addEventListener("click",()=>{
+
+
+        btn.style.transform="scale(.95)";
+
+
+        setTimeout(()=>{
+
+            btn.style.transform="";
+
+        },150);
+
+
+
+    });
+
+
+});
 // ==========================================
 // END
 // ==========================================
