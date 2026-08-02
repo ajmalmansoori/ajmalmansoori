@@ -875,3 +875,14 @@ async function displayMaterials() {
 }
 
 displayMaterials();
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+const auth = getAuth(app);
+
+// Check if user is logged in
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // Agar user logged in nahi hai, toh login.html par bhej do
+    window.location.href = "login.html";
+  }
+});
