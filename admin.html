@@ -70,22 +70,61 @@
           <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
         </div>
 
+       
         <!-- Add Post Form (Hidden by default) -->
-        <div id="addPostFormContainer" style="display: none; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-          <h3>Create New Post</h3>
-          <form id="addPostForm">
-            <div class="input-group">
-              <label>Post Title</label>
-              <input type="text" id="postTitle" required placeholder="Enter title (e.g. CUET UG Notification)">
-            </div>
-            <div class="input-group">
-              <label>Category</label>
-              <select id="postCategory" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
-                <option value="News">News</option>
-                <option value="Admit Card">Admit Card</option>
-                <option value="Result">Result</option>
-              </select>
-            </div>
+<div id="addPostFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+  <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Create New Post</h3>
+  <form id="addPostForm">
+    
+    <!-- 1. Post Title -->
+    <div class="input-group">
+      <label>Post Title</label>
+      <input type="text" id="postTitle" required placeholder="Enter post title (e.g. CUET UG Admit Card 2026)">
+    </div>
+
+    <!-- 2. Category -->
+    <div class="input-group">
+      <label>Category</label>
+      <select id="postCategory" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; outline: none; background: #fff;">
+        <option value="News">News & Updates</option>
+        <option value="Admit Card">Admit Card</option>
+        <option value="Result">Result</option>
+        <option value="Cutoff">Cutoff</option>
+        <option value="Admission">Admission</option>
+        <option value="Syllabus">Syllabus</option>
+        <option value="Answer Key">Answer Key</option>
+      </select>
+    </div>
+
+    <!-- Attachment Type -->
+    <div class="input-group">
+      <label>Attachment Type</label>
+      <select id="postMediaType" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; outline: none; background: #fff;">
+        <option value="Link">Website Link</option>
+        <option value="PDF">PDF Document</option>
+        <option value="Video">YouTube/Video Link</option>
+        <option value="Image">Image Link</option>
+      </select>
+    </div>
+
+    <!-- 4. URL / Link -->
+    <div class="input-group">
+      <label>URL / File Link</label>
+      <input type="url" id="postLink" required placeholder="Paste the link here (https://...)">
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="margin-top: 20px; display: flex; gap: 12px;">
+      <button type="submit" class="btn-action-primary">Publish Post</button>
+      <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
+    </div>
+    
+    <!-- Success Message -->
+    <p id="postStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600;">
+      Post Published Successfully!
+    </p>
+  </form>
+</div>
             <div class="input-group">
               <label>Link / URL</label>
               <input type="url" id="postLink" placeholder="https://...">
