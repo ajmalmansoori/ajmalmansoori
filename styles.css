@@ -1502,3 +1502,428 @@ font-size:16px;
 }
 
 }
+/*=========================================
+      DOWNLOAD APP SECTION
+=========================================*/
+
+.download-app{
+    padding:110px 0;
+    background:#050505;
+    position:relative;
+    overflow:hidden;
+}
+
+.download-app::before{
+    content:"";
+    position:absolute;
+    width:420px;
+    height:420px;
+    background:rgba(32,255,105,.08);
+    border-radius:50%;
+    top:-180px;
+    left:-180px;
+    filter:blur(120px);
+}
+
+.download-app::after{
+    content:"";
+    position:absolute;
+    width:350px;
+    height:350px;
+    background:rgba(32,255,105,.06);
+    border-radius:50%;
+    right:-120px;
+    bottom:-120px;
+    filter:blur(120px);
+}
+
+/*============================*/
+
+.app-wrapper{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:80px;
+
+}
+
+/*============================*/
+
+.app-content{
+
+    flex:1;
+
+}
+
+.app-tag{
+
+    display:inline-block;
+
+    padding:10px 20px;
+
+    border-radius:40px;
+
+    background:rgba(32,255,105,.12);
+
+    color:#20ff69;
+
+    font-weight:700;
+
+    margin-bottom:22px;
+
+}
+
+.app-content h2{
+
+    font-size:58px;
+
+    color:#fff;
+
+    line-height:1.15;
+
+    margin-bottom:25px;
+
+}
+
+.app-content p{
+
+    color:#b7b7b7;
+
+    font-size:18px;
+
+    line-height:1.9;
+
+    max-width:620px;
+
+    margin-bottom:35px;
+
+}
+
+/*============================*/
+
+.app-features{
+
+display:grid;
+
+grid-template-columns:repeat(2,1fr);
+
+gap:18px;
+
+margin-bottom:45px;
+
+}
+
+.feature-item{
+
+display:flex;
+
+align-items:center;
+
+gap:12px;
+
+color:#fff;
+
+font-size:17px;
+
+}
+
+.feature-item i{
+
+color:#20ff69;
+
+font-size:20px;
+
+}
+
+/*============================*/
+
+.playstore-btn{
+
+display:inline-flex;
+
+align-items:center;
+
+gap:18px;
+
+padding:18px 30px;
+
+border-radius:18px;
+
+background:#20ff69;
+
+color:#000;
+
+text-decoration:none;
+
+font-weight:700;
+
+transition:.35s;
+
+box-shadow:0 10px 30px rgba(32,255,105,.25);
+
+}
+
+.playstore-btn:hover{
+
+transform:translateY(-8px);
+
+box-shadow:0 20px 45px rgba(32,255,105,.35);
+
+}
+
+.playstore-btn i{
+
+font-size:34px;
+
+}
+
+.playstore-btn small{
+
+display:block;
+
+font-size:12px;
+
+letter-spacing:1px;
+
+}
+
+.playstore-btn strong{
+
+font-size:22px;
+
+display:block;
+
+}
+
+/*============================*/
+
+.app-image{
+
+flex:1;
+
+display:flex;
+
+justify-content:center;
+
+position:relative;
+
+}
+
+.phone{
+
+width:340px;
+
+background:#101010;
+
+padding:14px;
+
+border-radius:45px;
+
+border:2px solid rgba(255,255,255,.08);
+
+box-shadow:
+
+0 30px 60px rgba(0,0,0,.5),
+
+0 0 40px rgba(32,255,105,.15);
+
+animation:floatPhone 5s ease-in-out infinite;
+
+}
+
+.phone img{
+
+width:100%;
+
+border-radius:32px;
+
+display:block;
+
+}
+
+/*============================*/
+
+.rating-box{
+
+position:absolute;
+
+top:40px;
+
+left:-10px;
+
+background:#111;
+
+padding:14px 22px;
+
+border-radius:18px;
+
+color:#fff;
+
+font-weight:700;
+
+border:1px solid rgba(32,255,105,.25);
+
+box-shadow:0 15px 30px rgba(0,0,0,.35);
+
+}
+
+.download-box{
+
+position:absolute;
+
+bottom:50px;
+
+right:-10px;
+
+background:#111;
+
+padding:16px 24px;
+
+border-radius:18px;
+
+color:#20ff69;
+
+font-weight:700;
+
+border:1px solid rgba(32,255,105,.25);
+
+box-shadow:0 15px 30px rgba(0,0,0,.35);
+
+}
+
+/*============================*/
+
+@keyframes floatPhone{
+
+0%,100%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(-15px);
+
+}
+
+}
+
+/*============================*/
+
+@media(max-width:992px){
+
+.app-wrapper{
+
+flex-direction:column-reverse;
+
+text-align:center;
+
+}
+
+.app-content p{
+
+margin:auto auto 35px;
+
+}
+
+.app-features{
+
+grid-template-columns:1fr;
+
+}
+
+.feature-item{
+
+justify-content:center;
+
+}
+
+.phone{
+
+width:300px;
+
+}
+
+.rating-box{
+
+left:10px;
+
+}
+
+.download-box{
+
+right:10px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.download-app{
+
+padding:80px 20px;
+
+}
+
+.app-content h2{
+
+font-size:40px;
+
+}
+
+.phone{
+
+width:260px;
+
+}
+
+.playstore-btn{
+
+padding:16px 24px;
+
+}
+
+.playstore-btn strong{
+
+font-size:18px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+.app-content h2{
+
+font-size:32px;
+
+}
+
+.app-content p{
+
+font-size:15px;
+
+}
+
+.phone{
+
+width:220px;
+
+}
+
+.rating-box,
+.download-box{
+
+font-size:13px;
+
+padding:12px 18px;
+
+}
+
+}
