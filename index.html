@@ -1046,5 +1046,60 @@ Learnify Classes is a digital educational platform dedicated to helping students
   fetchLiveNotices();
 </script>
 </script>
+	<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
+    authDomain: "ajmalmansooriapp.firebaseapp.com",
+    projectId: "ajmalmansooriapp",
+    storageBucket: "ajmalmansooriapp.firebasestorage.app",
+    messagingSenderId: "65419237118",
+    appId: "1:65419237118:web:b815aebf50614cd98237af"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function fetchLiveNotices() {
+    const container = document.getElementById('latest-updates-container');
+    if (!container) return;
+
+    try {
+      const q = query(collection(db, "notices"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+
+      container.innerHTML = "";
+
+      snap.forEach((doc) => {
+        const item = doc.data();
+        
+        let formattedDate = "NEW";
+        if (item.createdAt && item.createdAt.toDate) {
+          const dateObj = item.createdAt.toDate();
+          formattedDate = dateObj.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        }
+
+        container.innerHTML += `
+          <a href="${item.link || '#'}" target="${item.link ? '_blank' : '_self'}" class="update-item">
+            <div class="left">
+              <span class="date">${formattedDate}</span>
+              <h3>${item.title}</h3>
+            </div>
+            <div class="right">
+              <span class="new-badge">${item.tag || 'NEW'}</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </a>
+        `;
+      });
+    } catch (error) {
+      console.error("Error fetching live updates:", error);
+    }
+  }
+
+  fetchLiveNotices();
+</script>
 				</body>
 				</html>
