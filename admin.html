@@ -1,203 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMS Dashboard | Ajmal Mansoori</title>
-  
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- CSS -->
-  <link rel="stylesheet" href="admin.css">
-<!-- SECURITY GUARD: Firebase Auth Check -->
-<style>
-    /* जब तक चेक नहीं हो जाता कि एडमिन है, तब तक पेज छुपा कर रखो */
-    body { display: none; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Login | CMS Admin</title>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    // आपका Firebase कॉन्फ़िगरेशन
-    const firebaseConfig = {
-        apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
-        authDomain: "ajmalmansooriapp.firebaseapp.com",
-        projectId: "ajmalmansooriapp",
-        storageBucket: "ajmalmansooriapp.firebasestorage.app",
-        messagingSenderId: "65419237118",
-        appId: "1:65419237118:web:b815aebf50614cd98237af"
-    };
-
-    // Firebase चालू करें
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // चेक करें कि कोई लॉगिन है या नहीं
-    onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            // अगर लॉगिन नहीं है, तो तुरंत login.html पर वापस भेज दो
-            window.location.replace("login.html"); 
-        } else {
-            // अगर सही एडमिन है, तो पेज को दिखा दो
-            document.body.style.display = "block";
-        }
-    });
-</script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+        .login-container { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .brand-logo { width: 60px; height: 60px; background: linear-gradient(135deg, #2563eb, #3b82f6); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px auto; color: white; font-size: 28px; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+        .login-header { text-align: center; margin-bottom: 32px; }
+        .login-header h2 { color: #ffffff; font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+        .login-header p { color: #94a3b8; font-size: 0.95rem; }
+        .input-group { position: relative; margin-bottom: 20px; }
+        .input-group i.main-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #64748b; font-size: 1.1rem; transition: color 0.3s; }
+        .input-group input { width: 100%; padding: 14px 16px 14px 45px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 12px; font-size: 1rem; color: #ffffff; outline: none; transition: all 0.3s; }
+        .input-group input:focus { border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+        .input-group input:focus + i.main-icon { color: #3b82f6; }
+        .toggle-password { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: #64748b; cursor: pointer; transition: color 0.3s; }
+        .toggle-password:hover { color: #ffffff; }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #2563eb, #1d4ed8); border: none; border-radius: 12px; color: white; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3); }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4); }
+        #errorMsg { color: #ef4444; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); padding: 10px; border-radius: 8px; font-size: 0.85rem; text-align: center; margin-top: 15px; display: none; }
+    </style>
 </head>
 <body>
 
-  <div class="sidebar-overlay" id="overlay"></div>
-
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-brand">
-      <div class="brand-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
-      <span class="brand-title">CMS Admin</span>
-    </div>
-
-    <ul class="menu-list">
-      <li class="menu-item active" data-tab="sec-dashboard"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a></li>
-      <li class="menu-item" data-tab="sec-news"><a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> News & Updates</span></a></li>
-      <li class="menu-item" data-tab="sec-admit-card"><a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a></li>
-      <li class="menu-item" data-tab="sec-result"><a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a></li>
-      <hr style="border-top: 1px solid var(--border-color); margin: 10px 0;">
-      <li class="menu-item" data-tab="sec-profile"><a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a></li>
-    </ul>
-  </aside>
-
-  <!-- Main Content -->
-  <div class="wrapper">
-    <header class="top-header">
-      <button class="toggle-btn" id="sidebarToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
-      <div class="header-right">
-        <div class="user-profile" id="profileDropdownBtn">
-          <div class="avatar">AM</div>
-          <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
-        </div>
-      </div>
-    </header>
-
-    <main class="main-content">
-      
-      <!-- DASHBOARD TAB -->
-      <div id="sec-dashboard" class="tab-section active">
-        <h1 class="page-head">Analytics Overview</h1>
-        <p class="sub-date">Real-time metrics from Firebase</p>
-        
-        <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="card-label">Total Website Views</div>
-            <div class="card-val" id="totalViewsCount">Loading...</div>
-          </div>
-          <div class="metric-card">
-            <div class="card-label">Total Published Posts</div>
-            <div class="card-val" id="totalPostsCount">Loading...</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- NEWS / ADD POST SECTION -->
-      <div id="sec-news" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">News & Updates</h2>
-          <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
+    <div class="login-container">
+        <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+        <div class="login-header">
+            <h2>Welcome Back</h2>
+            <p>Please sign in to access the dashboard</p>
         </div>
 
-       
-        <!-- Add Post Form (Hidden by default) -->
-<div id="addPostFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-  <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Create New Post</h3>
-  <form id="addPostForm">
-    
-    <!-- 1. Post Title -->
-    <div class="input-group">
-      <label>Post Title</label>
-      <input type="text" id="postTitle" required placeholder="Enter post title (e.g. CUET UG Admit Card 2026)">
-    </div>
-
-    <!-- 2. Category -->
-    <div class="input-group">
-      <label>Category</label>
-      <select id="postCategory" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; outline: none; background: #fff;">
-        <option value="News">News & Updates</option>
-        <option value="Admit Card">Admit Card</option>
-        <option value="Result">Result</option>
-        <option value="Cutoff">Cutoff</option>
-        <option value="Admission">Admission</option>
-        <option value="Syllabus">Syllabus</option>
-        <option value="Answer Key">Answer Key</option>
-      </select>
-    </div>
-
-    <!-- Attachment Type -->
-    <div class="input-group">
-      <label>Attachment Type</label>
-      <select id="postMediaType" required style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); width: 100%; outline: none; background: #fff;">
-        <option value="Link">Website Link</option>
-        <option value="PDF">PDF Document</option>
-        <option value="Video">YouTube/Video Link</option>
-        <option value="Image">Image Link</option>
-      </select>
-    </div>
-
-    <!-- 4. URL / Link -->
-    <div class="input-group">
-      <label>URL / File Link</label>
-      <input type="url" id="postLink" required placeholder="Paste the link here (https://...)">
-    </div>
-
-    <!-- Action Buttons -->
-    <div style="margin-top: 20px; display: flex; gap: 12px;">
-      <button type="submit" class="btn-action-primary">Publish Post</button>
-      <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
-    </div>
-    
-    <!-- Success Message -->
-    <p id="postStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600;">
-      Post Published Successfully!
-    </p>
-  </form>
-</div>
+        <form id="loginForm">
             <div class="input-group">
-              <label>Link / URL</label>
-              <input type="url" id="postLink" placeholder="https://...">
-            </div>
-            <button type="submit" class="btn-action-primary">Publish Post</button>
-            <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
-            <p id="postStatusMsg" style="color: green; margin-top: 10px; display: none;">Post Published Successfully!</p>
-          </form>
-        </div>
-
-        <div class="data-card-container">
-          <p>Recent posts will appear here (Fetch code can be added in JS).</p>
-        </div>
-      </div>
-
-      <!-- PROFILE SETTINGS TAB -->
-      <div id="sec-profile" class="tab-section">
-        <h2 class="page-head">Profile Settings</h2>
-        <div class="data-card-container">
-          <form id="profileUpdateForm">
-            <div class="input-group">
-              <label>Full Name</label>
-              <input type="text" id="adminName" required>
+                <input type="email" id="emailField" placeholder="Admin Email" required>
+                <i class="fa-regular fa-envelope main-icon"></i>
             </div>
             <div class="input-group">
-              <label>Email</label>
-              <input type="email" id="adminEmail" required>
+                <input type="password" id="passwordField" placeholder="Password" required>
+                <i class="fa-solid fa-lock main-icon"></i>
+                <i class="fa-regular fa-eye-slash toggle-password" id="togglePasswordBtn"></i>
             </div>
-            <button type="submit" class="btn-action-primary">Update Profile</button>
-            <p id="profileStatusMsg" style="color: green; margin-top: 10px; display: none;">Profile Updated in Firebase!</p>
-          </form>
-        </div>
-      </div>
+            <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+            <p id="errorMsg"></p>
+        </form>
+    </div>
 
-    </main>
-  </div>
+    <!-- UI Script -->
+    <script>
+        const passwordField = document.getElementById('passwordField');
+        const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+        togglePasswordBtn.addEventListener('click', function () {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 
-  <!-- JS -->
-  <script type="module" src="admin.js"></script>
+    <!-- Firebase Backend -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
+            authDomain: "ajmalmansooriapp.firebaseapp.com",
+            projectId: "ajmalmansooriapp",
+            storageBucket: "ajmalmansooriapp.firebasestorage.app",
+            messagingSenderId: "65419237118",
+            appId: "1:65419237118:web:b815aebf50614cd98237af",
+            measurementId: "G-ZYW4JN8CW2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        const loginForm = document.getElementById('loginForm');
+        const loginBtn = document.getElementById('loginBtn');
+        const errorMsg = document.getElementById('errorMsg');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('emailField').value;
+            const password = document.getElementById('passwordField').value;
+            
+            loginBtn.innerText = "Signing in...";
+            errorMsg.style.display = "none";
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    window.location.href = "admin.html"; 
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    if (errorCode === 'auth/user-not-found') errorMsg.innerText = "Invalid User: ईमेल रजिस्टर नहीं है!";
+                    else if (errorCode === 'auth/wrong-password') errorMsg.innerText = "Invalid Password: गलत पासवर्ड!";
+                    else errorMsg.innerText = "Error: ईमेल या पासवर्ड गलत है!";
+                    
+                    errorMsg.style.display = "block";
+                    loginBtn.innerText = "Sign In";
+                });
+        });
+    </script>
 </body>
 </html>
