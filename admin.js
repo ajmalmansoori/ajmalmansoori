@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Firebase Config
 const firebaseConfig = {
   apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
   authDomain: "ajmalmansooriapp.firebaseapp.com",
@@ -14,12 +13,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// DOM Elements
+// Sidebar Drawer Control
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('overlay');
 const toggleBtn = document.getElementById('sidebarToggleBtn');
 
-// Slide-out Drawer Functions
 function toggleSidebar() {
   sidebar.classList.toggle('open');
   overlay.classList.toggle('active');
@@ -28,106 +26,110 @@ function toggleSidebar() {
 toggleBtn.addEventListener('click', toggleSidebar);
 overlay.addEventListener('click', toggleSidebar);
 
-// Tab Navigation
-document.querySelectorAll('.menu-item').forEach(item => {
-  item.addEventListener('click', (e) => {
-    e.preventDefault();
-    const tabId = item.getAttribute('data-tab');
+// Generic Dropdown Toggle Helper
+function setupDropdown(toggleId, subMenuId, arrowId) {
+  const toggle = document.getElementById(toggleId);
+  const subMenu = document.getElementById(subMenuId);
+  const arrow = document.getElementById(arrowId);
 
-    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
-
-    item.classList.add('active');
-    if (document.getElementById(tabId)) {
-      document.getElementById(tabId).classList.add('active');
-    }
-
-    // Close sliding sidebar on selection
-    toggleSidebar();
-  });
-});
-
-// Fetch Data Helper
-async function loadData(colName, containerId) {
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  try {
-    const snap = await getDocs(collection(db, colName));
-    container.innerHTML = snap.empty ? `<p style="color:#6B7280; font-size:0.85rem;">No entries found.</p>` : "";
-
-    snap.forEach(docSnap => {
-      const item = docSnap.data();
-      const div = document.createElement('div');
-      div.className = 'data-item';
-      div.innerHTML = `
-        <div>
-          <strong style="font-size:0.9rem;">${item.title}</strong>
-          <p style="font-size:0.78rem; color:#6B7280;">${item.category || item.tag || 'General'}</p>
-        </div>
-        <button class="btn-del" data-col="${colName}" data-id="${docSnap.id}">Delete</button>
-      `;
-      container.appendChild(div);
+  if (toggle) {
+    toggle.addEventListener('click', (e) => {
+      e.preventDefault();
+      subMenu.classList.toggle('show');
+      arrow.classList.toggle('rotate');
     });
-
-    // Delete Buttons Event
-    container.querySelectorAll('.btn-del').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        if (confirm("Delete this entry?")) {
-          await deleteDoc(doc(db, btn.getAttribute('data-col'), btn.getAttribute('data-id')));
-          refreshData();
-        }
-      });
-    });
-  } catch (err) {
-    console.error("Firebase fetch error:", err);
   }
 }
 
-function refreshData() {
-  loadData("courses", "coursesList");
-  loadData("tests", "testsList");
-  loadData("notices", "noticesList");
+// Initialize Sidebar Submenus
+setupDropdown('offeringsToggle', 'offeringsSubMenu', 'offeringsArrow');
+setupDropdown('reportsToggle', 'reportsSubMenu', 'reportsArrow');
+setupDropdown('marketingToggle', 'marketingSubMenu', 'marketingArrow');
+setupDropdown('supportToggle', 'supportSubMenu', 'supportArrow');
+setupDropdown('settingsToggle', 'settingsSubMenu', 'settingsArrow');
+setupDropdown('customToggle', 'customSubMenu', 'customArrow');
+
+// Tab Switching System
+function switchTab(targetTabId) {
+  document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.sub-menu li').forEach(i => i.classList.remove('active'));
+  document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+
+  const targetSection = document.getElementById(targetTabId);
+  if (targetSection) {
+    targetSection.classList.add('active');
+  }
+
+  if (sidebar.classList.contains('open')) {
+    toggleSidebar();
+  }
 }
 
-// Form Submissions
-document.getElementById('courseForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  await addDoc(collection(db, "courses"), {
-    title: document.getElementById('courseTitle').value,
-    category: document.getElementById('courseCategory').value,
-    price: document.getElementById('coursePrice').value,
-    link: document.getElementById('courseLink').value,
-    createdAt: serverTimestamp()
+// Click Listeners for Sidebar Links
+document.querySelectorAll('.menu-list > .menu-item:not(.dropdown)').forEach(item => {
+  item.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tabId = item.getAttribute('data-tab');
+    item.classList.add('active');
+    switchTab(tabId);
   });
-  e.target.reset();
-  refreshData();
 });
 
-document.getElementById('testForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  await addDoc(collection(db, "tests"), {
-    title: document.getElementById('testTitle').value,
-    category: document.getElementById('testCategory').value,
-    link: document.getElementById('testLink').value,
-    createdAt: serverTimestamp()
+document.querySelectorAll('.sub-menu a').forEach(subLink => {
+  subLink.addEventListener('click', (e) => {
+    e.preventDefault();
+    const tabId = subLink.getAttribute('data-tab');
+    
+    const parentMenu = subLink.closest('.dropdown');
+    if (parentMenu) parentMenu.classList.add('active');
+    subLink.parentElement.classList.add('active');
+
+    switchTab(tabId);
   });
-  e.target.reset();
-  refreshData();
 });
 
-document.getElementById('announcementForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  await addDoc(collection(db, "notices"), {
-    title: document.getElementById('noticeTitle').value,
-    tag: document.getElementById('alertBadge').value,
-    link: document.getElementById('noticeLink').value,
-    description: document.getElementById('noticeDescription').value,
-    createdAt: serverTimestamp()
-  });
-  e.target.reset();
-  refreshData();
+// Profile Header Dropdown Widget
+const profileDropdownBtn = document.getElementById('profileDropdownBtn');
+const profileDropdownMenu = document.getElementById('profileDropdownMenu');
+
+profileDropdownBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  profileDropdownMenu.classList.toggle('show');
 });
 
-// Initial Load
-refreshData();
+document.addEventListener('click', (e) => {
+  if (!profileDropdownMenu.contains(e.target) && !profileDropdownBtn.contains(e.target)) {
+    profileDropdownMenu.classList.remove('show');
+  }
+});
+
+// Open Profile Tab from Dropdown Menu
+document.getElementById('profileMenuLink').addEventListener('click', (e) => {
+  e.preventDefault();
+  profileDropdownMenu.classList.remove('show');
+  switchTab('sec-profile');
+});
+
+// Logout Handler
+document.getElementById('logoutBtn').addEventListener('click', (e) => {
+  e.preventDefault();
+  alert('Logged out successfully!');
+});
+
+// Profile Subtab Switcher
+window.switchProfileSubTab = function(subTabId) {
+  document.querySelectorAll('.prof-subtab-content').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  document.querySelectorAll('.prof-tab-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  const targetSubTab = document.getElementById(subTabId);
+  if (targetSubTab) {
+    targetSubTab.classList.add('active');
+  }
+
+  event.currentTarget.classList.add('active');
+};
