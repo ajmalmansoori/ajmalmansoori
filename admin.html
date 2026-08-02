@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | Ajmal Mansoori</title>
+  <title>Dashboard | Learnify Classes</title>
   <!-- Google Fonts & FontAwesome Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,7 +20,7 @@
     
     .nav-list { list-style: none; padding: 15px 10px; }
     .nav-item { margin-bottom: 4px; }
-    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #64748B; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.2s; }
+    .nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px; color: #64748B; text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: all 0.2s; cursor: pointer; }
     .nav-link:hover, .nav-link.active { background-color: #F1F5F9; color: #0F172A; font-weight: 600; }
     .nav-link i { font-size: 1.1rem; width: 20px; text-align: center; }
 
@@ -61,10 +61,13 @@
     .item-list { display: flex; flex-direction: column; gap: 10px; }
     .data-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border: 1px solid #E2E8F0; border-radius: 8px; background: #FAFAFA; }
     .data-info h4 { font-size: 0.95rem; color: #1E293B; }
-    .data-info p { font-size: 0.8rem; color: #64748B; }
+    .data-info p { font-size: 0.8rem; color: #64748B; margin-top: 2px; }
     .badge { background: #E0E7FF; color: #4338CA; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
     .btn-delete { background: #FEE2E2; color: #991B1B; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; }
     .btn-delete:hover { background: #FCA5A5; }
+    
+    .tab-section { display: none; }
+    .tab-section.active { display: block; }
   </style>
 </head>
 <body>
@@ -77,11 +80,11 @@
         <div class="brand-title">Learnify</div>
       </div>
       <ul class="nav-list">
-        <li class="nav-item"><a href="#" class="nav-link active"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-book-open"></i> Offerings / Courses</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-file-pen"></i> Test Portal</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-bullhorn"></i> Announcements</a></li>
-        <li class="nav-item"><a href="#" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a></li>
+        <li class="nav-item"><a class="nav-link active" onclick="switchTab('sec-dashboard', this)"><i class="fa-solid fa-chart-pie"></i> Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="switchTab('sec-courses', this)"><i class="fa-solid fa-book-open"></i> Offerings / Courses</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="switchTab('sec-tests', this)"><i class="fa-solid fa-file-pen"></i> Test Portal</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="switchTab('sec-announcements', this)"><i class="fa-solid fa-bullhorn"></i> Announcements</a></li>
+        <li class="nav-item"><a class="nav-link" onclick="switchTab('sec-settings', this)"><i class="fa-solid fa-gear"></i> Settings</a></li>
       </ul>
     </div>
   </aside>
@@ -93,7 +96,7 @@
     <header>
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search courses, users, materials...">
+        <input type="text" placeholder="Search courses, materials, tests...">
       </div>
       <div class="user-profile">
         <div class="avatar">AM</div>
@@ -102,80 +105,227 @@
       </div>
     </header>
 
-    <!-- Dashboard Content -->
+    <!-- Main Content Container -->
     <div class="content">
-      
-      <div class="page-header">
-        <div class="page-title">
-          <h2>Analytics & Overview</h2>
-          <p id="currentDate">Aug 2, 2026</p>
-        </div>
-      </div>
 
-      <!-- Appx style Metric Cards -->
-      <div class="metrics-grid">
-        <div class="card">
-          <div class="card-header"><span>Rank</span><i class="fa-solid fa-trophy"></i></div>
-          <div class="card-value">#1</div>
-          <div class="card-footer">Top Performing Platform</div>
-        </div>
-        <div class="card">
-          <div class="card-header"><span>Active Materials</span><span style="color:#10B981;">0%</span></div>
-          <div class="card-value" id="totalMaterialsCount">0</div>
-          <div class="card-footer">Published on website</div>
-        </div>
-        <div class="card">
-          <div class="card-header"><span>Revenue</span><span>0%</span></div>
-          <div class="card-value">₹0</div>
-          <div class="card-footer">Previous: ₹0</div>
-        </div>
-        <div class="card">
-          <div class="card-header"><span>Signups / Users</span><span>0%</span></div>
-          <div class="card-value">1</div>
-          <div class="card-footer">Admin Active</div>
-        </div>
-      </div>
-
-      <!-- Content Management Section -->
-      <div class="section-grid">
-        
-        <!-- Add New Item Form -->
-        <div class="card">
-          <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Add New Content</h3>
-          <form id="contentForm">
-            <div class="form-group">
-              <label>Content Title</label>
-              <input type="text" id="title" required placeholder="e.g. CUET UG 2026 History Chapter 1">
-            </div>
-            <div class="form-group">
-              <label>Category</label>
-              <select id="category">
-                <option value="CUET UG">CUET UG</option>
-                <option value="AU PGAT">AU PGAT</option>
-                <option value="Class 10">Class 10</option>
-                <option value="General Notice">General Notice</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>PDF / Drive Link</label>
-              <input type="url" id="link" required placeholder="https://drive.google.com/...">
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <textarea id="description" rows="3" placeholder="Brief description..."></textarea>
-            </div>
-            <button type="submit" class="btn-primary">Publish Material</button>
-          </form>
-        </div>
-
-        <!-- Live Content List -->
-        <div class="card">
-          <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Published Materials</h3>
-          <div class="item-list" id="contentList">
-            <p style="color: #64748B; font-size: 0.9rem;">Loading live data...</p>
+      <!-- ================= 1. DASHBOARD TAB ================= -->
+      <div id="sec-dashboard" class="tab-section active">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>Analytics & Overview</h2>
+            <p id="currentDate"></p>
           </div>
         </div>
 
+        <div class="metrics-grid">
+          <div class="card">
+            <div class="card-header"><span>Rank</span><i class="fa-solid fa-trophy"></i></div>
+            <div class="card-value">#1</div>
+            <div class="card-footer">Top Performing Platform</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span>Active Materials</span><span style="color:#10B981;">Live</span></div>
+            <div class="card-value" id="totalMaterialsCount">0</div>
+            <div class="card-footer">Published on website</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span>Active Batches</span><span style="color:#6366F1;">Courses</span></div>
+            <div class="card-value" id="totalCoursesCount">0</div>
+            <div class="card-footer">Target Batches Live</div>
+          </div>
+          <div class="card">
+            <div class="card-header"><span>Test Series</span><span style="color:#F59E0B;">Active</span></div>
+            <div class="card-value" id="totalTestsCount">0</div>
+            <div class="card-footer">MCQ Booklets</div>
+          </div>
+        </div>
+
+        <div class="section-grid">
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Add New Material</h3>
+            <form id="contentForm">
+              <div class="form-group">
+                <label>Content Title</label>
+                <input type="text" id="title" required placeholder="e.g. CUET UG 2026 History Chapter 1">
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select id="category">
+                  <option value="CUET UG">CUET UG</option>
+                  <option value="AU PGAT">AU PGAT</option>
+                  <option value="Class 10">Class 10</option>
+                  <option value="General Notice">General Notice</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>PDF / Drive Link</label>
+                <input type="url" id="link" required placeholder="https://drive.google.com/...">
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="description" rows="3" placeholder="Brief description..."></textarea>
+              </div>
+              <button type="submit" class="btn-primary">Publish Material</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Published Materials</h3>
+            <div class="item-list" id="contentList">
+              <p style="color: #64748B; font-size: 0.9rem;">Loading live data...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 2. COURSES TAB ================= -->
+      <div id="sec-courses" class="tab-section">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>📚 Courses & Batches Manager</h2>
+            <p>Create new batches, pricing, banner & syllabus links</p>
+          </div>
+        </div>
+
+        <div class="section-grid">
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Create New Batch</h3>
+            <form id="courseForm">
+              <div class="form-group">
+                <label>Batch Name</label>
+                <input type="text" id="courseTitle" required placeholder="e.g. CUET UG 2026 Targeted Batch">
+              </div>
+              <div class="form-group">
+                <label>Target Exam Category</label>
+                <select id="courseCategory">
+                  <option value="CUET UG 2026">CUET UG 2026</option>
+                  <option value="AU PGAT 2026">AU PGAT 2026</option>
+                  <option value="Class 10 Board">Class 10 Board</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Price (₹)</label>
+                <input type="number" id="coursePrice" required placeholder="e.g. 499 (0 for Free)">
+              </div>
+              <div class="form-group">
+                <label>Banner / Syllabus Drive Link</label>
+                <input type="url" id="courseLink" required placeholder="https://drive.google.com/...">
+              </div>
+              <button type="submit" class="btn-primary">Launch Course</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Active Batches</h3>
+            <div class="item-list" id="coursesList">
+              <p style="color: #64748B; font-size: 0.9rem;">Loading courses...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 3. TEST PORTAL TAB ================= -->
+      <div id="sec-tests" class="tab-section">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>📝 Test Portal & Booklets</h2>
+            <p>Upload chapter-wise MCQ practice series & solution keys</p>
+          </div>
+        </div>
+
+        <div class="section-grid">
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Add Practice Series / MCQ</h3>
+            <form id="testForm">
+              <div class="form-group">
+                <label>Test Title</label>
+                <input type="text" id="testTitle" required placeholder="e.g. History Chapter 1: 300 MCQ Booklet">
+              </div>
+              <div class="form-group">
+                <label>Subject / Exam Tag</label>
+                <select id="testCategory">
+                  <option value="CUET History">CUET History</option>
+                  <option value="CUET General Test">CUET General Test</option>
+                  <option value="AU PGAT Special">AU PGAT Special</option>
+                  <option value="Class 10 English">Class 10 English</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>MCQ / Test Link</label>
+                <input type="url" id="testLink" required placeholder="https://drive.google.com/...">
+              </div>
+              <div class="form-group">
+                <label>Answer Key Link (Optional)</label>
+                <input type="url" id="testSolution" placeholder="https://drive.google.com/...">
+              </div>
+              <button type="submit" class="btn-primary">Publish Test Booklet</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Published Test Series</h3>
+            <div class="item-list" id="testsList">
+              <p style="color: #64748B; font-size: 0.9rem;">Loading tests...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 4. ANNOUNCEMENTS TAB ================= -->
+      <div id="sec-announcements" class="tab-section">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>📢 Announcements & Bulletins</h2>
+            <p>Push instant updates, admit card alerts & notice board</p>
+          </div>
+        </div>
+
+        <div class="section-grid">
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Push Instant Notice</h3>
+            <form id="noticeForm">
+              <div class="form-group">
+                <label>Notice Title</label>
+                <input type="text" id="noticeTitle" required placeholder="e.g. AU PGAT Admit Card Released!">
+              </div>
+              <div class="form-group">
+                <label>Alert Badge Tag</label>
+                <select id="noticeTag">
+                  <option value="🔥 URGENT">🔥 URGENT</option>
+                  <option value="⚡ NEW">⚡ NEW</option>
+                  <option value="📌 IMPORTANT">📌 IMPORTANT</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Notice Link / PDF</label>
+                <input type="url" id="noticeLink" placeholder="https://allduniv.ac.in/...">
+              </div>
+              <button type="submit" class="btn-primary">Publish Notice</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Live Announcements</h3>
+            <div class="item-list" id="noticesList">
+              <p style="color: #64748B; font-size: 0.9rem;">Loading notices...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 5. SETTINGS TAB ================= -->
+      <div id="sec-settings" class="tab-section">
+        <div class="page-header">
+          <div class="page-title">
+            <h2>⚙️ System Settings</h2>
+            <p>Platform status & Firebase configuration</p>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:10px;">Learnify Classes CMS</h3>
+          <p style="color: #64748B; font-size:0.9rem; margin-bottom: 15px;">Admin dashboard synchronized with Firebase Firestore database.</p>
+          <button class="btn-primary" style="width: auto; padding: 10px 20px;" onclick="location.reload()"><i class="fa-solid fa-arrows-rotate"></i> Refresh System</button>
+        </div>
       </div>
 
     </div>
@@ -186,7 +336,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // Firebase Config (Pre-configured with your keys)
     const firebaseConfig = {
       apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
       authDomain: "ajmalmansooriapp.firebaseapp.com",
@@ -199,45 +348,27 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const form = document.getElementById('contentForm');
-    const contentList = document.getElementById('contentList');
-    const totalMaterialsCount = document.getElementById('totalMaterialsCount');
-
-    // Display Current Date
+    // Date
     document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
 
-    // Publish New Item
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try {
-        await addDoc(collection(db, "materials"), {
-          title: document.getElementById('title').value,
-          category: document.getElementById('category').value,
-          link: document.getElementById('link').value,
-          description: document.getElementById('description').value,
-          createdAt: serverTimestamp()
-        });
-        form.reset();
-        loadData();
-      } catch (err) {
-        alert("Error publishing: " + err.message);
-      }
-    });
+    // Switch Tabs
+    window.switchTab = (tabId, element) => {
+      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      element.classList.add('active');
+    };
 
-    // Fetch and Display Data
-    async function loadData() {
-      contentList.innerHTML = "Loading...";
-      const querySnapshot = await getDocs(collection(db, "materials"));
-      contentList.innerHTML = "";
+    // Generic Fetch Function
+    async function loadCollectionData(colName, containerId, countId, badgeBg) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = "Loading...";
+      const snap = await getDocs(collection(db, colName));
+      container.innerHTML = snap.empty ? `<p style="color: #64748B; font-size: 0.9rem;">No data published yet.</p>` : "";
       
       let count = 0;
-      if (querySnapshot.empty) {
-        contentList.innerHTML = `<p style="color: #64748B; font-size: 0.9rem;">No materials added yet.</p>`;
-        totalMaterialsCount.innerText = "0";
-        return;
-      }
-
-      querySnapshot.forEach((documentSnapshot) => {
+      snap.forEach((documentSnapshot) => {
         count++;
         const item = documentSnapshot.data();
         const div = document.createElement('div');
@@ -245,32 +376,91 @@
         div.innerHTML = `
           <div class="data-info">
             <div style="display:flex; align-items:center; gap:8px; margin-bottom: 4px;">
-              <span class="badge">${item.category}</span>
+              <span class="badge" style="${badgeBg || ''}">${item.category || item.tag || '₹' + item.price}</span>
               <h4>${item.title}</h4>
             </div>
-            <p>${item.description || 'No description provided'}</p>
+            <p>${item.description || item.message || 'Published item'}</p>
           </div>
           <div style="display:flex; gap:10px; align-items:center;">
-            <a href="${item.link}" target="_blank" style="color: #6366F1; font-size: 0.85rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a>
-            <button class="btn-delete" onclick="deleteItem('${documentSnapshot.id}')"><i class="fa-solid fa-trash"></i></button>
+            ${item.link ? `<a href="${item.link}" target="_blank" style="color: #6366F1; font-size: 0.85rem;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a>` : ''}
+            <button class="btn-delete" onclick="removeItem('${colName}', '${documentSnapshot.id}')"><i class="fa-solid fa-trash"></i></button>
           </div>
         `;
-        contentList.appendChild(div);
+        container.appendChild(div);
       });
-      totalMaterialsCount.innerText = count;
+      if (countId && document.getElementById(countId)) {
+        document.getElementById(countId).innerText = count;
+      }
     }
 
-    // Delete Item
-    window.deleteItem = async (id) => {
-      if (confirm("Are you sure you want to delete this material?")) {
-        await deleteDoc(doc(db, "materials", id));
-        loadData();
+    // Delete item
+    window.removeItem = async (colName, id) => {
+      if (confirm("Are you sure you want to delete this?")) {
+        await deleteDoc(doc(db, colName, id));
+        refreshAllData();
       }
     };
 
-    loadData();
-  </script>
-  <script type="module" src="admin.js"></script>
+    function refreshAllData() {
+      loadCollectionData("materials", "contentList", "totalMaterialsCount");
+      loadCollectionData("courses", "coursesList", "totalCoursesCount", "background:#DCFCE7; color:#15803D;");
+      loadCollectionData("tests", "testsList", "totalTestsCount", "background:#FEF3C7; color:#B45309;");
+      loadCollectionData("notices", "noticesList", null, "background:#FEE2E2; color:#991B1B;");
+    }
 
+    // Form Handlers
+    document.getElementById('contentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "materials"), {
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        link: document.getElementById('link').value,
+        description: document.getElementById('description').value,
+        createdAt: serverTimestamp()
+      });
+      e.target.reset();
+      refreshAllData();
+    });
+
+    document.getElementById('courseForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "courses"), {
+        title: document.getElementById('courseTitle').value,
+        category: document.getElementById('courseCategory').value,
+        price: document.getElementById('coursePrice').value,
+        link: document.getElementById('courseLink').value,
+        createdAt: serverTimestamp()
+      });
+      e.target.reset();
+      refreshAllData();
+    });
+
+    document.getElementById('testForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "tests"), {
+        title: document.getElementById('testTitle').value,
+        category: document.getElementById('testCategory').value,
+        link: document.getElementById('testLink').value,
+        solution: document.getElementById('testSolution').value,
+        createdAt: serverTimestamp()
+      });
+      e.target.reset();
+      refreshAllData();
+    });
+
+    document.getElementById('noticeForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await addDoc(collection(db, "notices"), {
+        title: document.getElementById('noticeTitle').value,
+        tag: document.getElementById('noticeTag').value,
+        link: document.getElementById('noticeLink').value,
+        createdAt: serverTimestamp()
+      });
+      e.target.reset();
+      refreshAllData();
+    });
+
+    refreshAllData();
+  </script>
 </body>
 </html>
