@@ -10,6 +10,41 @@
   
   <!-- CSS -->
   <link rel="stylesheet" href="admin.css">
+<!-- SECURITY GUARD: Firebase Auth Check -->
+<style>
+    /* जब तक चेक नहीं हो जाता कि एडमिन है, तब तक पेज छुपा कर रखो */
+    body { display: none; }
+</style>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    // आपका Firebase कॉन्फ़िगरेशन
+    const firebaseConfig = {
+        apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
+        authDomain: "ajmalmansooriapp.firebaseapp.com",
+        projectId: "ajmalmansooriapp",
+        storageBucket: "ajmalmansooriapp.firebasestorage.app",
+        messagingSenderId: "65419237118",
+        appId: "1:65419237118:web:b815aebf50614cd98237af"
+    };
+
+    // Firebase चालू करें
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // चेक करें कि कोई लॉगिन है या नहीं
+    onAuthStateChanged(auth, (user) => {
+        if (!user) {
+            // अगर लॉगिन नहीं है, तो तुरंत login.html पर वापस भेज दो
+            window.location.replace("login.html"); 
+        } else {
+            // अगर सही एडमिन है, तो पेज को दिखा दो
+            document.body.style.display = "block";
+        }
+    });
+</script>
 </head>
 <body>
 
