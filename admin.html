@@ -7,831 +7,123 @@
   
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    :root {
-      --primary-color: #0f172a;
-      --accent-color: #2563eb;
-      --bg-main: #f8fafc;
-      --border-color: #e2e8f0;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --sidebar-width: 260px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-    }
-
-    body {
-      background-color: var(--bg-main);
-      color: var(--text-main);
-      overflow-x: hidden;
-    }
-
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.4);
-      backdrop-filter: blur(2px);
-      z-index: 99;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .sidebar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: var(--sidebar-width);
-      background: #ffffff;
-      border-right: 1px solid var(--border-color);
-      z-index: 100;
-      display: flex;
-      flex-direction: column;
-      padding: 20px 16px;
-      transform: translateX(-100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.03);
-      overflow-y: auto;
-    }
-
-    .sidebar.open {
-      transform: translateX(0);
-    }
-
-    .sidebar-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 12px;
-      margin-bottom: 20px;
-    }
-
-    .brand-icon-box {
-      width: 38px;
-      height: 38px;
-      background: var(--primary-color);
-      color: #fff;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-    }
-
-    .brand-title {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--text-main);
-      letter-spacing: -0.5px;
-    }
-
-    .sidebar-search {
-      position: relative;
-      margin-bottom: 20px;
-    }
-
-    .sidebar-search i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-      font-size: 0.85rem;
-    }
-
-    .sidebar-search input {
-      width: 100%;
-      padding: 10px 12px 10px 38px;
-      border-radius: 10px;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      font-size: 0.85rem;
-      outline: none;
-      transition: all 0.2s;
-    }
-
-    .sidebar-search input:focus {
-      border-color: var(--accent-color);
-      background: #fff;
-    }
-
-    .menu-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .menu-item a {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      border-radius: 10px;
-      transition: all 0.2s;
-    }
-
-    .menu-item a:hover {
-      background: #f1f5f9;
-      color: var(--text-main);
-    }
-
-    .menu-item.active > a {
-      background: #f1f5f9;
-      color: var(--accent-color);
-      font-weight: 600;
-    }
-
-    .left-icon {
-      margin-right: 12px;
-      width: 18px;
-      font-size: 0.95rem;
-    }
-
-    .wrapper {
-      width: 100%;
-      min-height: 100vh;
-    }
-
-    .top-header {
-      height: 70px;
-      background: #ffffff;
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 24px;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
-
-    .toggle-btn {
-      background: none;
-      border: 1px solid var(--border-color);
-      padding: 8px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-      color: var(--text-main);
-      transition: all 0.2s;
-    }
-
-    .toggle-btn:hover {
-      background: #f1f5f9;
-    }
-
-    .header-search {
-      position: relative;
-      width: 320px;
-    }
-
-    .header-search i {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #94a3b8;
-    }
-
-    .header-search input {
-      width: 100%;
-      padding: 8px 12px 8px 38px;
-      border-radius: 8px;
-      border: 1px solid var(--border-color);
-      background: #f8fafc;
-      font-size: 0.85rem;
-      outline: none;
-    }
-
-    .user-profile-wrapper {
-      position: relative;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 6px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .user-profile:hover {
-      background: #f8fafc;
-      border-color: var(--border-color);
-    }
-
-    .avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #3b82f6;
-      color: #fff;
-      font-weight: 600;
-      font-size: 0.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .profile-name {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .arrow-profile {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-    }
-
-    .profile-dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 120%;
-      right: 0;
-      width: 260px;
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.1);
-      border: 1px solid var(--border-color);
-      z-index: 100;
-      padding: 14px;
-    }
-
-    .profile-dropdown-menu.show {
-      display: block;
-    }
-
-    .profile-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .profile-avatar {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--accent-color);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-    }
-
-    .user-display-name {
-      font-size: 0.95rem;
-      font-weight: 600;
-    }
-
-    .user-email {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .dropdown-divider {
-      border: none;
-      border-top: 1px solid #f1f5f9;
-      margin: 10px 0;
-    }
-
-    .profile-menu-items {
-      list-style: none;
-    }
-
-    .profile-menu-items li a {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      text-decoration: none;
-      border-radius: 8px;
-      transition: background 0.15s;
-    }
-
-    .profile-menu-items li a:hover {
-      background: #f1f5f9;
-    }
-
-    .profile-menu-items li a.logout-item {
-      color: #ef4444;
-    }
-
-    .profile-menu-items li a.logout-item:hover {
-      background: #fef2f2;
-    }
-
-    .main-content {
-      padding: 32px 24px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .tab-section {
-      display: none;
-    }
-
-    .tab-section.active {
-      display: block;
-    }
-
-    .page-head {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .dash-top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 24px;
-    }
-
-    .sub-date {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .btn-filter {
-      background: #fff;
-      border: 1px solid var(--border-color);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-
-    .metric-card {
-      background: #fff;
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 140px;
-    }
-
-    .card-label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .card-val {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-top: 4px;
-    }
-
-    .card-prev {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .card-foot {
-      font-size: 0.75rem;
-      color: #94a3b8;
-      margin-top: 10px;
-    }
-
-    .card-head-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .stat-badge {
-      font-size: 0.75rem;
-      color: #94a3b8;
-    }
-
-    .line-bar-bg {
-      height: 4px;
-      background: #f1f5f9;
-      border-radius: 2px;
-      margin-top: 12px;
-      overflow: hidden;
-    }
-
-    .line-bar-fill {
-      height: 100%;
-      background: var(--accent-color);
-    }
-
-    .data-card-container {
-      background: #ffffff;
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 24px;
-      margin-top: 20px;
-    }
-
-    .btn-action-primary {
-      background: var(--accent-color);
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    /* Table Styles */
-    .custom-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.88rem;
-    }
-    .custom-table th {
-      text-align: left;
-      padding: 12px;
-      background: #f8fafc;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-color);
-      font-weight: 600;
-    }
-    .custom-table td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border-color);
-      color: var(--text-main);
-    }
-    .badge-status {
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-    .badge-success { background: #dcfce7; color: #166534; }
-  </style>
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <div class="sidebar-overlay" id="overlay"></div>
 
-  <!-- Sidebar Navigation Drawer -->
+  <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
       <span class="brand-title">CMS Admin</span>
     </div>
 
-    <div class="sidebar-search">
-      <i class="fa-solid fa-magnifying-glass"></i>
-      <input type="text" placeholder="Search menu...">
-    </div>
-
     <ul class="menu-list">
-      <!-- 1. DASHBOARD -->
-      <li class="menu-item active" data-tab="sec-dashboard">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a>
-      </li>
-
-      <!-- 2. NEWS & UPDATES -->
-      <li class="menu-item" data-tab="sec-news">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> News & Updates</span></a>
-      </li>
-
-      <!-- 3. ADMIT CARD -->
-      <li class="menu-item" data-tab="sec-admit-card">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a>
-      </li>
-
-      <!-- 4. RESULT -->
-      <li class="menu-item" data-tab="sec-result">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a>
-      </li>
-
-      <!-- 5. CUTOFF -->
-      <li class="menu-item" data-tab="sec-cutoff">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Cutoff</span></a>
-      </li>
-
-      <!-- 6. ADMISSION -->
-      <li class="menu-item" data-tab="sec-admission">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-user-graduate left-icon"></i> Admission</span></a>
-      </li>
-
-      <!-- 7. SYLLABUS -->
-      <li class="menu-item" data-tab="sec-syllabus">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-book left-icon"></i> Syllabus</span></a>
-      </li>
-
-      <!-- 8. ANSWER KEY -->
-      <li class="menu-item" data-tab="sec-answer-key">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-key left-icon"></i> Answer Key</span></a>
-      </li>
-
-      <hr style="border:none; border-top: 1px solid var(--border-color); margin: 10px 0;">
-
-      <!-- 9. SETTINGS/PROFILE -->
-      <li class="menu-item" data-tab="sec-profile">
-        <a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a>
-      </li>
+      <li class="menu-item active" data-tab="sec-dashboard"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a></li>
+      <li class="menu-item" data-tab="sec-news"><a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> News & Updates</span></a></li>
+      <li class="menu-item" data-tab="sec-admit-card"><a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a></li>
+      <li class="menu-item" data-tab="sec-result"><a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a></li>
+      <hr style="border-top: 1px solid var(--border-color); margin: 10px 0;">
+      <li class="menu-item" data-tab="sec-profile"><a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a></li>
     </ul>
   </aside>
 
-  <!-- Main Content Layout Wrapper -->
+  <!-- Main Content -->
   <div class="wrapper">
     <header class="top-header">
-      <div class="left-header">
-        <button class="toggle-btn" id="sidebarToggleBtn">
-          <i class="fa-solid fa-bars-staggered"></i>
-        </button>
-      </div>
-
-      <div class="header-search">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" placeholder="Search ⌘/">
-      </div>
-
+      <button class="toggle-btn" id="sidebarToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
       <div class="header-right">
-        <div class="user-profile-wrapper">
-          <div class="user-profile" id="profileDropdownBtn">
-            <div class="avatar">AM</div>
-            <span class="profile-name">Ajmal Mansoori</span>
-            <i class="fa-solid fa-chevron-down arrow-profile"></i>
-          </div>
-
-          <div class="profile-dropdown-menu" id="profileDropdownMenu">
-            <div class="profile-header">
-              <div class="profile-avatar">AM</div>
-              <div class="profile-info">
-                <h4 class="user-display-name">Ajmal Mansoori</h4>
-                <p class="user-email">admin@ajmalmansoori.com</p>
-              </div>
-            </div>
-            <hr class="dropdown-divider">
-            <ul class="profile-menu-items">
-              <li>
-                <a href="#" id="profileMenuLink">
-                  <i class="fa-regular fa-user"></i> My Profile
-                </a>
-              </li>
-              <li>
-                <a href="#" id="logoutBtn" class="logout-item">
-                  <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </a>
-              </li>
-            </ul>
-          </div>
+        <div class="user-profile" id="profileDropdownBtn">
+          <div class="avatar">AM</div>
+          <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
         </div>
       </div>
     </header>
 
     <main class="main-content">
-
-      <!-- DASHBOARD TAB (Updated Metrics) -->
+      
+      <!-- DASHBOARD TAB -->
       <div id="sec-dashboard" class="tab-section active">
-        <div class="dash-top-bar">
-          <div>
-            <h1 class="page-head">Analytics Overview</h1>
-            <p class="sub-date">Real-time metrics for ajmalmansoori.vercel.app</p>
-          </div>
-          <button class="btn-filter"><i class="fa-solid fa-rotate-right"></i> Refresh</button>
-        </div>
-
+        <h1 class="page-head">Analytics Overview</h1>
+        <p class="sub-date">Real-time metrics from Firebase</p>
+        
         <div class="metrics-grid">
-          <!-- Total Website Views -->
           <div class="metric-card">
-            <div class="card-head-row">
-              <span class="card-label">Total Website Views</span>
-              <span class="stat-badge">▲ 15%</span>
-            </div>
-            <div>
-              <div class="card-val">125K+</div>
-              <div class="card-prev">Lifetime visits</div>
-            </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 85%;"></div></div>
+            <div class="card-label">Total Website Views</div>
+            <div class="card-val" id="totalViewsCount">Loading...</div>
           </div>
-
-          <!-- AdSense Revenue -->
           <div class="metric-card">
-            <div class="card-head-row">
-              <span class="card-label">AdSense Revenue</span>
-              <span class="stat-badge">▶ Pending Setup</span>
-            </div>
-            <div>
-              <div class="card-val">$0.00</div>
-              <div class="card-prev">Link Google AdSense to track</div>
-            </div>
-            <div class="line-bar-bg"><div class="line-bar-fill" style="width: 0%;"></div></div>
-          </div>
-
-          <!-- Total Published Posts -->
-          <div class="metric-card">
-            <div class="card-head-row">
-              <span class="card-label">Total Published Posts</span>
-              <span class="stat-badge">▲ Active</span>
-            </div>
-            <div>
-              <div class="card-val">342</div>
-              <div class="card-prev">Across all categories</div>
-            </div>
-            <div class="card-foot">News, Results, Admit Cards etc.</div>
+            <div class="card-label">Total Published Posts</div>
+            <div class="card-val" id="totalPostsCount">Loading...</div>
           </div>
         </div>
       </div>
 
-      <!-- NEWS SECTION -->
+      <!-- NEWS / ADD POST SECTION -->
       <div id="sec-news" class="tab-section">
         <div class="dash-top-bar">
           <h2 class="page-head">News & Updates</h2>
-          <button class="btn-action-primary">+ Add New Post</button>
+          <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
         </div>
+
+        <!-- Add Post Form (Hidden by default) -->
+        <div id="addPostFormContainer" style="display: none; background: #fff; padding: 20px; border-radius: 10px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
+          <h3>Create New Post</h3>
+          <form id="addPostForm">
+            <div class="input-group">
+              <label>Post Title</label>
+              <input type="text" id="postTitle" required placeholder="Enter title (e.g. CUET UG Notification)">
+            </div>
+            <div class="input-group">
+              <label>Category</label>
+              <select id="postCategory" required style="padding: 10px; border-radius: 8px; border: 1px solid #ccc;">
+                <option value="News">News</option>
+                <option value="Admit Card">Admit Card</option>
+                <option value="Result">Result</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Link / URL</label>
+              <input type="url" id="postLink" placeholder="https://...">
+            </div>
+            <button type="submit" class="btn-action-primary">Publish Post</button>
+            <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
+            <p id="postStatusMsg" style="color: green; margin-top: 10px; display: none;">Post Published Successfully!</p>
+          </form>
+        </div>
+
         <div class="data-card-container">
-          <table class="custom-table">
-            <thead><tr><th>Title</th><th>Category</th><th>Date</th><th>Status</th></tr></thead>
-            <tbody>
-              <tr><td>CUET UG 2026 Notification Released</td><td>News</td><td>Today</td><td><span class="badge-status badge-success">Published</span></td></tr>
-            </tbody>
-          </table>
+          <p>Recent posts will appear here (Fetch code can be added in JS).</p>
         </div>
-      </div>
-
-      <!-- ADMIT CARD SECTION -->
-      <div id="sec-admit-card" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Admit Cards</h2>
-          <button class="btn-action-primary">+ Add Admit Card</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Manage Hall Tickets and Admit Card download links here.</p></div>
-      </div>
-
-      <!-- RESULT SECTION -->
-      <div id="sec-result" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Exam Results</h2>
-          <button class="btn-action-primary">+ Update Result</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Post latest exam results and merit lists.</p></div>
-      </div>
-
-      <!-- CUTOFF SECTION -->
-      <div id="sec-cutoff" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Cutoff Marks</h2>
-          <button class="btn-action-primary">+ Add Cutoff</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Publish category-wise cutoff marks for university admissions.</p></div>
-      </div>
-
-      <!-- ADMISSION SECTION -->
-      <div id="sec-admission" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Admission Updates</h2>
-          <button class="btn-action-primary">+ Add Admission</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Manage university and college admission forms.</p></div>
-      </div>
-
-      <!-- SYLLABUS SECTION -->
-      <div id="sec-syllabus" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Syllabus</h2>
-          <button class="btn-action-primary">+ Upload Syllabus</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Upload PDF files for exam syllabus.</p></div>
-      </div>
-
-      <!-- ANSWER KEY SECTION -->
-      <div id="sec-answer-key" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Answer Keys</h2>
-          <button class="btn-action-primary">+ Add Answer Key</button>
-        </div>
-        <div class="data-card-container"><p style="color: var(--text-muted);">Upload official answer keys after exams.</p></div>
       </div>
 
       <!-- PROFILE SETTINGS TAB -->
       <div id="sec-profile" class="tab-section">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Profile & Settings</h2>
-        </div>
+        <h2 class="page-head">Profile Settings</h2>
         <div class="data-card-container">
-          <p style="color: var(--text-muted);">Configure your admin details, password, and website general settings here.</p>
+          <form id="profileUpdateForm">
+            <div class="input-group">
+              <label>Full Name</label>
+              <input type="text" id="adminName" required>
+            </div>
+            <div class="input-group">
+              <label>Email</label>
+              <input type="email" id="adminEmail" required>
+            </div>
+            <button type="submit" class="btn-action-primary">Update Profile</button>
+            <p id="profileStatusMsg" style="color: green; margin-top: 10px; display: none;">Profile Updated in Firebase!</p>
+          </form>
         </div>
       </div>
 
     </main>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
-      authDomain: "ajmalmansooriapp.firebaseapp.com",
-      projectId: "ajmalmansooriapp",
-      storageBucket: "ajmalmansooriapp.firebasestorage.app",
-      messagingSenderId: "65419237118",
-      appId: "1:65419237118:web:b815aebf50614cd98237af"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    // Sidebar Drawer Control
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleBtn = document.getElementById('sidebarToggleBtn');
-
-    function toggleSidebar() {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('active');
-    }
-
-    toggleBtn.addEventListener('click', toggleSidebar);
-    overlay.addEventListener('click', toggleSidebar);
-
-    // Tab Switching System (Simplified for flat menu)
-    function switchTab(targetTabId) {
-      document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-      document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
-
-      const targetSection = document.getElementById(targetTabId);
-      if (targetSection) {
-        targetSection.classList.add('active');
-      }
-
-      if (sidebar.classList.contains('open')) {
-        toggleSidebar();
-      }
-    }
-
-    // Click Listeners for Sidebar Links
-    document.querySelectorAll('.menu-list > .menu-item').forEach(item => {
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        const tabId = item.getAttribute('data-tab');
-        item.classList.add('active');
-        switchTab(tabId);
-      });
-    });
-
-    // Profile Header Dropdown Widget
-    const profileDropdownBtn = document.getElementById('profileDropdownBtn');
-    const profileDropdownMenu = document.getElementById('profileDropdownMenu');
-
-    profileDropdownBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      profileDropdownMenu.classList.toggle('show');
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!profileDropdownMenu.contains(e.target) && !profileDropdownBtn.contains(e.target)) {
-        profileDropdownMenu.classList.remove('show');
-      }
-    });
-
-    // Open Profile Tab from Dropdown Menu
-    document.getElementById('profileMenuLink').addEventListener('click', (e) => {
-      e.preventDefault();
-      profileDropdownMenu.classList.remove('show');
-      document.querySelector('[data-tab="sec-profile"]').classList.add('active');
-      switchTab('sec-profile');
-    });
-
-    // Logout Handler
-    document.getElementById('logoutBtn').addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('Logged out successfully!');
-    });
-  </script>
+  <!-- JS -->
+  <script type="module" src="app.js"></script>
 </body>
 </html>
