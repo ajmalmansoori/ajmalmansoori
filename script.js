@@ -257,3 +257,207 @@ document.querySelectorAll(".new-badge").forEach(badge => {
     }, 2500);
 
 });
+// ==========================================
+// OUR TEAM SECTION
+// ==========================================
+
+// Select Team Cards
+const teamCards = document.querySelectorAll(".team-card");
+
+// =============================
+// Scroll Reveal Animation
+// =============================
+
+const teamObserver = new IntersectionObserver((entries) => {
+
+    entries.forEach(entry => {
+
+        if(entry.isIntersecting){
+
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0px)";
+
+            teamObserver.unobserve(entry.target);
+
+        }
+
+    });
+
+},{
+    threshold:0.2
+});
+
+teamCards.forEach((card,index)=>{
+
+    card.style.opacity="0";
+    card.style.transform="translateY(60px)";
+    card.style.transition=`all .7s ease ${index*0.15}s`;
+
+    teamObserver.observe(card);
+
+});
+
+// =============================
+// Mouse Glow Effect
+// =============================
+
+teamCards.forEach(card=>{
+
+    card.addEventListener("mousemove",(e)=>{
+
+        const rect=card.getBoundingClientRect();
+
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+
+        card.style.background=`
+        radial-gradient(
+        circle at ${x}px ${y}px,
+        rgba(32,255,105,.12),
+        #101010 65%)`;
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.background="#101010";
+
+    });
+
+});
+
+// =============================
+// 3D Tilt Effect
+// =============================
+
+teamCards.forEach(card=>{
+
+    card.addEventListener("mousemove",(e)=>{
+
+        const rect=card.getBoundingClientRect();
+
+        const x=e.clientX-rect.left;
+        const y=e.clientY-rect.top;
+
+        const rotateY=((x-rect.width/2)/20);
+        const rotateX=((rect.height/2-y)/20);
+
+        card.style.transform=
+        `perspective(1000px)
+        rotateX(${rotateX}deg)
+        rotateY(${rotateY}deg)
+        translateY(-10px)`;
+
+    });
+
+    card.addEventListener("mouseleave",()=>{
+
+        card.style.transform=
+        "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)";
+
+    });
+
+});
+
+// =============================
+// Floating Social Icons
+// =============================
+
+document.querySelectorAll(".team-overlay a").forEach(icon=>{
+
+    icon.addEventListener("mouseenter",()=>{
+
+        icon.animate([
+            {transform:"translateY(0px)"},
+            {transform:"translateY(-8px)"},
+            {transform:"translateY(0px)"}
+        ],{
+
+            duration:400
+
+        });
+
+    });
+
+});
+
+// =============================
+// Team Heading Animation
+// =============================
+
+const teamHeading=document.querySelector(".team-heading");
+
+const headingObserver=new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+teamHeading.animate([
+
+{
+opacity:0,
+transform:"translateY(40px)"
+},
+
+{
+opacity:1,
+transform:"translateY(0px)"
+}
+
+],{
+
+duration:800,
+fill:"forwards"
+
+});
+
+headingObserver.unobserve(teamHeading);
+
+}
+
+});
+
+});
+
+if(teamHeading){
+
+headingObserver.observe(teamHeading);
+
+}
+
+// =============================
+// Premium Pulse Effect
+// =============================
+
+setInterval(()=>{
+
+teamCards.forEach(card=>{
+
+card.animate([
+
+{
+boxShadow:"0 0 0 rgba(32,255,105,0)"
+},
+
+{
+boxShadow:"0 0 35px rgba(32,255,105,.18)"
+},
+
+{
+boxShadow:"0 0 0 rgba(32,255,105,0)"
+}
+
+],{
+
+duration:2500
+
+});
+
+});
+
+},5000);
+
+// ==========================================
+// END
+// ==========================================
