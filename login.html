@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login | Learnify Classes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: #0F172A; display: flex; align-items: center; justify-content: center; height: 100vh; }
+    .login-box { background: #FFFFFF; padding: 35px; border-radius: 12px; width: 100%; max-width: 400px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+    .login-box h2 { color: #0F172A; margin-bottom: 8px; }
+    .login-box p { font-size: 0.85rem; color: #64748B; margin-bottom: 20px; }
+    .login-input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #CBD5E1; border-radius: 8px; outline: none; font-size: 0.95rem; }
+    .btn-login { background: #6366F1; color: white; border: none; padding: 12px; border-radius: 8px; width: 100%; font-weight: 600; cursor: pointer; font-size: 1rem; }
+    .btn-login:hover { background: #4F46E5; }
+    .error-msg { color: #EF4444; font-size: 0.85rem; margin-top: 10px; display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>Admin Login</h2>
+    <p>Enter your credentials to access CMS</p>
+    <form id="loginForm">
+      <input type="email" id="loginEmail" class="login-input" placeholder="Admin Email" required>
+      <input type="password" id="loginPassword" class="login-input" placeholder="Password" required>
+      <button type="submit" class="btn-login">Login to Dashboard</button>
+    </form>
+    <div id="errorMsg" class="error-msg">Invalid Email or Password!</div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
+      authDomain: "ajmalmansooriapp.firebaseapp.com",
+      projectId: "ajmalmansooriapp",
+      storageBucket: "ajmalmansooriapp.firebasestorage.app",
+      messagingSenderId: "65419237118",
+      appId: "1:65419237118:web:b815aebf50614cd98237af"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.style.display = 'none';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // Login Successful - Redirect to admin dashboard
+        window.location.href = "admin.html";
+      } catch (err) {
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
