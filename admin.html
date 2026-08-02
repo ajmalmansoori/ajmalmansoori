@@ -109,76 +109,104 @@
 
     <!-- Main Content Container -->
     <div class="content">
+<!-- ================= 1. DASHBOARD TAB (Analytics) ================= -->
+<div id="sec-dashboard" class="tab-section active">
+  
+  <!-- Analytics Top Bar -->
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 25px;">
+    <div>
+      <h1 style="font-size: 2rem; font-weight: 700; color: #111827; margin-bottom: 4px;">Analytics</h1>
+      <p style="color: #6B7280; font-size: 0.95rem; font-weight: 500;" id="analyticsDate">2nd Aug 2026</p>
+    </div>
+    
+    <button style="background: #FFFFFF; border: 1px solid #E5E7EB; padding: 8px 16px; border-radius: 8px; font-weight: 600; color: #374151; display: flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+      <i class="fa-solid fa-sliders" style="color: #6B7280;"></i> Filters
+    </button>
+  </div>
 
-      <!-- ================= 1. DASHBOARD TAB ================= -->
-      <div id="sec-dashboard" class="tab-section active">
-        <div class="page-header">
-          <div class="page-title">
-            <h2>Analytics & Overview</h2>
-            <p id="currentDate"></p>
-          </div>
-        </div>
-
-        <div class="metrics-grid">
-          <div class="card">
-            <div class="card-header"><span>Rank</span><i class="fa-solid fa-trophy"></i></div>
-            <div class="card-value">#1</div>
-            <div class="card-footer">Top Performing Platform</div>
-          </div>
-          <div class="card">
-            <div class="card-header"><span>Active Materials</span><span style="color:#10B981;">Live</span></div>
-            <div class="card-value" id="totalMaterialsCount">0</div>
-            <div class="card-footer">Published on website</div>
-          </div>
-          <div class="card">
-            <div class="card-header"><span>Active Batches</span><span style="color:#6366F1;">Courses</span></div>
-            <div class="card-value" id="totalCoursesCount">0</div>
-            <div class="card-footer">Target Batches Live</div>
-          </div>
-          <div class="card">
-            <div class="card-header"><span>Test Series</span><span style="color:#F59E0B;">Active</span></div>
-            <div class="card-value" id="totalTestsCount">0</div>
-            <div class="card-footer">MCQ Booklets</div>
-          </div>
-        </div>
-
-        <div class="section-grid">
-          <div class="card">
-            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Add New Material</h3>
-            <form id="contentForm">
-              <div class="form-group">
-                <label>Content Title</label>
-                <input type="text" id="title" required placeholder="e.g. CUET UG 2026 History Chapter 1">
-              </div>
-              <div class="form-group">
-                <label>Category</label>
-                <select id="category">
-                  <option value="CUET UG">CUET UG</option>
-                  <option value="AU PGAT">AU PGAT</option>
-                  <option value="Class 10">Class 10</option>
-                  <option value="General Notice">General Notice</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>PDF / Drive Link</label>
-                <input type="url" id="link" required placeholder="https://drive.google.com/...">
-              </div>
-              <div class="form-group">
-                <label>Description</label>
-                <textarea id="description" rows="3" placeholder="Brief description..."></textarea>
-              </div>
-              <button type="submit" class="btn-primary">Publish Material</button>
-            </form>
-          </div>
-
-          <div class="card">
-            <h3 style="margin-bottom: 15px; font-size: 1.1rem;">Published Materials</h3>
-            <div class="item-list" id="contentList">
-              <p style="color: #64748B; font-size: 0.9rem;">Loading live data...</p>
-            </div>
-          </div>
-        </div>
+  <!-- Top Metrics Grid (4 Cards) -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 35px;">
+    
+    <!-- 1. Rank Card -->
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+      <div style="color: #6B7280; font-size: 0.95rem; font-weight: 500;">Rank</div>
+      <div>
+        <div style="font-size: 2.2rem; font-weight: 700; color: #111827; letter-spacing: -0.5px;">#5,085</div>
+        <div style="color: #9CA3AF; font-size: 0.8rem; margin-top: 4px;">Previous: 5,090</div>
       </div>
+      <div style="text-align: right; color: #9CA3AF; font-size: 0.72rem;">Updates every 24hrs</div>
+    </div>
+
+    <!-- 2. Sales Volume Card -->
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; color: #6B7280; font-size: 0.95rem; font-weight: 500;">
+        <span>Sales Volume</span>
+        <span style="font-size: 0.85rem; font-weight: 600; color: #374151;">▶ 0%</span>
+      </div>
+      <div>
+        <div style="font-size: 2.2rem; font-weight: 700; color: #111827;">0</div>
+        <div style="color: #9CA3AF; font-size: 0.8rem; margin-top: 4px;">Previous: 0</div>
+      </div>
+      <!-- Progress/Graph Line -->
+      <div style="width: 100%; background: #F3F4F6; height: 3px; border-radius: 2px; overflow: hidden;">
+        <div style="width: 40%; background: #8B5CF6; height: 100%; border-radius: 2px; margin-left: auto;"></div>
+      </div>
+    </div>
+
+    <!-- 3. Revenue Card -->
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; color: #6B7280; font-size: 0.95rem; font-weight: 500;">
+        <span>Revenue</span>
+        <span style="font-size: 0.85rem; font-weight: 600; color: #374151;">▶ 0%</span>
+      </div>
+      <div>
+        <div style="font-size: 2.2rem; font-weight: 700; color: #111827;">₹0</div>
+        <div style="color: #9CA3AF; font-size: 0.8rem; margin-top: 4px;">Previous: 0</div>
+      </div>
+      <!-- Progress/Graph Line -->
+      <div style="width: 100%; background: #F3F4F6; height: 3px; border-radius: 2px; overflow: hidden;">
+        <div style="width: 35%; background: #8B5CF6; height: 100%; border-radius: 2px; margin-left: auto;"></div>
+      </div>
+    </div>
+
+    <!-- 4. Signups Card -->
+    <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; flex-direction: column; justify-content: space-between; min-height: 150px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; color: #6B7280; font-size: 0.95rem; font-weight: 500;">
+        <span>Signups</span>
+        <span style="font-size: 0.85rem; font-weight: 600; color: #374151;">▶ 0%</span>
+      </div>
+      <div>
+        <div style="font-size: 2.2rem; font-weight: 700; color: #111827;">0</div>
+        <div style="color: #9CA3AF; font-size: 0.8rem; margin-top: 4px;">Previous: 0</div>
+      </div>
+      <!-- Progress/Graph Line -->
+      <div style="width: 100%; background: #F3F4F6; height: 3px; border-radius: 2px; overflow: hidden;">
+        <div style="width: 30%; background: #8B5CF6; height: 100%; border-radius: 2px; margin-left: auto;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Analysis Section Header & Dropdown Filter -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2 style="font-size: 1.5rem; font-weight: 700; color: #111827;">Analysis</h2>
+    
+    <div style="position: relative; width: 160px;">
+      <select style="width: 100%; padding: 8px 16px; border: 1px solid #E5E7EB; border-radius: 8px; background: #FFFFFF; color: #374151; font-weight: 500; appearance: none; outline: none; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+        <option value="sales">Sales</option>
+        <option value="signups">Signups</option>
+        <option value="revenue">Revenue</option>
+      </select>
+      <i class="fa-solid fa-chevron-down" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: #9CA3AF; pointer-events: none; font-size: 0.8rem;"></i>
+    </div>
+  </div>
+
+  <!-- Analysis Graph Container -->
+  <div style="background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; padding: 25px; min-height: 280px; box-shadow: 0 1px 3px rgba(0,0,0,0.02); display: flex; align-items: center; justify-content: center;">
+    <p style="color: #9CA3AF; font-size: 0.95rem;">Graph/Data chart view area</p>
+  </div>
+
+</div>
 
       <!-- ================= 2. COURSES TAB ================= -->
       <div id="sec-courses" class="tab-section">
