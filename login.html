@@ -30,38 +30,6 @@
     <div id="errorMsg" class="error-msg">Invalid Email or Password!</div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
-      authDomain: "ajmalmansooriapp.firebaseapp.com",
-      projectId: "ajmalmansooriapp",
-      storageBucket: "ajmalmansooriapp.firebasestorage.app",
-      messagingSenderId: "65419237118",
-      appId: "1:65419237118:web:b815aebf50614cd98237af"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const errorMsg = document.getElementById('errorMsg');
-      errorMsg.style.display = 'none';
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        // Login Successful - Redirect to admin dashboard
-        window.location.href = "admin.html";
-      } catch (err) {
-        errorMsg.style.display = 'block';
-      }
-    });
-  </script>
   <script type="module" src="admin.js"></script>
 </body>
 </html>
