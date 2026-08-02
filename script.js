@@ -41,12 +41,7 @@ const browseSwiper = new Swiper(".browseSwiper", {
         nextEl: ".next-btn",
         prevEl: ".prev-btn",
     },
-
-    pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-    },
-
+    
     breakpoints: {
 
         0: {
