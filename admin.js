@@ -1,189 +1,133 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase Config
 const firebaseConfig = {
-  apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
+  apiKey: "AIzaSyCLRNa0XSg0WTdd_dOduSvm1-YKDMKlk0M",
   authDomain: "ajmalmansooriapp.firebaseapp.com",
   projectId: "ajmalmansooriapp",
   storageBucket: "ajmalmansooriapp.firebasestorage.app",
   messagingSenderId: "65419237118",
-  appId: "1:65419237118:web:b815aebf50614cd98237af",
-  measurementId: "G-ZYW4JN8CW2"
+  appId: "1:65419237118:web:b815aebf50614cd98237af"
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 1. SMART AUTH ROUTING (No Loop)
-onAuthStateChanged(auth, (user) => {
-  const currentPath = window.location.pathname;
+// DOM Elements
+const sidebar = document.getElementById('sidebar');
+const overlay = document.getElementById('overlay');
+const toggleBtn = document.getElementById('sidebarToggleBtn');
 
-  if (user) {
-    if (currentPath.includes("login.html")) {
-      window.location.href = "admin.html";
-    } else if (currentPath.includes("admin.html")) {
-      loadData();
-    }
-  } else {
-    if (currentPath.includes("admin.html")) {
-      window.location.href = "login.html";
-    }
-  }
-});
-
-// 2. LOGIN LOGIC
-const loginForm = document.getElementById('loginForm');
-if (loginForm) {
-  loginForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value.trim();
-    const errorMsg = document.getElementById('errorMsg');
-
-    if (errorMsg) errorMsg.style.display = 'none';
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      window.location.href = "admin.html";
-    } catch (err) {
-      console.error("Firebase Login Error:", err.code, err.message);
-      if (errorMsg) {
-        errorMsg.innerText = "Error: " + err.message;
-        errorMsg.style.display = 'block';
-      }
-    }
-  });
+// Slide-out Drawer Functions
+function toggleSidebar() {
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('active');
 }
 
-// 3. ADMIN DASHBOARD - ADD & LOAD DATA
-const contentForm = document.getElementById('contentForm');
-if (contentForm) {
-  contentForm.addEventListener('submit', async (e) => {
+toggleBtn.addEventListener('click', toggleSidebar);
+overlay.addEventListener('click', toggleSidebar);
+
+// Tab Navigation
+document.querySelectorAll('.menu-item').forEach(item => {
+  item.addEventListener('click', (e) => {
     e.preventDefault();
-    try {
-      await addDoc(collection(db, "materials"), {
-        title: document.getElementById('title').value,
-        category: document.getElementById('category').value,
-        link: document.getElementById('link').value,
-        description: document.getElementById('description').value,
-        createdAt: serverTimestamp()
+    const tabId = item.getAttribute('data-tab');
+
+    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+    document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active'));
+
+    item.classList.add('active');
+    if (document.getElementById(tabId)) {
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    // Close sliding sidebar on selection
+    toggleSidebar();
+  });
+});
+
+// Fetch Data Helper
+async function loadData(colName, containerId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  try {
+    const snap = await getDocs(collection(db, colName));
+    container.innerHTML = snap.empty ? `<p style="color:#6B7280; font-size:0.85rem;">No entries found.</p>` : "";
+
+    snap.forEach(docSnap => {
+      const item = docSnap.data();
+      const div = document.createElement('div');
+      div.className = 'data-item';
+      div.innerHTML = `
+        <div>
+          <strong style="font-size:0.9rem;">${item.title}</strong>
+          <p style="font-size:0.78rem; color:#6B7280;">${item.category || item.tag || 'General'}</p>
+        </div>
+        <button class="btn-del" data-col="${colName}" data-id="${docSnap.id}">Delete</button>
+      `;
+      container.appendChild(div);
+    });
+
+    // Delete Buttons Event
+    container.querySelectorAll('.btn-del').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        if (confirm("Delete this entry?")) {
+          await deleteDoc(doc(db, btn.getAttribute('data-col'), btn.getAttribute('data-id')));
+          refreshData();
+        }
       });
-      contentForm.reset();
-      loadData();
-    } catch (err) {
-      alert("Publish Error: " + err.message);
-    }
-  });
-}
-
-async function loadData() {
-  const list = document.getElementById('contentList');
-  const totalMaterialsCount = document.getElementById('totalMaterialsCount');
-  if (!list) return;
-
-  list.innerHTML = "Loading live data...";
-  const snapshot = await getDocs(collection(db, "materials"));
-  list.innerHTML = "";
-
-  let count = 0;
-  if (snapshot.empty) {
-    list.innerHTML = `<p style="color: #64748B;">No materials added yet.</p>`;
-    if (totalMaterialsCount) totalMaterialsCount.innerText = "0";
-    return;
+    });
+  } catch (err) {
+    console.error("Firebase fetch error:", err);
   }
+}
 
-  snapshot.forEach(docSnap => {
-    count++;
-    const item = docSnap.data();
-    list.innerHTML += `
-      <div class="data-item">
-        <div class="data-info">
-          <div style="display:flex; align-items:center; gap:8px; margin-bottom: 4px;">
-            <span class="badge">${item.category}</span>
-            <h4>${item.title}</h4>
-          </div>
-          <p>${item.description || ''}</p>
-        </div>
-        <div style="display:flex; gap:10px; align-items:center;">
-          <a href="${item.link}" target="_blank" style="color: #6366F1;"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open</a>
-          <button class="btn-delete" onclick="deleteItem('${docSnap.id}')"><i class="fa-solid fa-trash"></i></button>
-        </div>
-      </div>
-    `;
+function refreshData() {
+  loadData("courses", "coursesList");
+  loadData("tests", "testsList");
+  loadData("notices", "noticesList");
+}
+
+// Form Submissions
+document.getElementById('courseForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await addDoc(collection(db, "courses"), {
+    title: document.getElementById('courseTitle').value,
+    category: document.getElementById('courseCategory').value,
+    price: document.getElementById('coursePrice').value,
+    link: document.getElementById('courseLink').value,
+    createdAt: serverTimestamp()
   });
-  if (totalMaterialsCount) totalMaterialsCount.innerText = count;
-}
-
-window.deleteItem = async (id) => {
-  if (confirm("Delete this material?")) {
-    await deleteDoc(doc(db, "materials", id));
-    loadData();
-  }
-};
-// Toggle Custom Title Input Field
-function toggleCustomTitleField() {
-    const noticeType = document.getElementById('noticeType').value;
-    const customGroup = document.getElementById('customTypeGroup');
-    if (noticeType === 'Custom') {
-        customGroup.style.display = 'block';
-    } else {
-        customGroup.style.display = 'none';
-    }
-}
-
-// Toggle Custom Date Field
-function toggleCustomDateField() {
-    const isAuto = document.getElementById('autoTiming').checked;
-    const customDateGroup = document.getElementById('customDateGroup');
-    if (isAuto) {
-        customDateGroup.style.display = 'none';
-    } else {
-        customDateGroup.style.display = 'block';
-    }
-}
-
-// Form Submission Handler
-document.getElementById('announcementForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const title = document.getElementById('noticeTitle').value;
-    const typeSelect = document.getElementById('noticeType').value;
-    const customType = document.getElementById('customNoticeType').value;
-    const badge = document.getElementById('alertBadge').value;
-    const isAutoTiming = document.getElementById('autoTiming').checked;
-    const customTime = document.getElementById('customDateTime').value;
-    const link = document.getElementById('noticeLink').value;
-    const description = document.getElementById('noticeDescription').value;
-
-    // Notice Type Final Value
-    const finalNoticeType = (typeSelect === 'Custom') ? customType : typeSelect;
-
-    // Timing Final Value
-    let finalTimestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
-    if (!isAutoTiming && customTime) {
-        finalTimestamp = new Date(customTime).toLocaleString('en-IN');
-    }
-
-    // Announcement Payload Object
-    const newNotice = {
-        title: title,
-        noticeType: finalNoticeType,
-        badgeTag: badge,
-        timestamp: finalTimestamp,
-        link: link,
-        description: description
-    };
-
-    console.log("Publishing Notice Data:", newNotice);
-
-    // Alert for testing
-    alert("Notice Published Successfully!");
-
-    // Optional: Reset form
-    this.reset();
-    toggleCustomTitleField();
-    toggleCustomDateField();
+  e.target.reset();
+  refreshData();
 });
+
+document.getElementById('testForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await addDoc(collection(db, "tests"), {
+    title: document.getElementById('testTitle').value,
+    category: document.getElementById('testCategory').value,
+    link: document.getElementById('testLink').value,
+    createdAt: serverTimestamp()
+  });
+  e.target.reset();
+  refreshData();
+});
+
+document.getElementById('announcementForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  await addDoc(collection(db, "notices"), {
+    title: document.getElementById('noticeTitle').value,
+    tag: document.getElementById('alertBadge').value,
+    link: document.getElementById('noticeLink').value,
+    description: document.getElementById('noticeDescription').value,
+    createdAt: serverTimestamp()
+  });
+  e.target.reset();
+  refreshData();
+});
+
+// Initial Load
+refreshData();
