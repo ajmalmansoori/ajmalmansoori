@@ -2383,5 +2383,16 @@ width:100%;
 .section-title h2{
     font-size:30px;
 }
+    
+.feature-card{
+    opacity:0;
+    transform:translateY(40px);
+}
 
+
+.feature-card.show{
+    opacity:1;
+    transform:translateY(0);
+    transition:.6s ease;
+}
 }
