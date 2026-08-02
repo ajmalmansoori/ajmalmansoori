@@ -31,28 +31,34 @@
 <body>
 
     <div class="login-container">
+        <!-- Logo -->
         <div class="brand-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+        
+        <!-- Header -->
         <div class="login-header">
             <h2>Welcome Back</h2>
             <p>Please sign in to access the dashboard</p>
         </div>
 
+        <!-- Login Form -->
         <form id="loginForm">
             <div class="input-group">
                 <input type="email" id="emailField" placeholder="Admin Email" required>
                 <i class="fa-regular fa-envelope main-icon"></i>
             </div>
+            
             <div class="input-group">
                 <input type="password" id="passwordField" placeholder="Password" required>
                 <i class="fa-solid fa-lock main-icon"></i>
                 <i class="fa-regular fa-eye-slash toggle-password" id="togglePasswordBtn"></i>
             </div>
+            
             <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
             <p id="errorMsg"></p>
         </form>
     </div>
 
-    <!-- UI Script -->
+    <!-- UI Script: Toggle Password -->
     <script>
         const passwordField = document.getElementById('passwordField');
         const togglePasswordBtn = document.getElementById('togglePasswordBtn');
@@ -69,6 +75,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+        // आपकी एकदम सही Firebase Settings
         const firebaseConfig = {
             apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
             authDomain: "ajmalmansooriapp.firebaseapp.com",
@@ -88,21 +95,35 @@
 
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const email = document.getElementById('emailField').value;
-            const password = document.getElementById('passwordField').value;
+            
+            const email = document.getElementById('emailField').value.trim();
+            const password = document.getElementById('passwordField').value.trim();
             
             loginBtn.innerText = "Signing in...";
             errorMsg.style.display = "none";
 
             signInWithEmailAndPassword(auth, email, password)
                 .then(() => {
+                    // लॉगिन सही होने पर admin.html पर जाएगा
                     window.location.href = "admin.html"; 
                 })
                 .catch((error) => {
                     const errorCode = error.code;
-                    if (errorCode === 'auth/user-not-found') errorMsg.innerText = "Invalid User: ईमेल रजिस्टर नहीं है!";
-                    else if (errorCode === 'auth/wrong-password') errorMsg.innerText = "Invalid Password: गलत पासवर्ड!";
-                    else errorMsg.innerText = "Error: ईमेल या पासवर्ड गलत है!";
+                    console.error("Firebase Login Error: ", errorCode);
+                    
+                    // अलग-अलग एरर मैसेज
+                    if (errorCode === 'auth/user-not-found') {
+                        errorMsg.innerText = "Invalid User: यह ईमेल रजिस्टर नहीं है!";
+                    } 
+                    else if (errorCode === 'auth/wrong-password') {
+                        errorMsg.innerText = "Invalid Password: आपने गलत पासवर्ड डाला है!";
+                    } 
+                    else if (errorCode === 'auth/invalid-credential') {
+                        errorMsg.innerText = "Error: ईमेल या पासवर्ड गलत है!";
+                    } 
+                    else {
+                        errorMsg.innerText = "Login Failed: कृपया दोबारा प्रयास करें!";
+                    }
                     
                     errorMsg.style.display = "block";
                     loginBtn.innerText = "Sign In";
