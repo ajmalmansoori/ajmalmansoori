@@ -1,97 +1,175 @@
 /*=========================================
-        GLOBAL & CONTAINER SETTINGS
+        PREMIUM RECRUITMENT PAGE CSS
+        (Matched with Index Theme)
 =========================================*/
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --dark-bg: #0a0a0a;
+    --darker-bg: #050505;
+    --accent: #2ecc71;
+    --accent-glow: rgba(46, 206, 113, 0.4);
+    --text: #ffffff;
+    --text-muted: #a8a8a8;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 body {
-    background: #050505;
-    color: #e4e4e4;
+    background: var(--dark-bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
 }
 
+/* Scrollbar Match */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 20px; }
+::-webkit-scrollbar-track { background: #111; }
+
 .container {
-    max-width: 1000px;
+    width: 90%;
+    max-width: 1100px;
     margin: 0 auto;
-    padding: 0 20px;
+    position: relative;
+    z-index: 2;
 }
 
 /*=========================================
-        RECRUITMENT DETAILS PAGE
+        PAGE BACKGROUND & GLOW
 =========================================*/
 .recruitment-page {
-    padding: 80px 0;
-    background: #050505;
+    padding: 100px 0;
+    background: var(--darker-bg);
+    position: relative;
+    overflow: hidden;
 }
 
+/* Premium Background Glow Effect */
+.recruitment-page::before {
+    content: "";
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    background: rgba(46, 206, 113, 0.08);
+    border-radius: 50%;
+    top: -100px;
+    left: -150px;
+    filter: blur(120px);
+    z-index: 1;
+}
+
+.recruitment-page::after {
+    content: "";
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: rgba(46, 206, 113, 0.05);
+    border-radius: 50%;
+    bottom: 200px;
+    right: -100px;
+    filter: blur(100px);
+    z-index: 1;
+}
+
+/*=========================================
+        HEADER SECTION
+=========================================*/
 .recruitment-header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 70px;
 }
 
 .recruitment-badge {
     display: inline-block;
     padding: 10px 22px;
     border-radius: 40px;
-    background: rgba(32, 255, 105, 0.12);
-    border: 1px solid rgba(32, 255, 105, 0.25);
-    color: #20ff69;
+    background: rgba(46, 206, 113, 0.12);
+    border: 1px solid rgba(46, 206, 113, 0.25);
+    color: var(--accent);
     font-weight: 700;
     margin-bottom: 22px;
+    font-size: 14px;
 }
 
 .recruitment-header h1 {
-    font-size: 48px;
-    color: #fff;
-    margin-bottom: 18px;
-    line-height: 1.3;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    /* Gradient Text matched with index hero section */
+    background: linear-gradient(45deg, var(--accent) 30%, #ffffff 70%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
 .recruitment-header p {
-    color: #a8a8a8;
-    font-size: 18px;
-    max-width: 750px;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 2vw, 1.15rem);
+    max-width: 700px;
     margin: auto;
     line-height: 1.8;
 }
 
 /*=========================================
-        INFO BOXES & TABLES
+        PREMIUM INFO CARDS
 =========================================*/
 .info-box {
-    background: #101010;
+    background: linear-gradient(180deg, #0e1312, #09100d);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
+    border-radius: 24px;
     overflow: hidden;
-    margin-bottom: 35px;
-    transition: 0.35s ease;
-    /* Opacity aur TranslateY hata diya gaya hai, ab hamesha dikhega */
+    margin-bottom: 40px;
+    transition: 0.4s ease;
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
+    position: relative;
 }
 
 .info-box:hover {
-    border-color: #20ff69;
-    box-shadow: 0 15px 35px rgba(32, 255, 105, 0.08);
+    transform: translateY(-8px);
+    border-color: var(--accent);
+    box-shadow: 0 15px 35px rgba(46, 206, 113, 0.15);
 }
 
+/* Elegant Title Bar */
 .box-title {
-    background: #20ff69;
-    color: #000;
+    color: var(--text);
     font-size: 22px;
     font-weight: 700;
-    padding: 16px 25px;
+    padding: 24px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    background: rgba(255, 255, 255, 0.02);
 }
 
+.box-title::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 24px;
+    background: var(--accent);
+    border-radius: 0 4px 4px 0;
+}
+
+/*=========================================
+        TABLE STYLING
+=========================================*/
 .info-box table {
     width: 100%;
     border-collapse: collapse;
 }
 
 .info-box table tr {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    transition: 0.3s;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: 0.3s ease;
 }
 
 .info-box table tr:last-child {
@@ -99,38 +177,34 @@ body {
 }
 
 .info-box table tr:hover {
-    background: #171717;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .info-box table td {
-    padding: 18px 24px;
+    padding: 20px 30px;
     color: #e4e4e4;
     font-size: 16px;
     line-height: 1.7;
 }
 
+/* First Column Styling */
 .info-box table td:first-child {
     width: 40%;
     font-weight: 600;
-    color: #20ff69;
+    color: var(--accent);
 }
 
+/* Table Header */
 .info-box table th {
-    background: #151515;
-    color: #20ff69;
-    padding: 18px 24px;
-    font-size: 17px;
-    font-weight: 700;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    text-align: left;
-}
-
-/* Table Hover Effect */
-.info-box tbody tr:hover td {
+    background: rgba(0, 0, 0, 0.2);
     color: #fff;
-}
-.info-box tbody tr:hover td:first-child {
-    color: #20ff69;
+    padding: 20px 30px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 /*=========================================
@@ -138,19 +212,20 @@ body {
 =========================================*/
 .selection-list {
     list-style: none;
-    padding: 25px;
+    padding: 30px;
 }
 
 .selection-list li {
     position: relative;
-    padding: 16px 18px 16px 55px;
+    padding: 18px 20px 18px 60px;
     margin-bottom: 15px;
-    background: #141414;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    color: var(--text);
     transition: 0.35s;
     font-size: 16px;
+    font-weight: 500;
 }
 
 .selection-list li:last-child {
@@ -163,127 +238,113 @@ body {
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    background: #20ff69;
-    color: #000;
+    background: rgba(46, 206, 113, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(46, 206, 113, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
+    transition: 0.3s;
 }
 
 .selection-list li:hover {
-    border-color: #20ff69;
-    background: #181818;
+    border-color: var(--accent);
+    background: rgba(46, 206, 113, 0.05);
     transform: translateX(8px);
 }
 
+.selection-list li:hover::before {
+    background: var(--accent);
+    color: #000;
+}
+
 /*=========================================
-        IMPORTANT LINKS (BUTTONS)
+        PREMIUM BUTTONS (Links Table)
 =========================================*/
 .links-table td {
-    padding: 20px 24px !important;
+    padding: 22px 30px !important;
 }
 
 .links-table td:first-child {
     width: 60%;
+    color: var(--text) !important; /* Keep text white */
+    font-size: 18px !important;
 }
 
+/* Matched with index CTA button */
 .links-table a {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    min-width: 160px;
-    height: 45px;
+    min-width: 180px;
+    height: 50px;
     text-decoration: none;
-    background: #20ff69;
-    color: #000;
-    font-weight: 700;
-    border-radius: 8px;
-    transition: 0.35s ease;
+    background: linear-gradient(45deg, var(--accent), #27ae60);
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.35s ease;
     font-size: 15px;
+    letter-spacing: 0.5px;
 }
 
 .links-table a:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 25px rgba(32, 255, 105, 0.25);
-    background: #1ae55e;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px var(--accent-glow);
 }
 
 /*=========================================
-        RESPONSIVE DESIGN (Mobiles/Tablets)
+        RESPONSIVE DESIGN
 =========================================*/
 @media(max-width: 992px) {
-    .recruitment-header h1 {
-        font-size: 40px;
-    }
-    .box-title {
-        font-size: 20px;
-    }
+    .container { width: 95%; }
+    .box-title { font-size: 20px; }
 }
 
 @media(max-width: 768px) {
-    .recruitment-page {
-        padding: 60px 0;
-    }
-    .recruitment-header {
-        margin-bottom: 40px;
-    }
-    .recruitment-header h1 {
-        font-size: 32px;
-    }
-    .recruitment-header p {
-        font-size: 15px;
-        padding: 0 10px;
-    }
-    .info-box {
-        border-radius: 16px;
-    }
-    .box-title {
-        font-size: 18px;
-        padding: 15px 20px;
-    }
+    .recruitment-page { padding: 80px 0; }
+    .recruitment-header { margin-bottom: 45px; }
+    
+    .info-box { border-radius: 20px; }
+    .box-title { padding: 18px 20px; font-size: 18px; }
+    
     .info-box table th,
     .info-box table td {
-        padding: 15px 20px;
+        padding: 16px 20px;
         font-size: 14px;
     }
     
+    /* Make tables horizontal scrollable on mobile */
     .info-box table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
     
+    .links-table td { padding: 16px 20px !important; }
     .links-table a {
-        min-width: 130px;
-        height: 40px;
+        min-width: 140px;
+        height: 44px;
         font-size: 14px;
     }
-    .selection-list {
-        padding: 20px;
-    }
+    
+    .selection-list { padding: 20px; }
     .selection-list li {
         font-size: 14px;
-        padding: 14px 14px 14px 45px;
+        padding: 16px 16px 16px 50px;
     }
-    .selection-list li::before {
-        left: 15px;
-    }
+    .selection-list li::before { left: 16px; }
 }
 
 @media(max-width: 480px) {
-    .recruitment-header h1 {
-        font-size: 26px;
-    }
     .recruitment-badge {
         font-size: 13px;
         padding: 8px 18px;
     }
-    .box-title {
-        font-size: 17px;
-    }
+    .box-title { font-size: 17px; }
 }
