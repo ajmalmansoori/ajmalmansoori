@@ -1,303 +1,241 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, getCountFromServer, doc, setDoc, getDoc, getDocs, deleteDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Dashboard | Ajmal Mansoori</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="admin.css">
 
-const firebaseConfig = {
-    apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
-    authDomain: "ajmalmansooriapp.firebaseapp.com",
-    projectId: "ajmalmansooriapp",
-    storageBucket: "ajmalmansooriapp.firebasestorage.app",
-    messagingSenderId: "65419237118",
-    appId: "1:65419237118:web:b815aebf50614cd98237af"
-};
+  <style> 
+    body { display: none; background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; } 
+    .header-right { position: relative; display: flex; align-items: center; }
+    .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
+    .user-profile:hover { background: #f1f5f9; border: 1px solid #e2e8f0; }
+    .avatar { width: 35px; height: 35px; background: #6366f1; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; object-fit: cover; }
+    .profile-name { font-weight: 600; font-size: 0.95rem; color: #1e293b; }
+    .profile-dropdown-menu { display: none; position: absolute; top: 110%; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); min-width: 180px; z-index: 1000; overflow: hidden; }
+    .profile-dropdown-menu.show { display: block; }
+    .profile-menu-items { list-style: none; margin: 0; padding: 8px 0; }
+    .profile-menu-items li a { display: flex; align-items: center; gap: 10px; padding: 10px 16px; text-decoration: none; color: #475569; font-size: 0.9rem; font-weight: 500; transition: 0.2s; }
+    .profile-menu-items li a:hover { background: #f8fafc; color: #0f172a; }
+    .profile-menu-items hr { border: 0; border-top: 1px solid #f1f5f9; margin: 4px 0; }
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+    /* Analytics 3 Cards Grid */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 30px; }
+    .metric-card { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+    .card-label { font-size: 0.9rem; color: #64748b; margin-bottom: 8px; font-weight: 600; }
+    .card-val { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
+    .earning-val { color: #10b981; }
 
-onAuthStateChanged(auth, (user) => {
-    if (!user) {
-        window.location.replace("login.html");
-    } else {
-        document.body.style.display = "block";
-        fetchDashboardStats();
-        loadProfile();
-        loadAllPostsHistory();
-        loadGallery();
-    }
-});
+    /* Profile Styles */
+    .profile-img-upload { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .profile-preview-lg { width: 85px; height: 85px; border-radius: 50%; background: #e2e8f0; object-fit: cover; border: 2px solid #cbd5e1; }
+    .section-title-divider { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin: 25px 0 15px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
+  </style>
+</head>
+<body>
 
-// UI Navigation & Sidebar
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const toggleBtn = document.getElementById('sidebarToggleBtn');
+  <div class="sidebar-overlay" id="overlay"></div>
 
-    function toggleSidebar() { 
-        if(sidebar) sidebar.classList.toggle('open'); 
-        if(overlay) overlay.classList.toggle('active'); 
-    }
-    if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
-    if(overlay) overlay.addEventListener('click', toggleSidebar);
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon-box"><i class="fa-solid fa-graduation-cap"></i></div>
+      <span class="brand-title">CMS Admin</span>
+    </div>
+    <ul class="menu-list">
+      <li class="menu-item active" data-tab="sec-dashboard"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a></li>
+      <li class="menu-item" data-tab="sec-updates"><a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> Updates</span></a></li>
+      <li class="menu-item" data-tab="sec-admit-card"><a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a></li>
+      <li class="menu-item" data-tab="sec-result"><a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a></li>
+      <li class="menu-item" data-tab="sec-cutoff"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Cutoff</span></a></li>
+      <li class="menu-item" data-tab="sec-admission"><a href="#"><span class="item-label"><i class="fa-solid fa-school-flag left-icon"></i> Admission</span></a></li>
+      <li class="menu-item" data-tab="sec-recruitment"><a href="#"><span class="item-label"><i class="fa-solid fa-briefcase left-icon"></i> Recruitment</span></a></li>
+      <li class="menu-item" data-tab="sec-gallery"><a href="#"><span class="item-label"><i class="fa-solid fa-images left-icon"></i> Gallery</span></a></li>
+      <hr style="border-top: 1px solid var(--border-color); margin: 10px 0;">
+      <li class="menu-item" data-tab="sec-profile"><a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a></li>
+    </ul>
+  </aside>
 
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.tab-section').forEach(sec => sec.style.display = 'none');
+  <!-- Main Dashboard Content -->
+  <div class="wrapper">
+    <header class="top-header">
+      <button class="toggle-btn" id="sidebarToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
+      <div class="header-right">
+        <div class="user-profile" id="profileDropdownBtn">
+          <img src="" alt="Avatar" class="avatar" id="topAvatarImg" style="display:none;">
+          <div class="avatar" id="topAvatarInitial">AM</div>
+          <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
+          <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #64748b;"></i>
+        </div>
+        <div class="profile-dropdown-menu" id="profileDropdownMenu">
+           <ul class="profile-menu-items">
+              <li><a href="#" id="updateProfileBtn"><i class="fa-solid fa-user-pen"></i> Update Profile</a></li>
+              <hr>
+              <li><a href="#" id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+           </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      
+      <!-- DASHBOARD TAB -->
+      <div id="sec-dashboard" class="tab-section active">
+        <h1 class="page-head">Analytics Overview</h1>
+        <div class="metrics-grid">
+          <div class="metric-card"><div class="card-label">Total Website Views</div><div class="card-val" id="totalViewsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Published Posts</div><div class="card-val" id="totalPostsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Earning (AdSense)</div><div class="card-val earning-val" id="totalEarningAmount">₹0</div></div>
+        </div>
+
+        <h2 class="page-head" style="font-size: 1.3rem; margin-top: 20px;">Recent Posts History</h2>
+        <div class="data-card-container" id="dashboardHistoryList"><p>Loading history...</p></div>
+      </div>
+
+      <!-- UNIVERSAL POST SECTIONS (Updates, Admit Card, Result, Cutoff, Admission, Recruitment) -->
+      
+      <!-- 1. UPDATES -->
+      <div id="sec-updates" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Updates Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Updates')">+ Add Update</button>
+        </div>
+        <div class="data-card-container" id="updatesList"><p>Loading...</p></div>
+      </div>
+
+      <!-- 2. ADMIT CARD -->
+      <div id="sec-admit-card" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Admit Card Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Admit Card')">+ Add Admit Card</button>
+        </div>
+        <div class="data-card-container" id="admitCardList"><p>Loading...</p></div>
+      </div>
+
+      <!-- 3. RESULT -->
+      <div id="sec-result" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Result Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Result')">+ Add Result</button>
+        </div>
+        <div class="data-card-container" id="resultList"><p>Loading...</p></div>
+      </div>
+
+      <!-- 4. CUTOFF -->
+      <div id="sec-cutoff" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Cutoff Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Cutoff')">+ Add Cutoff</button>
+        </div>
+        <div class="data-card-container" id="cutoffList"><p>Loading...</p></div>
+      </div>
+
+      <!-- 5. ADMISSION -->
+      <div id="sec-admission" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Admission Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Admission')">+ Add Admission</button>
+        </div>
+        <div class="data-card-container" id="admissionList"><p>Loading...</p></div>
+      </div>
+
+      <!-- 6. RECRUITMENT -->
+      <div id="sec-recruitment" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Recruitment Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Recruitment')">+ Add Recruitment</button>
+        </div>
+        <div class="data-card-container" id="recruitmentList"><p>Loading...</p></div>
+      </div>
+
+      <!-- SHARED UNIVERSAL POST MODAL / FORM CONTAINER -->
+      <div id="universalFormModal" class="data-card-container" style="display: none; margin-bottom: 25px; border: 2px solid #6366f1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h3 id="formModalTitle" style="margin: 0; color: #1e293b;">Add New Post</h3>
+          <button type="button" onclick="closeUniversalForm()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="universalPostForm">
+          <div class="input-group">
+            <label>Title <span style="color:red;">*</span></label>
+            <input type="text" id="uniTitle" required placeholder="Enter post title">
+          </div>
+          <div class="input-group">
+            <label>Category <span style="color:red;">*</span></label>
+            <select id="uniCategory" required class="custom-select">
+              <option value="Updates">Updates</option>
+              <option value="Admit Card">Admit Card</option>
+              <option value="Result">Result</option>
+              <option value="Cutoff">Cutoff</option>
+              <option value="Admission">Admission</option>
+              <option value="Recruitment">Recruitment</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Link / URL <span style="color:red;">*</span></label>
+            <input type="url" id="uniLink" required placeholder="https://...">
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn-action-primary">Publish Post</button>
+            <button type="button" class="btn-secondary-reset" onclick="closeUniversalForm()">Cancel</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- GALLERY TAB -->
+      <div id="sec-gallery" class="tab-section" style="display: none;">
+        <div class="dash-top-bar"><h2 class="page-head">Photo Gallery Management</h2></div>
+        <div class="data-card-container">
+          <form id="galleryUploadForm">
+            <div class="input-group"><label>Photo Title / Caption</label><input type="text" id="galleryTitle" required placeholder="Enter photo title"></div>
+            <div class="input-group"><label>Select Image File</label><input type="file" id="galleryImageInput" accept="image/*" required></div>
+            <button type="submit" class="btn-action-primary">Upload Photo</button>
+          </form>
+        </div>
+        <div class="data-card-container" id="galleryList" style="margin-top: 20px;"><p>Loading gallery...</p></div>
+      </div>
+
+      <!-- PROFILE SETTINGS TAB -->
+      <div id="sec-profile" class="tab-section" style="display: none;">
+        <h2 class="page-head">Profile & Admin Credentials Settings</h2>
+        <div class="data-card-container" style="max-width: 700px;">
+          <form id="profileUpdateForm">
             
-            item.classList.add('active');
-            const target = document.getElementById(item.getAttribute('data-tab'));
-            if(target) target.style.display = 'block';
-            if(sidebar && sidebar.classList.contains('open')) toggleSidebar();
-        });
-    });
+            <div class="profile-img-upload">
+              <img src="" id="profilePreviewImg" class="profile-preview-lg" style="display:none;">
+              <div class="profile-preview-lg" id="profilePreviewInitial" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:#64748b;">AM</div>
+              <div>
+                <label style="font-weight:600; display:block; margin-bottom:5px;">Profile Photo</label>
+                <input type="file" id="adminPhotoInput" accept="image/*">
+              </div>
+            </div>
 
-    const profileBtn = document.getElementById('profileDropdownBtn');
-    const profileMenu = document.getElementById('profileDropdownMenu');
-    if(profileBtn) {
-        profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profileMenu.classList.toggle('show'); });
-    }
-    document.addEventListener('click', (e) => { if(profileMenu && !profileBtn.contains(e.target)) profileMenu.classList.remove('show'); });
+            <div class="input-group"><label>Full Name</label><input type="text" id="adminName" required></div>
+            <div class="input-group"><label>Email Address</label><input type="email" id="adminEmail" required></div>
+            <div class="input-group"><label>Contact No</label><input type="text" id="adminPhone" placeholder="Enter contact number"></div>
+            <div class="input-group"><label>Address</label><textarea id="adminAddress" rows="2" placeholder="Enter address" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;"></textarea></div>
 
-    document.getElementById('updateProfileBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        profileMenu.classList.remove('show');
-        document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
-        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('sec-profile').style.display = 'block';
-        document.querySelector('.menu-item[data-tab="sec-profile"]').classList.add('active');
-    });
+            <!-- Admin Credentials Updates -->
+            <div class="section-title-divider">Admin Panel Credentials Update</div>
+            <div class="input-group"><label>Admin Username / Login Email</label><input type="email" id="adminUsername" placeholder="Username for login"></div>
+            <div class="input-group"><label>New Password</label><input type="password" id="adminPassword" placeholder="Leave blank to keep old password"></div>
 
-    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        signOut(auth);
-    });
-});
-
-// Dashboard Stats (Views, Posts, Earning)
-async function fetchDashboardStats() {
-    try {
-        const postsCol = collection(db, "posts");
-        const snapshot = await getCountFromServer(postsCol);
-        if(document.getElementById('totalPostsCount')) document.getElementById('totalPostsCount').innerText = snapshot.data().count;
-
-        const viewsRef = doc(db, "statistics", "site_stats");
-        const viewsDoc = await getDoc(viewsRef);
-        if(viewsDoc.exists() && document.getElementById('totalViewsCount')) {
-            document.getElementById('totalViewsCount').innerText = viewsDoc.data().total_views + "+";
-        }
-        
-        // Earning setup (AdSense placeholder)
-        if(document.getElementById('totalEarningAmount')) {
-            document.getElementById('totalEarningAmount').innerText = "₹0"; 
-        }
-    } catch (error) { console.error("Stats Error:", error); }
-}
-
-// Generic Form Toggles & Submissions
-function setupFormHandler(formId, btnId, containerId, cancelId, categoryName) {
-    const openBtn = document.getElementById(btnId);
-    const container = document.getElementById(containerId);
-    const cancelBtn = document.getElementById(cancelId);
-    const form = document.getElementById(formId);
-
-    if(openBtn && container) openBtn.addEventListener('click', () => container.style.display = 'block');
-    if(cancelBtn && container) cancelBtn.addEventListener('click', () => container.style.display = 'none');
-
-    if(form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            try {
-                let title = form.querySelector('input[type="text"]').value;
-                let link = form.querySelector('input[type="url"]').value;
-
-                await addDoc(collection(db, "posts"), {
-                    title: title,
-                    category: categoryName,
-                    link: link,
-                    createdAt: serverTimestamp()
-                });
-                
-                form.reset();
-                container.style.display = 'none';
-                fetchDashboardStats();
-                loadAllPostsHistory();
-                alert("✅ Published Successfully!");
-            } catch (err) { alert("Error: " + err.message); }
-        });
-    }
-}
-
-setupFormHandler('addUpdateForm', 'openUpdateFormBtn', 'updateFormContainer', 'cancelUpdateBtn', 'Updates');
-setupFormHandler('addAdmitForm', 'openAdmitFormBtn', 'admitFormContainer', null, 'Admit Card');
-setupFormHandler('addResultForm', 'openResultFormBtn', 'resultFormContainer', null, 'Result');
-setupFormHandler('addCutoffForm', 'openCutoffFormBtn', 'cutoffFormContainer', null, 'Cutoff');
-setupFormHandler('addAdmissionForm', 'openAdmissionFormBtn', 'admissionFormContainer', null, 'Admission');
-
-// Load History in Dashboard & Tabs
-async function loadAllPostsHistory() {
-    const historyContainer = document.getElementById('dashboardHistoryList');
-    const updatesContainer = document.getElementById('updatesList');
-    const admitContainer = document.getElementById('admitCardList');
-    const resultContainer = document.getElementById('resultList');
-    const cutoffContainer = document.getElementById('cutoffList');
-    const admissionContainer = document.getElementById('admissionList');
-
-    [historyContainer, updatesContainer, admitContainer, resultContainer, cutoffContainer, admissionContainer].forEach(c => {
-        if(c) c.innerHTML = '<p>Loading...</p>';
-    });
-
-    try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
-
-        let historyHTML = '', updatesHTML = '', admitHTML = '', resultHTML = '', cutoffHTML = '', admissionHTML = '';
-
-        snapshot.forEach((docSnap) => {
-            const item = docSnap.data();
-            const id = docSnap.id;
-            const html = `
-              <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                  <span style="background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">${item.category}</span>
-                  <h4 style="margin: 8px 0 0 0; font-size: 1rem;">${item.title}</h4>
-                </div>
-                <div style="display: flex; gap: 10px;">
-                  <a href="${item.link}" target="_blank" style="padding: 8px 12px; background: #f8fafc; color: #6366f1; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid #e2e8f0;">Open</a>
-                  <button onclick="deletePost('${id}')" style="padding: 8px 12px; background: #fee2e2; color: #ef4444; border: none; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
-                </div>
-              </div>`;
-
-            historyHTML += html;
-            if(item.category === 'Updates') updatesHTML += html;
-            else if(item.category === 'Admit Card') admitHTML += html;
-            else if(item.category === 'Result') resultHTML += html;
-            else if(item.category === 'Cutoff') cutoffHTML += html;
-            else if(item.category === 'Admission') admissionHTML += html;
-        });
-
-        if(historyContainer) historyContainer.innerHTML = historyHTML || 'No history found.';
-        if(updatesContainer) updatesContainer.innerHTML = updatesHTML || 'No updates found.';
-        if(admitContainer) admitContainer.innerHTML = admitHTML || 'No admit cards found.';
-        if(resultContainer) resultContainer.innerHTML = resultHTML || 'No results found.';
-        if(cutoffContainer) cutoffContainer.innerHTML = cutoffHTML || 'No cutoff found.';
-        if(admissionContainer) admissionContainer.innerHTML = admissionHTML || 'No admissions found.';
-    } catch (error) { console.error("Error loading history:", error); }
-}
-
-window.deletePost = async (id) => {
-    if(confirm("Delete this post?")) {
-        await deleteDoc(doc(db, "posts", id));
-        loadAllPostsHistory();
-        fetchDashboardStats();
-    }
-};
-
-// Gallery Upload Logic
-const galleryForm = document.getElementById('galleryUploadForm');
-if(galleryForm) {
-    galleryForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const title = document.getElementById('galleryTitle').value;
-        const fileInput = document.getElementById('galleryImageInput');
-        
-        if(fileInput.files.length > 0) {
-            const reader = new FileReader();
-            reader.onload = async function(event) {
-                const base64Image = event.target.result;
-                try {
-                    await addDoc(collection(db, "gallery"), {
-                        title: title,
-                        imageUrl: base64Image,
-                        createdAt: serverTimestamp()
-                    });
-                    alert("✅ Photo Uploaded Successfully!");
-                    galleryForm.reset();
-                    loadGallery();
-                } catch(err) { alert("Error uploading photo: " + err.message); }
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    });
-}
-
-async function loadGallery() {
-    const galleryList = document.getElementById('galleryList');
-    if(!galleryList) return;
-    galleryList.innerHTML = 'Loading gallery...';
-    try {
-        const q = query(collection(db, "gallery"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
-        let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">';
-        snapshot.forEach(docSnap => {
-            const item = docSnap.data();
-            const id = docSnap.id;
-            html += `
-              <div style="background:white; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; padding:10px;">
-                <img src="${item.imageUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:6px;">
-                <p style="font-size:0.9rem; font-weight:600; margin:8px 0 5px 0;">${item.title}</p>
-                <button onclick="deleteGallery('${id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Delete</button>
-              </div>`;
-        });
-        html += '</div>';
-        galleryList.innerHTML = html || 'No photos in gallery.';
-    } catch(err) { console.error("Gallery Error:", err); }
-}
-
-window.deleteGallery = async (id) => {
-    if(confirm("Delete this photo?")) {
-        await deleteDoc(doc(db, "gallery", id));
-        loadGallery();
-    }
-};
-
-// Real Profile Settings (Photo + Name)
-async function loadProfile() {
-    try {
-        const adminDoc = await getDoc(doc(db, "users", "adminProfile"));
-        if(adminDoc.exists()) {
-            const data = adminDoc.data();
-            if(document.getElementById('adminName')) document.getElementById('adminName').value = data.name || "";
-            if(document.getElementById('adminEmail')) document.getElementById('adminEmail').value = data.email || "";
-            if(document.getElementById('displayAdminName')) document.getElementById('displayAdminName').innerText = data.name || "Ajmal Mansoori";
+            <div style="display: flex; gap: 15px; margin-top: 25px;">
+              <button type="submit" class="btn-action-primary">Save Changes</button>
+              <button type="reset" class="btn-secondary-reset" id="profileResetBtn" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; padding:10px 20px; border-radius:8px; cursor:pointer;">Reset</button>
+            </div>
             
-            if(data.photoUrl) {
-                const topImg = document.getElementById('topAvatarImg');
-                const topInit = document.getElementById('topAvatarInitial');
-                const profImg = document.getElementById('profilePreviewImg');
-                const profInit = document.getElementById('profilePreviewInitial');
-                
-                if(topImg && topInit) { topImg.src = data.photoUrl; topImg.style.display = 'block'; topInit.style.display = 'none'; }
-                if(profImg && profInit) { profImg.src = data.photoUrl; profImg.style.display = 'block'; profInit.style.display = 'none'; }
-            }
-        }
-    } catch (error) { console.error("Error loading profile:", error); }
-}
+            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile & Credentials Updated Successfully!</p>
+          </form>
+        </div>
+      </div>
 
-const profileUpdateForm = document.getElementById('profileUpdateForm');
-if(profileUpdateForm) {
-    profileUpdateForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const newName = document.getElementById('adminName').value;
-        const newEmail = document.getElementById('adminEmail').value;
-        const photoInput = document.getElementById('adminPhotoInput');
+    </main>
+  </div>
 
-        let profileData = { name: newName, email: newEmail, updatedAt: new Date() };
-
-        if(photoInput.files.length > 0) {
-            const reader = new FileReader();
-            reader.onload = async function(event) {
-                profileData.photoUrl = event.target.result;
-                await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-                alert("✅ Profile Updated Successfully!");
-                loadProfile();
-            };
-            reader.readAsDataURL(photoInput.files[0]);
-        } else {
-            await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-            alert("✅ Profile Updated Successfully!");
-            loadProfile();
-        }
-    });
-}
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
