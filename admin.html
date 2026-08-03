@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMS Dashboard | Learnify Classes</title>
+  <title>CMS Dashboard | Ajmal Mansoori</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -33,9 +33,7 @@
     .recruit-section-box h4 { margin-bottom: 15px; color: #334155; font-size: 1.05rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
     .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
 
-    /* =======================================
-       PREMIUM APPX COURSE MODAL CSS
-       ======================================= */
+    /* PREMIUM APPX COURSE MODAL CSS */
     .premium-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFFFFF; z-index: 9999; overflow-y: auto; font-family: 'Plus Jakarta Sans', sans-serif; }
     .premium-form-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: white; border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 10; }
     .premium-form-header h2 { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin: 0; }
@@ -108,7 +106,6 @@
     .preview-price { font-size: 1.2rem; color: #0F172A;}
     .preview-discount { color: #10B981; font-size: 0.9rem;}
 
-    /* Utility */
     .d-none { display: none !important; }
   </style>
 </head>
@@ -144,10 +141,19 @@
           <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
           <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #64748b;"></i>
         </div>
+        <div class="profile-dropdown-menu" id="profileDropdownMenu">
+           <ul class="profile-menu-items">
+              <li><a href="#" id="updateProfileBtn"><i class="fa-solid fa-user-pen"></i> Update Profile</a></li>
+              <hr>
+              <li><a href="#" id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
+           </ul>
+        </div>
       </div>
     </header>
 
     <main class="main-content">
+      
+      <!-- DASHBOARD TAB -->
       <div id="sec-dashboard" class="tab-section active">
         <h1 class="page-head">Analytics Overview</h1>
         <div class="metrics-grid">
@@ -156,19 +162,152 @@
         </div>
       </div>
 
+      <!-- NORMAL POSTS (NEWS) -->
+      <div id="sec-news" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">News & Updates</h2>
+          <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
+        </div>
+        
+        <div id="addPostFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Create Normal Post</h3>
+          <form id="addPostForm">
+            <div class="input-group">
+              <label>Post Title</label>
+              <input type="text" id="postTitle" required placeholder="Enter post title">
+            </div>
+            <div class="input-group">
+              <label>Category</label>
+              <select id="postCategory" required class="custom-select">
+                <option value="News">News & Updates</option>
+                <option value="Admit Card">Admit Card</option>
+                <option value="Result">Result</option>
+                <option value="Cutoff">Cutoff</option>
+                <option value="Syllabus">Syllabus</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Attachment Type</label>
+              <select id="postMediaType" required class="custom-select">
+                <option value="Link">Website Link</option>
+                <option value="PDF">PDF Document</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>URL / File Link</label>
+              <input type="url" id="postLink" required placeholder="Paste the link here">
+            </div>
+            <div style="margin-top: 20px; display: flex; gap: 12px;">
+              <button type="submit" class="btn-action-primary">Publish Post</button>
+              <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
+            </div>
+            <p id="postStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600;">✅ Post Published!</p>
+          </form>
+        </div>
+        <div class="data-card-container" id="newsList"><p>Loading news...</p></div>
+      </div>
+
+      <!-- ADMIT CARD TAB -->
+      <div id="sec-admit-card" class="tab-section" style="display: none;">
+        <div class="dash-top-bar"><h2 class="page-head">Admit Card</h2></div>
+        <div class="data-card-container" id="admitCardList"><p>Loading...</p></div>
+      </div>
+
+      <!-- RESULT TAB -->
+      <div id="sec-result" class="tab-section" style="display: none;">
+        <div class="dash-top-bar"><h2 class="page-head">Result</h2></div>
+        <div class="data-card-container" id="resultList"><p>Loading...</p></div>
+      </div>
+
+      <!-- MEGA RECRUITMENT UPLOAD TAB -->
+      <div id="sec-recruitment" class="tab-section" style="display: none;">
+        <div class="dash-top-bar"><h2 class="page-head">Upload New Recruitment Detail</h2></div>
+        <div class="data-card-container" style="max-width: 900px;">
+          <form id="megaRecruitmentForm">
+            <!-- 1. Header & Badges -->
+            <div class="recruit-section-box">
+              <h4>1. Page Header</h4>
+              <div class="input-group"><label>Recruitment Title (H1)</label><input type="text" id="recTitle" required placeholder="e.g. Allahabad University Non Teaching..."></div>
+              <div class="input-group"><label>Badge Text</label><input type="text" id="recBadge" required placeholder="e.g. Recruitment 2026"></div>
+            </div>
+
+            <!-- 2. Important Dates -->
+            <div class="recruit-section-box">
+              <h4>2. Important Dates</h4>
+              <div class="grid-2-col">
+                <div class="input-group"><label>Application Begin</label><input type="text" id="dateStart"></div>
+                <div class="input-group"><label>Last Date Apply Online</label><input type="text" id="dateEnd"></div>
+                <div class="input-group"><label>Fee Payment Last Date</label><input type="text" id="dateFee"></div>
+                <div class="input-group"><label>Correction Date</label><input type="text" id="dateCorrection"></div>
+                <div class="input-group"><label>Exam Date</label><input type="text" id="dateExam"></div>
+                <div class="input-group"><label>Admit Card Available</label><input type="text" id="dateAdmitCard"></div>
+              </div>
+            </div>
+
+            <!-- 3. Application Fee -->
+            <div class="recruit-section-box">
+              <h4>3. Application Fee</h4>
+              <div class="grid-2-col">
+                <div class="input-group"><label>Gen/OBC/EWS</label><input type="text" id="feeGen"></div>
+                <div class="input-group"><label>SC/ST</label><input type="text" id="feeSC"></div>
+                <div class="input-group"><label>PH Candidate</label><input type="text" id="feePH"></div>
+                <div class="input-group"><label>Payment Mode</label><input type="text" id="feeMode"></div>
+              </div>
+            </div>
+
+            <!-- 4. Age Limit -->
+            <div class="recruit-section-box">
+              <h4>4. Age Limit</h4>
+              <div class="grid-2-col">
+                <div class="input-group"><label>Min Age</label><input type="text" id="ageMin"></div>
+                <div class="input-group"><label>Max Age</label><input type="text" id="ageMax"></div>
+              </div>
+              <div class="input-group" style="margin-top: 15px;"><label>Age Rules</label><input type="text" id="ageRules"></div>
+            </div>
+
+            <!-- 5. Links -->
+            <div class="recruit-section-box">
+              <h4>5. Important Links (URLs)</h4>
+              <div class="input-group"><label>Apply Online Link</label><input type="url" id="linkApply"></div>
+              <div class="input-group"><label>Notification PDF Link</label><input type="url" id="linkNotification"></div>
+              <div class="input-group"><label>Official Website Link</label><input type="url" id="linkWebsite"></div>
+            </div>
+
+            <button type="submit" class="btn-action-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">🚀 Publish Recruitment Page</button>
+            <p id="recruitmentStatusMsg" style="color: #166534; background: #dcfce7; padding: 15px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600; text-align: center;">✅ Recruitment Data Uploaded Successfully!</p>
+          </form>
+        </div>
+      </div>
+
+      <!-- NEW COURSES TAB -->
       <div id="sec-courses" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Manage Courses</h2>
           <button class="btn-action-primary" id="openCourseFormBtn"><i class="fa-solid fa-plus"></i> Add New Course</button>
         </div>
-        <div class="data-card-container"><p>No courses published yet.</p></div>
+        <div class="data-card-container" id="coursesList">
+          <p style="color: #64748b;">No courses published yet.</p>
+        </div>
       </div>
+
+      <!-- PROFILE SETTINGS TAB -->
+      <div id="sec-profile" class="tab-section" style="display: none;">
+        <h2 class="page-head">Profile Settings</h2>
+        <div class="data-card-container">
+          <form id="profileUpdateForm">
+            <div class="input-group"><label>Full Name</label><input type="text" id="adminName" required></div>
+            <div class="input-group"><label>Email</label><input type="email" id="adminEmail" required></div>
+            <button type="submit" class="btn-action-primary">Update Profile</button>
+            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile Updated!</p>
+          </form>
+        </div>
+      </div>
+
     </main>
   </div>
 
   <!-- APPX STYLE FULLSCREEN FORM OVERLAY (For Courses) -->
   <div id="premiumFormOverlay" class="premium-overlay" style="display: none;">
-    
     <!-- Top Navbar -->
     <div class="premium-form-header">
       <h2>Add New Course</h2>
@@ -321,66 +460,49 @@
     </div>
   </div>
 
+  <!-- FIREBASE MAIN JS -->
+  <script type="module" src="admin.js"></script>
+
+  <!-- INLINE UI SCRIPT (ONLY FOR COURSE MODAL & LIVE PREVIEW) -->
   <script>
-    document.body.style.display = 'block';
-
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Sidebar Tabs Logic
-      document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', (e) => {
-          e.preventDefault();
-          document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-          document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
-          item.classList.add('active');
-          const targetTab = document.getElementById(item.getAttribute('data-tab'));
-          if (targetTab) targetTab.style.display = 'block';
-        });
-      });
-
-      // 2. Open / Close Course Premium Modal
+      // 1. Open / Close Course Premium Modal
       const openCourseBtn = document.getElementById('openCourseFormBtn');
       const closeCourseBtn = document.getElementById('closePremiumForm');
       const premiumModal = document.getElementById('premiumFormOverlay');
 
-      if(openCourseBtn) {
-        openCourseBtn.addEventListener('click', () => premiumModal.style.display = 'block');
-      }
-      if(closeCourseBtn) {
-        closeCourseBtn.addEventListener('click', () => premiumModal.style.display = 'none');
-      }
+      if(openCourseBtn) openCourseBtn.addEventListener('click', () => premiumModal.style.display = 'block');
+      if(closeCourseBtn) closeCourseBtn.addEventListener('click', () => premiumModal.style.display = 'none');
 
-      // 3. Live Preview Listeners
+      // 2. Live Preview Listeners
       const titleInput = document.getElementById('courseTitleInput');
       const priceInput = document.getElementById('coursePriceInput');
       const previewTitle = document.getElementById('livePreviewTitle');
       const previewPrice = document.getElementById('livePreviewPrice');
 
-      titleInput.addEventListener('input', (e) => {
-        previewTitle.innerText = e.target.value || "Course Title";
-      });
+      if(titleInput) titleInput.addEventListener('input', (e) => { previewTitle.innerText = e.target.value || "Course Title"; });
+      if(priceInput) priceInput.addEventListener('input', (e) => { previewPrice.innerText = e.target.value ? `₹${e.target.value}` : "₹0"; });
 
-      priceInput.addEventListener('input', (e) => {
-        previewPrice.innerText = e.target.value ? `₹${e.target.value}` : "₹0";
-      });
-
-      // 4. Image Upload & Preview Logic
+      // 3. Image Upload & Preview Logic
       const coverInput = document.getElementById('coverInput');
       const coverPreviewBox = document.getElementById('coverPreviewBox');
       const livePreviewImg = document.getElementById('livePreviewImg');
 
-      coverInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if(file) {
-          const url = URL.createObjectURL(file);
-          coverPreviewBox.innerHTML = `<img src="${url}" alt="Cover">`;
-          livePreviewImg.style.backgroundImage = `url(${url})`;
-          livePreviewImg.innerHTML = ""; // Remove icon
-        }
-      });
+      if(coverInput) {
+        coverInput.addEventListener('change', function(e) {
+          const file = e.target.files[0];
+          if(file) {
+            const url = URL.createObjectURL(file);
+            coverPreviewBox.innerHTML = `<img src="${url}" alt="Cover">`;
+            livePreviewImg.style.backgroundImage = `url(${url})`;
+            livePreviewImg.innerHTML = ""; // Remove icon
+          }
+        });
+      }
     });
 
-    // 5. Stepper Logic (Next / Back)
-    function goToStep(stepNumber) {
+    // 4. Stepper Logic (Next / Back)
+    window.goToStep = function(stepNumber) {
       document.getElementById('formStep1').classList.add('d-none');
       document.getElementById('formStep2').classList.add('d-none');
       
