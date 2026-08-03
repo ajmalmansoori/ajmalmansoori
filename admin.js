@@ -33,10 +33,24 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // ==========================================
-// 3. UI TAB SWITCHING & SIDEBAR
+// 3. UI TAB SWITCHING & SIDEBAR (SLIDER FIX)
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
-    // Sidebar Tabs
+    
+    // --- SIDEBAR SLIDER LOGIC ---
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const toggleBtn = document.getElementById('sidebarToggleBtn');
+
+    function toggleSidebar() { 
+        if(sidebar) sidebar.classList.toggle('open'); 
+        if(overlay) overlay.classList.toggle('active'); 
+    }
+    if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+    if(overlay) overlay.addEventListener('click', toggleSidebar);
+
+
+    // --- SIDEBAR TABS LOGIC ---
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -46,10 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
             item.classList.add('active');
             const target = document.getElementById(item.getAttribute('data-tab'));
             if(target) target.style.display = 'block';
+            
+            // मोबाइल में टैब पर क्लिक करते ही स्लाइडर खुद बंद हो जाएगा
+            if(sidebar && sidebar.classList.contains('open')) toggleSidebar();
         });
     });
 
-    // Profile Dropdown
+    // --- PROFILE DROPDOWN LOGIC ---
     const profileBtn = document.getElementById('profileDropdownBtn');
     const profileMenu = document.getElementById('profileDropdownMenu');
     if(profileBtn) {
@@ -57,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.addEventListener('click', (e) => { if(profileMenu && !profileBtn.contains(e.target)) profileMenu.classList.remove('show'); });
 
-    // Profile Tab from Dropdown
+    // --- PROFILE TAB FROM DROPDOWN ---
     document.getElementById('updateProfileBtn')?.addEventListener('click', (e) => {
         e.preventDefault();
         profileMenu.classList.remove('show');
@@ -65,9 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
         document.getElementById('sec-profile').style.display = 'block';
         document.querySelector('.menu-item[data-tab="sec-profile"]').classList.add('active');
+        
+        if(sidebar && sidebar.classList.contains('open')) toggleSidebar();
     });
 
-    // Logout
+    // --- LOGOUT LOGIC ---
     document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
         e.preventDefault();
         signOut(auth);
