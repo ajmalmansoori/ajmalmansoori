@@ -332,80 +332,78 @@ window.deleteGallery = async (id) => {
     }
 };
 
-// Profile & Admin Credentials Settings
+// Profile & Admin Credentials Settings (with Live Preview)
 async function loadProfile() {
     try {
         const adminDoc = await getDoc(doc(db, "users", "adminProfile"));
         if(adminDoc.exists()) {
             const data = adminDoc.data();
+            
+            // Set Form Inputs
             if(document.getElementById('adminName')) document.getElementById('adminName').value = data.name || "";
             if(document.getElementById('adminEmail')) document.getElementById('adminEmail').value = data.email || "";
             if(document.getElementById('adminPhone')) document.getElementById('adminPhone').value = data.phone || "";
             if(document.getElementById('adminAddress')) document.getElementById('adminAddress').value = data.address || "";
             if(document.getElementById('adminUsername')) document.getElementById('adminUsername').value = auth.currentUser?.email || data.email || "";
             
+            // Set Top Header Name & Avatar
             if(document.getElementById('displayAdminName')) document.getElementById('displayAdminName').innerText = data.name || "Ajmal Mansoori";
             
+            // Update Right Preview Card Text
+            if(document.getElementById('previewCardName')) document.getElementById('previewCardName').innerText = data.name || "Ajmal Mansoori";
+            if(document.getElementById('previewCardEmail')) document.getElementById('previewCardEmail').innerText = data.email || "admin@example.com";
+            if(document.getElementById('previewCardPhone')) document.getElementById('previewCardPhone').innerText = data.phone || "Not provided";
+            if(document.getElementById('previewCardAddress')) document.getElementById('previewCardAddress').innerText = data.address || "Not provided";
+
             if(data.photoUrl) {
                 const topImg = document.getElementById('topAvatarImg');
                 const topInit = document.getElementById('topAvatarInitial');
-                const profImg = document.getElementById('profilePreviewImg');
-                const profInit = document.getElementById('profilePreviewInitial');
+                const prevImg = document.getElementById('profilePreviewImg');
+                const prevInit = document.getElementById('profilePreviewInitial');
                 
                 if(topImg && topInit) { topImg.src = data.photoUrl; topImg.style.display = 'block'; topInit.style.display = 'none'; }
-                if(profImg && profInit) { profImg.src = data.photoUrl; profImg.style.display = 'block'; profInit.style.display = 'none'; }
+                if(prevImg && prevInit) { prevImg.src = data.photoUrl; prevImg.style.display = 'block'; prevInit.style.display = 'none'; }
             }
         }
     } catch (error) { console.error("Error loading profile:", error); }
 }
 
-const profileUpdateForm = document.getElementById('profileUpdateForm');
-if(profileUpdateForm) {
-    profileUpdateForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const newName = document.getElementById('adminName').value;
-        const newEmail = document.getElementById('adminEmail').value;
-        const newPhone = document.getElementById('adminPhone').value;
-        const newAddress = document.getElementById('adminAddress').value;
-        const newPassword = document.getElementById('adminPassword').value;
-        const photoInput = document.getElementById('adminPhotoInput');
+// Live typing update listeners for preview card
+document.addEventListener('input', (e) => {
+    if(e.target.id === 'adminName') {
+        const val = e.target.value;
+        if(document.getElementById('previewCardName')) document.getElementById('previewCardName').innerText = val || "Ajmal Mansoori";
+        if(document.getElementById('displayAdminName')) document.getElementById('displayAdminName').innerText = val || "Ajmal Mansoori";
+    }
+    if(e.target.id === 'adminEmail') {
+        if(document.getElementById('previewCardEmail')) document.getElementById('previewCardEmail').innerText = e.target.value || "admin@example.com";
+    }
+    if(e.target.id === 'adminPhone') {
+        if(document.getElementById('previewCardPhone')) document.getElementById('previewCardPhone').innerText = e.target.value || "Not provided";
+    }
+    if(e.target.id === 'adminAddress') {
+        if(document.getElementById('previewCardAddress')) document.getElementById('previewCardAddress').innerText = e.target.value || "Not provided";
+    }
+});
 
-        let profileData = { 
-            name: newName, 
-            email: newEmail, 
-            phone: newPhone, 
-            address: newAddress, 
-            updatedAt: new Date() 
-        };
-
-        try {
-            const user = auth.currentUser;
-            if(user && newPassword && newPassword.trim() !== "") {
-                if(newPassword.length < 6) {
-                    alert("⚠️ Password should be at least 6 characters long!");
-                    return;
+// Live image preview when file is selected
+const adminPhotoInput = document.getElementById('adminPhotoInput');
+if(adminPhotoInput) {
+    adminPhotoInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const base64Url = event.target.result;
+                const prevImg = document.getElementById('profilePreviewImg');
+                const prevInit = document.getElementById('profilePreviewInitial');
+                if(prevImg && prevInit) {
+                    prevImg.src = base64Url;
+                    prevImg.style.display = 'block';
+                    prevInit.style.display = 'none';
                 }
-                await updatePassword(user, newPassword);
             }
-
-            if(photoInput && photoInput.files && photoInput.files.length > 0) {
-                const reader = new FileReader();
-                reader.onload = async function(event) {
-                    profileData.photoUrl = event.target.result;
-                    await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-                    alert("✅ Profile & Password Updated Successfully!");
-                    document.getElementById('adminPassword').value = "";
-                    loadProfile();
-                };
-                reader.readAsDataURL(photoInput.files[0]);
-            } else {
-                await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-                alert("✅ Profile & Password Updated Successfully!");
-                document.getElementById('adminPassword').value = "";
-                loadProfile();
-            }
-        } catch(err) {
-            alert("Error updating profile: " + err.message);
+            reader.readAsDataURL(file);
         }
     });
 }
