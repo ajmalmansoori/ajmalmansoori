@@ -259,3 +259,53 @@ if(profileUpdateForm) {
         setTimeout(() => document.getElementById('profileStatusMsg').style.display = 'none', 2000);
     });
 }
+// ==========================================
+// 8. PUBLISH COURSE LOGIC
+// ==========================================
+const publishCourseBtn = document.getElementById('publishCourseBtn');
+
+if (publishCourseBtn) {
+    publishCourseBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        // फॉर्म से वैल्यू लेना
+        const title = document.getElementById('courseTitleInput').value;
+        const price = document.getElementById('coursePriceInput').value;
+        
+        // चेक करना कि टाइटल और प्राइस खाली तो नहीं हैं
+        if(!title || !price) {
+            alert("⚠️ Please enter Course Title and Price!");
+            return;
+        }
+
+        try {
+            // बटन पर Loading दिखाना
+            publishCourseBtn.innerHTML = 'Publishing... <i class="fa-solid fa-spinner fa-spin"></i>';
+            
+            // Firebase में "courses" नाम के फोल्डर में सेव करना
+            await addDoc(collection(db, "courses"), {
+                title: title,
+                price: price,
+                createdAt: serverTimestamp()
+            });
+
+            // सक्सेस मैसेज
+            alert("✅ Course Published Successfully!");
+            
+            // फॉर्म को बंद करना और रिसेट करना
+            document.getElementById('courseTitleInput').value = '';
+            document.getElementById('coursePriceInput').value = '';
+            document.getElementById('premiumFormOverlay').style.display = 'none';
+            
+            // बटन को वापस नार्मल करना
+            publishCourseBtn.innerHTML = 'Finish <i class="fa-solid fa-check"></i>';
+            
+            // स्टेप 1 पर वापस भेजना
+            window.goToStep(1);
+
+        } catch (error) {
+            alert("❌ Error publishing course: " + error.message);
+            publishCourseBtn.innerHTML = 'Finish <i class="fa-solid fa-check"></i>';
+        }
+    });
+}
