@@ -7,7 +7,8 @@ const firebaseConfig = {
     projectId: "ajmalmansooriapp",
     storageBucket: "ajmalmansooriapp.firebasestorage.app",
     messagingSenderId: "65419237118",
-    appId: "1:65419237118:web:b815aebf50614cd98237af"
+    appId: "1:65419237118:web:b815aebf50614cd98237af",
+    measurementId: "G-ZYW4JN8CW2"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -16,7 +17,6 @@ const db = getFirestore(app);
 document.addEventListener("DOMContentLoaded", async () => {
     const updateListContainer = document.querySelector(".update-list");
     
-    // 1. Firebase se posts load karne ka function
     async function loadFrontendPosts() {
         if (!updateListContainer) return;
         updateListContainer.innerHTML = '<p style="color: #fff; text-align: center; padding: 20px;">Loading live updates...</p>';
@@ -27,14 +27,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             let html = "";
             if (snapshot.empty) {
-                updateListContainer.innerHTML = '<p style="color: #9d9d9d; text-align: center; padding: 20px;">No updates found.</p>';
+                updateListContainer.innerHTML = '<p style="color: #9d9d9d; text-align: center; padding: 20px;">No updates found in database.</p>';
                 return;
             }
 
             snapshot.forEach((docSnap) => {
                 const item = docSnap.data();
                 
-                // Format Date & Time
                 let dateStr = "Recent";
                 let timeStr = "";
                 if (item.createdAt && item.createdAt.toDate) {
@@ -43,17 +42,18 @@ document.addEventListener("DOMContentLoaded", async () => {
                     timeStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
                 }
 
-                // Determine target link (Prioritize Link -> PDF -> Photo)
                 const targetLink = item.link || item.pdfUrl || item.photoUrl || "#";
+                const categoryName = item.category ? item.category.toUpperCase() : 'UPDATE';
+                const categoryClass = item.category ? item.category.toLowerCase().replace(/\s+/g, '-') : 'updates';
 
                 html += `
-                <div class="update-card" data-category="${item.category ? item.category.toLowerCase() : 'updates'}">
+                <div class="update-card" data-category="${categoryClass}">
                     <div class="left">
                         <div class="icon green">
                             <i class="fa-solid fa-bullhorn"></i>
                         </div>
                         <div class="content">
-                            <span>${item.category ? item.category.toUpperCase() : 'UPDATE'}</span>
+                            <span>${categoryName}</span>
                             <h3>${item.title}</h3>
                             <p>Click arrow or link to view official document/details.</p>
                         </div>
@@ -75,33 +75,31 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
 
             updateListContainer.innerHTML = html;
-            initInteractiveElements(); // Re-bind filters & search after dynamic load
+            initFiltersAndSearch();
 
         } catch (error) {
-            console.error("Error loading posts from Firebase:", error);
-            updateListContainer.innerHTML = '<p style="color: #ff4040; text-align: center;">Failed to load updates.</p>';
+            console.error("Firebase Load Error:", error);
+            updateListContainer.innerHTML = '<p style="color: #ff4040; text-align: center; padding: 20px;">Error loading data. Check Firestore Rules.</p>';
         }
     }
 
     await loadFrontendPosts();
 
-    // 2. Filters, Search & Interactive Logic
-    function initInteractiveElements() {
+    function initFiltersAndSearch() {
         const filterButtons = document.querySelectorAll(".filters button");
-        const cards = document.querySelectorAll(".update-card");
         const searchInput = document.querySelector(".search-box input");
 
-        // Filter Buttons Logic
         filterButtons.forEach(button => {
             button.addEventListener("click", () => {
                 filterButtons.forEach(btn => btn.classList.remove("active"));
                 button.classList.add("active");
 
                 const filterValue = button.innerText.toLowerCase().trim();
+                const cards = document.querySelectorAll(".update-card");
 
                 cards.forEach(card => {
                     const category = card.getAttribute("data-category") || "";
-                    if (filterValue === "all" || category.includes(filterValue)) {
+                    if (filterValue === "all" || category.includes(filterValue.replace(/\s+/g, '-'))) {
                         card.style.display = "flex";
                     } else {
                         card.style.display = "none";
@@ -110,10 +108,10 @@ document.addEventListener("DOMContentLoaded", async () => {
             });
         });
 
-        // Live Search Logic
         if (searchInput) {
             searchInput.addEventListener("keyup", () => {
                 const search = searchInput.value.toLowerCase();
+                const cards = document.querySelectorAll(".update-card");
 
                 cards.forEach(card => {
                     const titleElement = card.querySelector("h3");
@@ -127,13 +125,5 @@ document.addEventListener("DOMContentLoaded", async () => {
                 });
             });
         }
-
-        // Active Card Hover Effect
-        cards.forEach(card => {
-            card.addEventListener("mouseenter", () => {
-                cards.forEach(c => c.classList.remove("active"));
-                card.classList.add("active");
-            });
-        });
     }
 });
