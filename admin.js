@@ -60,19 +60,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     document.addEventListener('click', (e) => { if(profileMenu && !profileBtn.contains(e.target)) profileMenu.classList.remove('show'); });
 
-    document.getElementById('updateProfileBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        profileMenu.classList.remove('show');
-        document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
-        document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-        document.getElementById('sec-profile').style.display = 'block';
-        document.querySelector('.menu-item[data-tab="sec-profile"]').classList.add('active');
-    });
+    const updateProfileLink = document.getElementById('updateProfileBtn');
+    if(updateProfileLink) {
+        updateProfileLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            if(profileMenu) profileMenu.classList.remove('show');
+            document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            const profileSec = document.getElementById('sec-profile');
+            if(profileSec) profileSec.style.display = 'block';
+            const profileMenuTab = document.querySelector('.menu-item[data-tab="sec-profile"]');
+            if(profileMenuTab) profileMenuTab.classList.add('active');
+        });
+    }
 
-    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        signOut(auth);
-    });
+    const logoutBtn = document.getElementById('logoutBtn');
+    if(logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth);
+        });
+    }
 });
 
 // Dashboard Stats
@@ -109,7 +117,7 @@ window.closeUniversalForm = function() {
     if(form) form.reset();
 }
 
-// Universal Post Submission (Base64 for PDF & Photo, No Asterisks required)
+// Universal Post Submission
 const universalForm = document.getElementById('universalPostForm');
 if(universalForm) {
     universalForm.addEventListener('submit', async (e) => {
@@ -139,10 +147,10 @@ if(universalForm) {
                 });
             };
 
-            if(pdfInput.files.length > 0) {
+            if(pdfInput && pdfInput.files && pdfInput.files.length > 0) {
                 postData.pdfUrl = await readFileAsDataURL(pdfInput.files[0]);
             }
-            if(photoInput.files.length > 0) {
+            if(photoInput && photoInput.files && photoInput.files.length > 0) {
                 postData.photoUrl = await readFileAsDataURL(photoInput.files[0]);
             }
 
@@ -155,7 +163,7 @@ if(universalForm) {
     });
 }
 
-// Load History & Categorized Lists with Timestamps
+// Load History & Categorized Lists
 async function loadAllPostsHistory() {
     const historyContainer = document.getElementById('dashboardHistoryList');
     const updatesContainer = document.getElementById('updatesList');
@@ -240,7 +248,7 @@ if(galleryForm) {
         const title = document.getElementById('galleryTitle').value;
         const fileInput = document.getElementById('galleryImageInput');
         
-        if(fileInput.files.length > 0) {
+        if(fileInput && fileInput.files && fileInput.files.length > 0) {
             const reader = new FileReader();
             reader.onload = async function(event) {
                 const base64Image = event.target.result;
@@ -354,7 +362,7 @@ if(profileUpdateForm) {
                 await updatePassword(user, newPassword);
             }
 
-            if(photoInput.files.length > 0) {
+            if(photoInput && photoInput.files && photoInput.files.length > 0) {
                 const reader = new FileReader();
                 reader.onload = async function(event) {
                     profileData.photoUrl = event.target.result;
