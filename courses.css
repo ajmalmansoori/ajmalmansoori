@@ -745,3 +745,36 @@
     }
 
 }
+/* Ripple Effect */
+
+.course-btn{
+    position:relative;
+    overflow:hidden;
+}
+
+.ripple{
+    position:absolute;
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    background:rgba(255,255,255,.6);
+    transform:translate(-50%,-50%);
+    animation:ripple .6s linear;
+    pointer-events:none;
+}
+
+@keyframes ripple{
+
+    from{
+        width:0;
+        height:0;
+        opacity:.7;
+    }
+
+    to{
+        width:400px;
+        height:400px;
+        opacity:0;
+    }
+
+}
