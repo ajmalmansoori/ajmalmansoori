@@ -1387,7 +1387,386 @@ font-size:14px;
     );
 
 }
+/*====================================================
+                PREMIUM PARTICLES
+====================================================*/
 
+.updates-section{
+    position:relative;
+    overflow:hidden;
+}
+
+.updates-section::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    left:-220px;
+    top:-220px;
+    border-radius:50%;
+    background:radial-gradient(circle,#20ff6935 0%,transparent 70%);
+    animation:blobMove 10s ease-in-out infinite;
+}
+
+.updates-section::after{
+    content:"";
+    position:absolute;
+    width:450px;
+    height:450px;
+    right:-180px;
+    bottom:-180px;
+    border-radius:50%;
+    background:radial-gradient(circle,#00ffcc20 0%,transparent 70%);
+    animation:blobMove2 12s ease-in-out infinite;
+}
+
+@keyframes blobMove{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(80px,40px);
+    }
+
+    100%{
+        transform:translate(0,0);
+    }
+
+}
+
+@keyframes blobMove2{
+
+    0%{
+        transform:translate(0,0);
+    }
+
+    50%{
+        transform:translate(-60px,-40px);
+    }
+
+    100%{
+        transform:translate(0,0);
+    }
+
+}
+
+/*====================================================
+                GLASS EFFECT
+====================================================*/
+
+.feature-box,
+.update-card,
+.updates-panel{
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+
+}
+
+/*====================================================
+                CARD SHINE
+====================================================*/
+
+.update-card{
+    overflow:hidden;
+}
+
+.update-card::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:-130%;
+
+    top:0;
+
+    width:70%;
+    height:100%;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        rgba(255,255,255,.10),
+        transparent
+    );
+
+    transform:skewX(-25deg);
+
+}
+
+.update-card:hover::after{
+
+    animation:shine .8s;
+
+}
+
+@keyframes shine{
+
+    from{
+
+        left:-130%;
+
+    }
+
+    to{
+
+        left:130%;
+
+    }
+
+}
+
+/*====================================================
+                TITLE GLOW
+====================================================*/
+
+.heading-area h2{
+
+    text-shadow:
+    0 0 8px rgba(34,255,122,.15),
+    0 0 18px rgba(34,255,122,.10);
+
+}
+
+/*====================================================
+                ICON SPIN
+====================================================*/
+
+.update-card:hover .icon i{
+
+    transform:rotate(360deg);
+
+    transition:.8s;
+
+}
+
+/*====================================================
+                FLOATING BADGE
+====================================================*/
+
+.status{
+
+    animation:floating 2.8s ease-in-out infinite;
+
+}
+
+@keyframes floating{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-3px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*====================================================
+                SEARCH PLACEHOLDER
+====================================================*/
+
+.search-box input::placeholder{
+
+    transition:.4s;
+
+}
+
+.search-box input:focus::placeholder{
+
+    opacity:.35;
+
+    padding-left:8px;
+
+}
+
+/*====================================================
+                FEATURE ICON
+====================================================*/
+
+.feature-box:hover i{
+
+    transform:scale(1.15);
+
+}
+
+/*====================================================
+                SCROLL ANIMATION
+====================================================*/
+
+html{
+
+    scroll-padding-top:90px;
+
+}
+
+/*====================================================
+                PREMIUM BORDER
+====================================================*/
+
+.update-card{
+
+    border-image:linear-gradient(
+    135deg,
+    rgba(255,255,255,.06),
+    rgba(34,255,122,.25)
+    )1;
+
+}
+
+/*====================================================
+                NOTIFY BUTTON
+====================================================*/
+
+.notify-btn{
+
+    letter-spacing:.4px;
+
+}
+
+.notify-btn:hover{
+
+    letter-spacing:1px;
+
+}
+
+/*====================================================
+                CARD TITLE
+====================================================*/
+
+.content h3{
+
+    transition:.35s;
+
+}
+
+.update-card:hover .content h3{
+
+    color:#22ff7a;
+
+}
+
+/*====================================================
+                DATE ICON
+====================================================*/
+
+.date i{
+
+    transition:.35s;
+
+}
+
+.update-card:hover .date i{
+
+    background:#22ff7a;
+
+    color:#000;
+
+}
+
+/*====================================================
+                ARROW
+====================================================*/
+
+.arrow{
+
+    overflow:hidden;
+
+}
+
+.arrow::before{
+
+    content:"➜";
+
+    position:absolute;
+
+    opacity:0;
+
+    transform:translateX(-12px);
+
+    transition:.35s;
+
+}
+
+.update-card:hover .arrow i{
+
+    opacity:0;
+
+}
+
+.update-card:hover .arrow::before{
+
+    opacity:1;
+
+    transform:translateX(0);
+
+}
+
+/*====================================================
+                LOADING BAR
+====================================================*/
+
+.panel-top::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-18px;
+    left:0;
+
+    width:100%;
+    height:2px;
+
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #22ff7a,
+        transparent
+    );
+
+    animation:loadingBar 3s linear infinite;
+
+}
+
+.panel-top{
+
+    position:relative;
+
+}
+
+@keyframes loadingBar{
+
+    from{
+
+        background-position:-400px;
+
+    }
+
+    to{
+
+        background-position:400px;
+
+    }
+
+}
+
+/*====================================================
+                END
+====================================================*/
 /*====================================================
             PREMIUM END
 ====================================================*/
