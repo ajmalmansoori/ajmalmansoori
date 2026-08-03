@@ -14,7 +14,7 @@
     .header-right { position: relative; display: flex; align-items: center; }
     .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
     .user-profile:hover { background: #f1f5f9; border: 1px solid #e2e8f0; }
-    .avatar { width: 35px; height: 35px; background: #6366f1; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+    .avatar { width: 35px; height: 35px; background: #6366f1; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; object-fit: cover; }
     .profile-name { font-weight: 600; font-size: 0.95rem; color: #1e293b; }
     .profile-dropdown-menu { display: none; position: absolute; top: 110%; right: 0; background: white; border: 1px solid #e2e8f0; border-radius: 10px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); min-width: 180px; z-index: 1000; overflow: hidden; }
     .profile-dropdown-menu.show { display: block; }
@@ -23,90 +23,20 @@
     .profile-menu-items li a:hover { background: #f8fafc; color: #0f172a; }
     .profile-menu-items hr { border: 0; border-top: 1px solid #f1f5f9; margin: 4px 0; }
 
-    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; }
+    /* Analytics 3 Cards Grid */
+    .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 20px; margin-bottom: 30px; }
     .metric-card { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .card-label { font-size: 0.9rem; color: #64748b; margin-bottom: 8px; font-weight: 600; }
     .card-val { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
-    .revenue-val { color: #10b981; }
+    .earning-val { color: #10b981; }
 
     .recruit-section-box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
     .recruit-section-box h4 { margin-bottom: 15px; color: #334155; font-size: 1.05rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
     .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-
-    /* PREMIUM APPX COURSE MODAL CSS */
-    .premium-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFFFFF; z-index: 9999; overflow-y: auto; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .premium-form-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: white; border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 10; }
-    .premium-form-header h2 { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin: 0; }
-    .header-actions { display: flex; gap: 12px; }
-    .btn-outline-cancel { padding: 8px 16px; border: 1px solid #CBD5E1; background: white; border-radius: 8px; font-weight: 600; color: #475569; cursor: pointer; transition: 0.2s; }
-    .btn-outline-cancel:hover { background: #F1F5F9; }
-    .btn-dark-publish { padding: 8px 24px; border: none; background: #1E293B; border-radius: 8px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
-    .btn-dark-publish:hover { background: #0F172A; }
     
-    .stepper-container { display: flex; align-items: center; justify-content: center; padding: 25px 0; gap: 15px; background: #FAFAFA; border-bottom: 1px solid #E2E8F0; }
-    .step { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #94A3B8; font-weight: 600; cursor: pointer;}
-    .step.active { color: #0F172A; }
-    .step-num { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #E2E8F0; color: #64748B; font-size: 0.8rem; font-weight: 700;}
-    .step.active .step-num { background: #0F172A; color: white; }
-    .step-line { width: 50px; height: 2px; background: #E2E8F0; }
-
-    .premium-form-body { display: flex; gap: 40px; padding: 40px; max-width: 1400px; margin: 0 auto; }
-    .form-left-panel { flex: 1; border-right: 1px solid #E2E8F0; padding-right: 40px; }
-    .form-right-panel { width: 350px; position: sticky; top: 100px; height: max-content; }
-    
-    .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .input-group-modern { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; }
-    .input-group-modern label { font-size: 0.85rem; font-weight: 600; color: #334155; }
-    .text-danger { color: #EF4444; }
-    .input-with-icon { position: relative; display: flex; align-items: center; }
-    .input-with-icon i { position: absolute; left: 15px; color: #94A3B8; }
-    .input-with-icon input, .input-with-icon select { width: 100%; padding: 12px 15px 12px 40px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; font-family: inherit; }
-    .input-without-icon { width: 100%; padding: 12px 15px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; font-family: inherit; background: white;}
-    .input-with-icon input:focus, .input-without-icon:focus { border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
-
-    /* Drag & Drop Upload UI */
-    .upload-media-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
-    .upload-section { display: flex; flex-direction: column; gap: 10px; }
-    .upload-section label { font-size: 0.85rem; font-weight: 600; color: #334155; }
-    .upload-boxes { display: flex; gap: 15px; height: 110px; }
-    .preview-box { width: 120px; height: 100%; background: #F1F5F9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94A3B8; font-size: 0.8rem; overflow: hidden; border: 1px solid #E2E8F0; }
-    .preview-box img { width: 100%; height: 100%; object-fit: cover; }
-    .preview-box i { font-size: 1.5rem; margin-bottom: 5px; }
-    .drag-drop-box { flex: 1; height: 100%; border: 2px dashed #CBD5E1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s; color: #64748B; background: #FAFAFA; padding: 10px;}
-    .drag-drop-box:hover { border-color: #6366F1; background: #EEF2FF; color: #4F46E5; }
-    .drag-drop-box b { font-size: 0.9rem; margin-bottom: 4px; color: #334155; }
-    .drag-drop-box small { font-size: 0.75rem; color: #94A3B8; }
-
-    /* Segmented Control (Validity) */
-    .segmented-control { display: flex; background: #F1F5F9; padding: 4px; border-radius: 10px; border: 1px solid #E2E8F0; }
-    .segment-btn { flex: 1; padding: 10px; text-align: center; font-size: 0.85rem; font-weight: 600; color: #64748B; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-    .segment-btn.active { background: white; color: #0F172A; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-
-    /* Validity Settings Box */
-    .validity-settings-box { background: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin-top: 15px; }
-    .validity-input-group { display: flex; gap: 0; }
-    .validity-input-group select { padding: 12px 15px; border: 1px solid #CBD5E1; border-right: none; border-radius: 8px 0 0 8px; outline: none; background: white; font-family: inherit; font-size: 0.9rem;}
-    .validity-input-group input { flex: 1; padding: 12px 15px; border: 1px solid #CBD5E1; border-radius: 0 8px 8px 0; outline: none; font-family: inherit; font-size: 0.9rem;}
-
-    /* Footer Buttons */
-    .step-footer { display: flex; justify-content: flex-end; margin-top: 40px; padding-top: 20px; gap: 15px; }
-    .btn-dark-next { background: #1E293B; color: white; border: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;}
-    .btn-dark-next:hover { background: #0F172A; }
-    .btn-outline-back { background: white; color: #475569; border: 1px solid #CBD5E1; padding: 12px 28px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;}
-    .btn-outline-back:hover { background: #F1F5F9; }
-
-    /* Live Preview Panel */
-    .preview-label { font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
-    .preview-card-mockup { background: white; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
-    .mockup-img { height: 180px; background: #E2E8F0; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #94A3B8;}
-    .mockup-content { padding: 25px; }
-    .preview-title { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 15px; min-height: 24px;}
-    .preview-desc-box { background: #E2E8F0; height: 50px; border-radius: 8px; margin-bottom: 20px; }
-    .preview-price-row { display: flex; justify-content: space-between; align-items: center; font-weight: 700;}
-    .preview-price { font-size: 1.2rem; color: #0F172A;}
-    .preview-discount { color: #10B981; font-size: 0.9rem;}
-
-    .d-none { display: none !important; }
+    /* Real Profile Upload Box */
+    .profile-img-upload { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .profile-preview-lg { width: 80px; height: 80px; border-radius: 50%; background: #e2e8f0; object-fit: cover; border: 2px solid #cbd5e1; }
   </style>
 </head>
 <body>
@@ -121,11 +51,13 @@
     </div>
     <ul class="menu-list">
       <li class="menu-item active" data-tab="sec-dashboard"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-pie left-icon"></i> Dashboard</span></a></li>
-      <li class="menu-item" data-tab="sec-news"><a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> News & Updates</span></a></li>
+      <li class="menu-item" data-tab="sec-updates"><a href="#"><span class="item-label"><i class="fa-solid fa-newspaper left-icon"></i> Updates</span></a></li>
       <li class="menu-item" data-tab="sec-admit-card"><a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a></li>
       <li class="menu-item" data-tab="sec-result"><a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a></li>
-      <li class="menu-item" data-tab="sec-recruitment"><a href="#"><span class="item-label"><i class="fa-solid fa-briefcase left-icon"></i> Upload Recruitment</span></a></li>
-      <li class="menu-item" data-tab="sec-courses"><a href="#"><span class="item-label"><i class="fa-solid fa-video left-icon"></i> Courses</span></a></li>
+      <li class="menu-item" data-tab="sec-cutoff"><a href="#"><span class="item-label"><i class="fa-solid fa-chart-line left-icon"></i> Cutoff</span></a></li>
+      <li class="menu-item" data-tab="sec-admission"><a href="#"><span class="item-label"><i class="fa-solid fa-school-flag left-icon"></i> Admission</span></a></li>
+      <li class="menu-item" data-tab="sec-recruitment"><a href="#"><span class="item-label"><i class="fa-solid fa-briefcase left-icon"></i> Recruitment</span></a></li>
+      <li class="menu-item" data-tab="sec-gallery"><a href="#"><span class="item-label"><i class="fa-solid fa-images left-icon"></i> Gallery</span></a></li>
       <hr style="border-top: 1px solid var(--border-color); margin: 10px 0;">
       <li class="menu-item" data-tab="sec-profile"><a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a></li>
     </ul>
@@ -137,7 +69,8 @@
       <button class="toggle-btn" id="sidebarToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
       <div class="header-right">
         <div class="user-profile" id="profileDropdownBtn">
-          <div class="avatar">AM</div>
+          <img src="" alt="Avatar" class="avatar" id="topAvatarImg" style="display:none;">
+          <div class="avatar" id="topAvatarInitial">AM</div>
           <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
           <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #64748b;"></i>
         </div>
@@ -153,152 +86,163 @@
 
     <main class="main-content">
       
-      <!-- DASHBOARD TAB -->
+      <!-- DASHBOARD TAB (Analytics + History) -->
       <div id="sec-dashboard" class="tab-section active">
         <h1 class="page-head">Analytics Overview</h1>
         <div class="metrics-grid">
-          <div class="metric-card"><div class="card-label">Total Views</div><div class="card-val" id="totalViewsCount">0</div></div>
-          <div class="metric-card"><div class="card-label">Total Posts</div><div class="card-val" id="totalPostsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Website Views</div><div class="card-val" id="totalViewsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Published Posts</div><div class="card-val" id="totalPostsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Earning (AdSense)</div><div class="card-val earning-val" id="totalEarningAmount">₹0</div></div>
         </div>
+
+        <h2 class="page-head" style="font-size: 1.3rem; margin-top: 20px;">Recent Posts History</h2>
+        <div class="data-card-container" id="dashboardHistoryList"><p>Loading history...</p></div>
       </div>
 
-      <!-- NORMAL POSTS (NEWS) -->
-      <div id="sec-news" class="tab-section" style="display: none;">
+      <!-- UPDATES TAB -->
+      <div id="sec-updates" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
-          <h2 class="page-head">News & Updates</h2>
-          <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
+          <h2 class="page-head">Updates Management</h2>
+          <button class="btn-action-primary" id="openUpdateFormBtn">+ Add New Update</button>
         </div>
-        
-        <div id="addPostFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Create Normal Post</h3>
-          <form id="addPostForm">
-            <div class="input-group">
-              <label>Post Title</label>
-              <input type="text" id="postTitle" required placeholder="Enter post title">
+        <div id="updateFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <h3 style="margin-bottom: 15px;">Create New Update</h3>
+          <form id="addUpdateForm">
+            <div class="input-group"><label>Title</label><input type="text" id="upTitle" required placeholder="Enter update title"></div>
+            <div class="input-group"><label>Category</label>
+              <select id="upCategory" class="custom-select"><option value="Updates">Updates</option></select>
             </div>
-            <div class="input-group">
-              <label>Category</label>
-              <select id="postCategory" required class="custom-select">
-                <option value="News">News & Updates</option>
-                <option value="Admit Card">Admit Card</option>
-                <option value="Result">Result</option>
-                <option value="Cutoff">Cutoff</option>
-                <option value="Syllabus">Syllabus</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label>Attachment Type</label>
-              <select id="postMediaType" required class="custom-select">
-                <option value="Link">Website Link</option>
-                <option value="PDF">PDF Document</option>
-              </select>
-            </div>
-            <div class="input-group">
-              <label>URL / File Link</label>
-              <input type="url" id="postLink" required placeholder="Paste the link here">
-            </div>
-            <div style="margin-top: 20px; display: flex; gap: 12px;">
-              <button type="submit" class="btn-action-primary">Publish Post</button>
-              <button type="button" class="btn-secondary-reset" id="cancelPostBtn">Cancel</button>
-            </div>
-            <p id="postStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600;">✅ Post Published!</p>
+            <div class="input-group"><label>Link / URL</label><input type="url" id="upLink" required placeholder="Paste link"></div>
+            <button type="submit" class="btn-action-primary">Publish Update</button>
+            <button type="button" class="btn-secondary-reset" id="cancelUpdateBtn" style="margin-left: 10px;">Cancel</button>
           </form>
         </div>
-        <div class="data-card-container" id="newsList"><p>Loading news...</p></div>
+        <div class="data-card-container" id="updatesList"><p>Loading updates...</p></div>
       </div>
 
       <!-- ADMIT CARD TAB -->
       <div id="sec-admit-card" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Admit Card</h2></div>
+        <div class="dash-top-bar">
+          <h2 class="page-head">Admit Card Management</h2>
+          <button class="btn-action-primary" id="openAdmitFormBtn">+ Add Admit Card</button>
+        </div>
+        <div id="admitFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <form id="addAdmitForm">
+            <div class="input-group"><label>Title</label><input type="text" id="admitTitle" required placeholder="Admit card title"></div>
+            <input type="hidden" id="admitCategory" value="Admit Card">
+            <div class="input-group"><label>Link</label><input type="url" id="admitLink" required placeholder="Link"></div>
+            <button type="submit" class="btn-action-primary">Publish</button>
+          </form>
+        </div>
         <div class="data-card-container" id="admitCardList"><p>Loading...</p></div>
       </div>
 
       <!-- RESULT TAB -->
       <div id="sec-result" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Result</h2></div>
+        <div class="dash-top-bar">
+          <h2 class="page-head">Result Management</h2>
+          <button class="btn-action-primary" id="openResultFormBtn">+ Add Result</button>
+        </div>
+        <div id="resultFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <form id="addResultForm">
+            <div class="input-group"><label>Title</label><input type="text" id="resTitle" required placeholder="Result title"></div>
+            <input type="hidden" id="resCategory" value="Result">
+            <div class="input-group"><label>Link</label><input type="url" id="resLink" required placeholder="Link"></div>
+            <button type="submit" class="btn-action-primary">Publish</button>
+          </form>
+        </div>
         <div class="data-card-container" id="resultList"><p>Loading...</p></div>
       </div>
 
-      <!-- MEGA RECRUITMENT UPLOAD TAB -->
+      <!-- CUTOFF TAB -->
+      <div id="sec-cutoff" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Cutoff Management</h2>
+          <button class="btn-action-primary" id="openCutoffFormBtn">+ Add Cutoff</button>
+        </div>
+        <div id="cutoffFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <form id="addCutoffForm">
+            <div class="input-group"><label>Title</label><input type="text" id="cutTitle" required placeholder="Cutoff title"></div>
+            <input type="hidden" id="cutCategory" value="Cutoff">
+            <div class="input-group"><label>Link</label><input type="url" id="cutLink" required placeholder="Link"></div>
+            <button type="submit" class="btn-action-primary">Publish</button>
+          </form>
+        </div>
+        <div class="data-card-container" id="cutoffList"><p>Loading...</p></div>
+      </div>
+
+      <!-- ADMISSION TAB -->
+      <div id="sec-admission" class="tab-section" style="display: none;">
+        <div class="dash-top-bar">
+          <h2 class="page-head">Admission Management</h2>
+          <button class="btn-action-primary" id="openAdmissionFormBtn">+ Add Admission</button>
+        </div>
+        <div id="admissionFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
+          <form id="addAdmissionForm">
+            <div class="input-group"><label>Title</label><input type="text" id="admTitle" required placeholder="Admission title"></div>
+            <input type="hidden" id="admCategory" value="Admission">
+            <div class="input-group"><label>Link</label><input type="url" id="admLink" required placeholder="Link"></div>
+            <button type="submit" class="btn-action-primary">Publish</button>
+          </form>
+        </div>
+        <div class="data-card-container" id="admissionList"><p>Loading...</p></div>
+      </div>
+
+      <!-- RECRUITMENT TAB -->
       <div id="sec-recruitment" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Upload New Recruitment Detail</h2></div>
+        <div class="dash-top-bar"><h2 class="page-head">Recruitment Form Management</h2></div>
         <div class="data-card-container" style="max-width: 900px;">
           <form id="megaRecruitmentForm">
-            <!-- 1. Header & Badges -->
             <div class="recruit-section-box">
               <h4>1. Page Header</h4>
               <div class="input-group"><label>Recruitment Title (H1)</label><input type="text" id="recTitle" required placeholder="e.g. Allahabad University Non Teaching..."></div>
               <div class="input-group"><label>Badge Text</label><input type="text" id="recBadge" required placeholder="e.g. Recruitment 2026"></div>
             </div>
-
-            <!-- 2. Important Dates -->
             <div class="recruit-section-box">
               <h4>2. Important Dates</h4>
               <div class="grid-2-col">
                 <div class="input-group"><label>Application Begin</label><input type="text" id="dateStart"></div>
                 <div class="input-group"><label>Last Date Apply Online</label><input type="text" id="dateEnd"></div>
-                <div class="input-group"><label>Fee Payment Last Date</label><input type="text" id="dateFee"></div>
-                <div class="input-group"><label>Correction Date</label><input type="text" id="dateCorrection"></div>
-                <div class="input-group"><label>Exam Date</label><input type="text" id="dateExam"></div>
-                <div class="input-group"><label>Admit Card Available</label><input type="text" id="dateAdmitCard"></div>
               </div>
             </div>
-
-            <!-- 3. Application Fee -->
-            <div class="recruit-section-box">
-              <h4>3. Application Fee</h4>
-              <div class="grid-2-col">
-                <div class="input-group"><label>Gen/OBC/EWS</label><input type="text" id="feeGen"></div>
-                <div class="input-group"><label>SC/ST</label><input type="text" id="feeSC"></div>
-                <div class="input-group"><label>PH Candidate</label><input type="text" id="feePH"></div>
-                <div class="input-group"><label>Payment Mode</label><input type="text" id="feeMode"></div>
-              </div>
-            </div>
-
-            <!-- 4. Age Limit -->
-            <div class="recruit-section-box">
-              <h4>4. Age Limit</h4>
-              <div class="grid-2-col">
-                <div class="input-group"><label>Min Age</label><input type="text" id="ageMin"></div>
-                <div class="input-group"><label>Max Age</label><input type="text" id="ageMax"></div>
-              </div>
-              <div class="input-group" style="margin-top: 15px;"><label>Age Rules</label><input type="text" id="ageRules"></div>
-            </div>
-
-            <!-- 5. Links -->
-            <div class="recruit-section-box">
-              <h4>5. Important Links (URLs)</h4>
-              <div class="input-group"><label>Apply Online Link</label><input type="url" id="linkApply"></div>
-              <div class="input-group"><label>Notification PDF Link</label><input type="url" id="linkNotification"></div>
-              <div class="input-group"><label>Official Website Link</label><input type="url" id="linkWebsite"></div>
-            </div>
-
-            <button type="submit" class="btn-action-primary" style="width: 100%; padding: 15px; font-size: 1.1rem;">🚀 Publish Recruitment Page</button>
-            <p id="recruitmentStatusMsg" style="color: #166534; background: #dcfce7; padding: 15px; border-radius: 8px; margin-top: 15px; display: none; font-weight: 600; text-align: center;">✅ Recruitment Data Uploaded Successfully!</p>
+            <button type="submit" class="btn-action-primary" style="width: 100%; padding: 15px;">🚀 Publish Recruitment Page</button>
+            <p id="recruitmentStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Published Successfully!</p>
           </form>
         </div>
       </div>
 
-      <!-- NEW COURSES TAB -->
-      <div id="sec-courses" class="tab-section" style="display: none;">
+      <!-- GALLERY TAB -->
+      <div id="sec-gallery" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
-          <h2 class="page-head">Manage Courses</h2>
-          <button class="btn-action-primary" id="openCourseFormBtn"><i class="fa-solid fa-plus"></i> Add New Course</button>
+          <h2 class="page-head">Photo Gallery Management</h2>
         </div>
-        <div class="data-card-container" id="coursesList">
-          <p style="color: #64748b;">No courses published yet.</p>
+        <div class="data-card-container">
+          <form id="galleryUploadForm">
+            <div class="input-group"><label>Photo Title / Caption</label><input type="text" id="galleryTitle" required placeholder="Enter photo title"></div>
+            <div class="input-group"><label>Select Image File</label><input type="file" id="galleryImageInput" accept="image/*" required></div>
+            <button type="submit" class="btn-action-primary">Upload Photo</button>
+          </form>
         </div>
+        <div class="data-card-container" id="galleryList" style="margin-top: 20px;"><p>Loading gallery...</p></div>
       </div>
 
-      <!-- PROFILE SETTINGS TAB -->
+      <!-- REAL PROFILE SETTINGS TAB -->
       <div id="sec-profile" class="tab-section" style="display: none;">
         <h2 class="page-head">Profile Settings</h2>
-        <div class="data-card-container">
+        <div class="data-card-container" style="max-width: 600px;">
           <form id="profileUpdateForm">
+            <div class="profile-img-upload">
+              <img src="" id="profilePreviewImg" class="profile-preview-lg" style="display:none;">
+              <div class="profile-preview-lg" id="profilePreviewInitial" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:#64748b;">AM</div>
+              <div>
+                <label style="font-weight:600; display:block; margin-bottom:5px;">Profile Photo</label>
+                <input type="file" id="adminPhotoInput" accept="image/*">
+              </div>
+            </div>
             <div class="input-group"><label>Full Name</label><input type="text" id="adminName" required></div>
             <div class="input-group"><label>Email</label><input type="email" id="adminEmail" required></div>
-            <button type="submit" class="btn-action-primary">Update Profile</button>
-            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile Updated!</p>
+            <button type="submit" class="btn-action-primary">Save Profile</button>
+            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile Updated Successfully!</p>
           </form>
         </div>
       </div>
@@ -306,216 +250,6 @@
     </main>
   </div>
 
-  <!-- APPX STYLE FULLSCREEN FORM OVERLAY (For Courses) -->
-  <div id="premiumFormOverlay" class="premium-overlay" style="display: none;">
-    <!-- Top Navbar -->
-    <div class="premium-form-header">
-      <h2>Add New Course</h2>
-      <div class="header-actions">
-        <button type="button" class="btn-outline-cancel" id="closePremiumForm"><i class="fa-solid fa-xmark"></i> Close</button>
-        <button type="button" class="btn-dark-publish"><i class="fa-solid fa-arrow-up-from-bracket"></i> Publish</button>
-      </div>
-    </div>
-
-    <!-- Stepper (Progress) -->
-    <div class="stepper-container">
-      <div class="step active" id="indicator1"><span class="step-num">1</span> Basic Course Information</div>
-      <div class="step-line"></div>
-      <div class="step" id="indicator2"><span class="step-num">2</span> Media & Settings</div>
-      <div class="step-line"></div>
-      <div class="step" id="indicator3"><span class="step-num">3</span> Content</div>
-    </div>
-
-    <!-- Main Form Layout -->
-    <div class="premium-form-body">
-      
-      <!-- LEFT SIDE: Form Fields -->
-      <div class="form-left-panel">
-        
-        <!-- STEP 1: BASIC INFO -->
-        <div id="formStep1">
-          <div class="input-grid">
-            <div class="input-group-modern">
-              <label>Title <span class="text-danger">*</span></label>
-              <div class="input-with-icon">
-                <i class="fa-regular fa-file-lines"></i>
-                <input type="text" id="courseTitleInput" placeholder="Course Name">
-              </div>
-            </div>
-            <div class="input-group-modern">
-              <label>Price <span class="text-danger">*</span></label>
-              <div class="input-with-icon">
-                <i class="fa-solid fa-indian-rupee-sign"></i>
-                <input type="number" id="coursePriceInput" placeholder="Enter Price">
-              </div>
-              <small style="color: #94A3B8; font-size: 0.75rem; margin-top: 4px;">This is the final price student will pay</small>
-            </div>
-          </div>
-          <div class="step-footer">
-            <button type="button" class="btn-dark-next" onclick="goToStep(2)">Next <i class="fa-solid fa-arrow-right"></i></button>
-          </div>
-        </div>
-
-        <!-- STEP 2: MEDIA & SETTINGS (As per Screenshot) -->
-        <div id="formStep2" class="d-none">
-          
-          <!-- Image & Video Upload Area -->
-          <div class="upload-media-container">
-            <!-- Cover Image -->
-            <div class="upload-section">
-              <label>Cover Image</label>
-              <div class="upload-boxes">
-                <div class="preview-box" id="coverPreviewBox">
-                  <i class="fa-regular fa-image"></i>
-                  <span>No Image</span>
-                </div>
-                <div class="drag-drop-box" onclick="document.getElementById('coverInput').click()">
-                  <input type="file" id="coverInput" accept="image/*" hidden>
-                  <b>Upload Image</b>
-                  <small>Click or Drag & Drop<br>Recommended: 960x540</small>
-                </div>
-              </div>
-            </div>
-            <!-- Demo Video -->
-            <div class="upload-section">
-              <label>Demo Video</label>
-              <div class="upload-boxes">
-                <div class="preview-box">
-                  <i class="fa-solid fa-video"></i>
-                  <span>No Video</span>
-                </div>
-                <div class="drag-drop-box">
-                  <b>Upload Video</b>
-                  <small>Click or Drag & Drop<br>your file here.</small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Categories & Sections -->
-          <div class="input-grid">
-            <div class="input-group-modern">
-              <label>Categories</label>
-              <select class="input-without-icon">
-                <option>Select Categories</option>
-                <option>CUET UG</option>
-                <option>AU PGAT</option>
-              </select>
-            </div>
-            <div class="input-group-modern">
-              <label>Sections <span class="text-danger">*</span></label>
-              <select class="input-without-icon">
-                <option>Select Sections</option>
-                <option>Section 1</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Validity Section -->
-          <div class="input-group-modern">
-            <label>Validity <span class="text-danger">*</span></label>
-            <div class="segmented-control">
-              <div class="segment-btn active">Set Validity</div>
-              <div class="segment-btn">End Date</div>
-              <div class="segment-btn">Lifetime Access</div>
-            </div>
-            
-            <div class="validity-settings-box">
-              <label style="display:block; margin-bottom:8px;">Set Validity <span class="text-danger">*</span></label>
-              <div class="validity-input-group">
-                <select>
-                  <option>Months</option>
-                  <option>Days</option>
-                  <option>Years</option>
-                </select>
-                <input type="number" placeholder="6">
-              </div>
-            </div>
-          </div>
-
-          <div class="step-footer" style="justify-content: space-between;">
-            <button type="button" class="btn-outline-back" onclick="goToStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
-            <button type="button" class="btn-dark-next" id="publishCourseBtn">Finish <i class="fa-solid fa-check"></i></button>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- RIGHT SIDE: Live Preview -->
-      <div class="form-right-panel">
-        <p class="preview-label">PREVIEW</p>
-        <div class="preview-card-mockup">
-          <div class="mockup-img" id="livePreviewImg"></div>
-          <div class="mockup-content">
-            <div class="preview-title" id="livePreviewTitle">Course Title</div>
-            <div class="preview-desc-box"></div>
-            <div class="preview-price-row">
-              <span class="preview-price" id="livePreviewPrice">₹0</span>
-              <span class="preview-discount">20% OFF</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FIREBASE MAIN JS -->
   <script type="module" src="admin.js"></script>
-
-  <!-- INLINE UI SCRIPT (ONLY FOR COURSE MODAL & LIVE PREVIEW) -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // 1. Open / Close Course Premium Modal
-      const openCourseBtn = document.getElementById('openCourseFormBtn');
-      const closeCourseBtn = document.getElementById('closePremiumForm');
-      const premiumModal = document.getElementById('premiumFormOverlay');
-
-      if(openCourseBtn) openCourseBtn.addEventListener('click', () => premiumModal.style.display = 'block');
-      if(closeCourseBtn) closeCourseBtn.addEventListener('click', () => premiumModal.style.display = 'none');
-
-      // 2. Live Preview Listeners
-      const titleInput = document.getElementById('courseTitleInput');
-      const priceInput = document.getElementById('coursePriceInput');
-      const previewTitle = document.getElementById('livePreviewTitle');
-      const previewPrice = document.getElementById('livePreviewPrice');
-
-      if(titleInput) titleInput.addEventListener('input', (e) => { previewTitle.innerText = e.target.value || "Course Title"; });
-      if(priceInput) priceInput.addEventListener('input', (e) => { previewPrice.innerText = e.target.value ? `₹${e.target.value}` : "₹0"; });
-
-      // 3. Image Upload & Preview Logic
-      const coverInput = document.getElementById('coverInput');
-      const coverPreviewBox = document.getElementById('coverPreviewBox');
-      const livePreviewImg = document.getElementById('livePreviewImg');
-
-      if(coverInput) {
-        coverInput.addEventListener('change', function(e) {
-          const file = e.target.files[0];
-          if(file) {
-            const url = URL.createObjectURL(file);
-            coverPreviewBox.innerHTML = `<img src="${url}" alt="Cover">`;
-            livePreviewImg.style.backgroundImage = `url(${url})`;
-            livePreviewImg.innerHTML = ""; // Remove icon
-          }
-        });
-      }
-    });
-
-    // 4. Stepper Logic (Next / Back)
-    window.goToStep = function(stepNumber) {
-      document.getElementById('formStep1').classList.add('d-none');
-      document.getElementById('formStep2').classList.add('d-none');
-      
-      document.getElementById('indicator1').classList.remove('active');
-      document.getElementById('indicator2').classList.remove('active');
-
-      document.getElementById(`formStep${stepNumber}`).classList.remove('d-none');
-      document.getElementById(`indicator${stepNumber}`).classList.add('active');
-      
-      if(stepNumber === 2) {
-          document.getElementById('indicator1').classList.add('active'); // Keep previous step highlighted
-      }
-    }
-  </script>
 </body>
 </html>
