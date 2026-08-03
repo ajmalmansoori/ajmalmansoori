@@ -1,257 +1,139 @@
-/*=========================================
-        UNIVERSITY UPDATES JS
-=========================================*/
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-document.addEventListener("DOMContentLoaded", () => {
+const firebaseConfig = {
+    apiKey: "AIzaSyClRNa0XSg0WTDd_dOduSvm1-YKDMKlk0M",
+    authDomain: "ajmalmansooriapp.firebaseapp.com",
+    projectId: "ajmalmansooriapp",
+    storageBucket: "ajmalmansooriapp.firebasestorage.app",
+    messagingSenderId: "65419237118",
+    appId: "1:65419237118:web:b815aebf50614cd98237af"
+};
 
-const filterButtons = document.querySelectorAll(".filters button");
-const cards = document.querySelectorAll(".update-card");
-const searchInput = document.querySelector(".search-box input");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-/*=========================================
-        FILTER BUTTONS
-=========================================*/
+document.addEventListener("DOMContentLoaded", async () => {
+    const updateListContainer = document.querySelector(".update-list");
+    
+    // 1. Firebase se posts load karne ka function
+    async function loadFrontendPosts() {
+        if (!updateListContainer) return;
+        updateListContainer.innerHTML = '<p style="color: #fff; text-align: center; padding: 20px;">Loading live updates...</p>';
 
-filterButtons.forEach(button=>{
+        try {
+            const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
+            const snapshot = await getDocs(q);
 
-button.addEventListener("click",()=>{
+            let html = "";
+            if (snapshot.empty) {
+                updateListContainer.innerHTML = '<p style="color: #9d9d9d; text-align: center; padding: 20px;">No updates found.</p>';
+                return;
+            }
 
-filterButtons.forEach(btn=>btn.classList.remove("active"));
+            snapshot.forEach((docSnap) => {
+                const item = docSnap.data();
+                
+                // Format Date & Time
+                let dateStr = "Recent";
+                let timeStr = "";
+                if (item.createdAt && item.createdAt.toDate) {
+                    const d = item.createdAt.toDate();
+                    dateStr = d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+                    timeStr = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+                }
 
-button.classList.add("active");
+                // Determine target link (Prioritize Link -> PDF -> Photo)
+                const targetLink = item.link || item.pdfUrl || item.photoUrl || "#";
 
-const value = button.innerText.toLowerCase();
+                html += `
+                <div class="update-card" data-category="${item.category ? item.category.toLowerCase() : 'updates'}">
+                    <div class="left">
+                        <div class="icon green">
+                            <i class="fa-solid fa-bullhorn"></i>
+                        </div>
+                        <div class="content">
+                            <span>${item.category ? item.category.toUpperCase() : 'UPDATE'}</span>
+                            <h3>${item.title}</h3>
+                            <p>Click arrow or link to view official document/details.</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="date">
+                            <i class="fa-regular fa-calendar"></i>
+                            <div>
+                                <h5>${dateStr}</h5>
+                                <p>${timeStr}</p>
+                            </div>
+                        </div>
+                        <div class="status new">NEW</div>
+                        <a href="${targetLink}" target="_blank" class="arrow" style="text-decoration: none;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>`;
+            });
 
-cards.forEach(card=>{
+            updateListContainer.innerHTML = html;
+            initInteractiveElements(); // Re-bind filters & search after dynamic load
 
-const category =
-card.querySelector(".content span")
-.innerText
-.toLowerCase();
+        } catch (error) {
+            console.error("Error loading posts from Firebase:", error);
+            updateListContainer.innerHTML = '<p style="color: #ff4040; text-align: center;">Failed to load updates.</p>';
+        }
+    }
 
-if(value==="all"){
+    await loadFrontendPosts();
 
-card.style.display="flex";
+    // 2. Filters, Search & Interactive Logic
+    function initInteractiveElements() {
+        const filterButtons = document.querySelectorAll(".filters button");
+        const cards = document.querySelectorAll(".update-card");
+        const searchInput = document.querySelector(".search-box input");
 
-}
-else{
+        // Filter Buttons Logic
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
 
-if(category.includes(value)){
+                const filterValue = button.innerText.toLowerCase().trim();
 
-card.style.display="flex";
+                cards.forEach(card => {
+                    const category = card.getAttribute("data-category") || "";
+                    if (filterValue === "all" || category.includes(filterValue)) {
+                        card.style.display = "flex";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        });
 
-}else{
+        // Live Search Logic
+        if (searchInput) {
+            searchInput.addEventListener("keyup", () => {
+                const search = searchInput.value.toLowerCase();
 
-card.style.display="none";
+                cards.forEach(card => {
+                    const titleElement = card.querySelector("h3");
+                    const title = titleElement ? titleElement.innerText.toLowerCase() : "";
 
-}
+                    if (title.includes(search)) {
+                        card.style.display = "flex";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            });
+        }
 
-}
-
+        // Active Card Hover Effect
+        cards.forEach(card => {
+            card.addEventListener("mouseenter", () => {
+                cards.forEach(c => c.classList.remove("active"));
+                card.classList.add("active");
+            });
+        });
+    }
 });
-
-});
-
-});
-
-/*=========================================
-        LIVE SEARCH
-=========================================*/
-
-searchInput.addEventListener("keyup",()=>{
-
-const search = searchInput.value.toLowerCase();
-
-cards.forEach(card=>{
-
-const title =
-card.querySelector("h3")
-.innerText
-.toLowerCase();
-
-const desc =
-card.querySelector("p")
-.innerText
-.toLowerCase();
-
-if(
-
-title.includes(search) ||
-desc.includes(search)
-
-){
-
-card.style.display="flex";
-
-}else{
-
-card.style.display="none";
-
-}
-
-});
-
-});
-
-/*=========================================
-        ACTIVE CARD
-=========================================*/
-
-cards.forEach(card=>{
-
-card.addEventListener("mouseenter",()=>{
-
-cards.forEach(c=>c.classList.remove("active"));
-
-card.classList.add("active");
-
-});
-
-});
-
-/*=========================================
-        ARROW CLICK EFFECT
-=========================================*/
-
-document.querySelectorAll(".arrow").forEach(arrow=>{
-
-arrow.addEventListener("click",()=>{
-
-arrow.style.transform="scale(.90)";
-
-setTimeout(()=>{
-
-arrow.style.transform="scale(1)";
-
-},150);
-
-});
-
-});
-
-/*=========================================
-        SCROLL REVEAL
-=========================================*/
-
-const observer=new IntersectionObserver(entries=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.style.opacity="1";
-entry.target.style.transform="translateY(0)";
-
-}
-
-});
-
-},{
-threshold:.15
-});
-
-cards.forEach(card=>{
-
-card.style.opacity="0";
-card.style.transform="translateY(50px)";
-card.style.transition=".7s";
-
-observer.observe(card);
-
-});
-
-/*=========================================
-        BUTTON RIPPLE
-=========================================*/
-
-document.querySelectorAll(".filters button,.notify-btn")
-.forEach(btn=>{
-
-btn.addEventListener("click",function(e){
-
-const circle=document.createElement("span");
-
-const size=Math.max(
-this.clientWidth,
-this.clientHeight
-);
-
-circle.style.width=size+"px";
-circle.style.height=size+"px";
-
-circle.style.position="absolute";
-circle.style.borderRadius="50%";
-circle.style.background="rgba(255,255,255,.25)";
-circle.style.pointerEvents="none";
-circle.style.transform="translate(-50%,-50%)";
-circle.style.left=e.offsetX+"px";
-circle.style.top=e.offsetY+"px";
-circle.style.animation="ripple .6s linear";
-
-this.appendChild(circle);
-
-setTimeout(()=>{
-
-circle.remove();
-
-},600);
-
-});
-
-});
-
-/*=========================================
-        SEARCH ENTER
-=========================================*/
-
-searchInput.addEventListener("keypress",(e)=>{
-
-if(e.key==="Enter"){
-
-searchInput.blur();
-
-}
-
-});
-
-/*=========================================
-        AUTO ACTIVE FIRST CARD
-=========================================*/
-
-if(cards.length){
-
-cards[0].classList.add("active");
-
-}
-
-});
-
-/*=========================================
-        RIPPLE STYLE
-=========================================*/
-
-const style=document.createElement("style");
-
-style.innerHTML=`
-
-@keyframes ripple{
-
-0%{
-
-opacity:.6;
-transform:translate(-50%,-50%) scale(0);
-
-}
-
-100%{
-
-opacity:0;
-transform:translate(-50%,-50%) scale(3);
-
-}
-
-}
-
-`;
-
-document.head.appendChild(style);
