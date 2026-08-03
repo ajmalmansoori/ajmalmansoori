@@ -1,213 +1,257 @@
-// ===============================
-// SEARCH FUNCTION
-// ===============================
+/*=========================================
+        UNIVERSITY UPDATES JS
+=========================================*/
 
-const searchInput = document.getElementById("searchInput");
-const cards = document.querySelectorAll(".news-card");
-
-searchInput.addEventListener("keyup", function () {
-
-    const value = this.value.toLowerCase();
-
-    cards.forEach(card => {
-
-        const text = card.innerText.toLowerCase();
-
-        if (text.includes(value)) {
-
-            card.style.display = "block";
-
-        } else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-});
-
-// ===============================
-// CATEGORY FILTER
-// ===============================
+document.addEventListener("DOMContentLoaded", () => {
 
 const filterButtons = document.querySelectorAll(".filters button");
+const cards = document.querySelectorAll(".update-card");
+const searchInput = document.querySelector(".search-box input");
 
-filterButtons.forEach(button => {
+/*=========================================
+        FILTER BUTTONS
+=========================================*/
 
-    button.addEventListener("click", function () {
+filterButtons.forEach(button=>{
 
-        filterButtons.forEach(btn => btn.classList.remove("active"));
+button.addEventListener("click",()=>{
 
-        this.classList.add("active");
+filterButtons.forEach(btn=>btn.classList.remove("active"));
 
-        const filter = this.dataset.filter;
+button.classList.add("active");
 
-        cards.forEach(card => {
+const value = button.innerText.toLowerCase();
 
-            if (filter === "all") {
+cards.forEach(card=>{
 
-                card.style.display = "block";
+const category =
+card.querySelector(".content span")
+.innerText
+.toLowerCase();
 
-            }
+if(value==="all"){
 
-            else if (card.classList.contains(filter)) {
+card.style.display="flex";
 
-                card.style.display = "block";
+}
+else{
 
-            }
+if(category.includes(value)){
 
-            else {
+card.style.display="flex";
 
-                card.style.display = "none";
+}else{
 
-            }
+card.style.display="none";
 
-        });
+}
 
-    });
-
-});
-
-// ===============================
-// LOAD MORE
-// ===============================
-
-const loadMoreBtn = document.getElementById("loadMore");
-
-let currentItems = 6;
-
-cards.forEach((card, index) => {
-
-    if (index >= currentItems) {
-
-        card.style.display = "none";
-
-    }
+}
 
 });
 
-loadMoreBtn.addEventListener("click", () => {
-
-    currentItems += 3;
-
-    cards.forEach((card, index) => {
-
-        if (index < currentItems) {
-
-            card.style.display = "block";
-
-        }
-
-    });
-
-    if (currentItems >= cards.length) {
-
-        loadMoreBtn.style.display = "none";
-
-    }
+});
 
 });
 
-// ===============================
-// CARD HOVER EFFECT
-// ===============================
+/*=========================================
+        LIVE SEARCH
+=========================================*/
 
-cards.forEach(card => {
+searchInput.addEventListener("keyup",()=>{
 
-    card.addEventListener("mousemove", (e) => {
+const search = searchInput.value.toLowerCase();
 
-        const rect = card.getBoundingClientRect();
+cards.forEach(card=>{
 
-        const x = e.clientX - rect.left;
+const title =
+card.querySelector("h3")
+.innerText
+.toLowerCase();
 
-        const y = e.clientY - rect.top;
+const desc =
+card.querySelector("p")
+.innerText
+.toLowerCase();
 
-        card.style.background = `
-        radial-gradient(circle at ${x}px ${y}px,
-        rgba(34,255,115,.15),
-        #101010 60%)`;
+if(
 
-    });
+title.includes(search) ||
+desc.includes(search)
 
-    card.addEventListener("mouseleave", () => {
+){
 
-        card.style.background = "#101010";
+card.style.display="flex";
 
-    });
+}else{
 
-});
+card.style.display="none";
 
-// ===============================
-// SCROLL REVEAL
-// ===============================
-
-const observer = new IntersectionObserver((entries) => {
-
-    entries.forEach(entry => {
-
-        if (entry.isIntersecting) {
-
-            entry.target.style.opacity = "1";
-
-            entry.target.style.transform = "translateY(0)";
-
-            observer.unobserve(entry.target);
-
-        }
-
-    });
-
-}, {
-
-    threshold: 0.15
+}
 
 });
 
-cards.forEach(card => {
+});
 
-    card.style.opacity = "0";
+/*=========================================
+        ACTIVE CARD
+=========================================*/
 
-    card.style.transform = "translateY(40px)";
+cards.forEach(card=>{
 
-    card.style.transition = ".6s ease";
+card.addEventListener("mouseenter",()=>{
 
-    observer.observe(card);
+cards.forEach(c=>c.classList.remove("active"));
+
+card.classList.add("active");
 
 });
 
-// ===============================
-// SMOOTH BUTTON RIPPLE
-// ===============================
+});
 
-document.querySelectorAll(".bottom a, .load-more button").forEach(btn => {
+/*=========================================
+        ARROW CLICK EFFECT
+=========================================*/
 
-    btn.addEventListener("click", function () {
+document.querySelectorAll(".arrow").forEach(arrow=>{
 
-        this.animate(
+arrow.addEventListener("click",()=>{
 
-            [
+arrow.style.transform="scale(.90)";
 
-                { transform: "scale(1)" },
+setTimeout(()=>{
 
-                { transform: "scale(.94)" },
+arrow.style.transform="scale(1)";
 
-                { transform: "scale(1)" }
-
-            ],
-
-            {
-
-                duration: 250
-
-            }
-
-        );
-
-    });
+},150);
 
 });
 
-// ===============================
-// END
-// ===============================
+});
+
+/*=========================================
+        SCROLL REVEAL
+=========================================*/
+
+const observer=new IntersectionObserver(entries=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.style.opacity="1";
+entry.target.style.transform="translateY(0)";
+
+}
+
+});
+
+},{
+threshold:.15
+});
+
+cards.forEach(card=>{
+
+card.style.opacity="0";
+card.style.transform="translateY(50px)";
+card.style.transition=".7s";
+
+observer.observe(card);
+
+});
+
+/*=========================================
+        BUTTON RIPPLE
+=========================================*/
+
+document.querySelectorAll(".filters button,.notify-btn")
+.forEach(btn=>{
+
+btn.addEventListener("click",function(e){
+
+const circle=document.createElement("span");
+
+const size=Math.max(
+this.clientWidth,
+this.clientHeight
+);
+
+circle.style.width=size+"px";
+circle.style.height=size+"px";
+
+circle.style.position="absolute";
+circle.style.borderRadius="50%";
+circle.style.background="rgba(255,255,255,.25)";
+circle.style.pointerEvents="none";
+circle.style.transform="translate(-50%,-50%)";
+circle.style.left=e.offsetX+"px";
+circle.style.top=e.offsetY+"px";
+circle.style.animation="ripple .6s linear";
+
+this.appendChild(circle);
+
+setTimeout(()=>{
+
+circle.remove();
+
+},600);
+
+});
+
+});
+
+/*=========================================
+        SEARCH ENTER
+=========================================*/
+
+searchInput.addEventListener("keypress",(e)=>{
+
+if(e.key==="Enter"){
+
+searchInput.blur();
+
+}
+
+});
+
+/*=========================================
+        AUTO ACTIVE FIRST CARD
+=========================================*/
+
+if(cards.length){
+
+cards[0].classList.add("active");
+
+}
+
+});
+
+/*=========================================
+        RIPPLE STYLE
+=========================================*/
+
+const style=document.createElement("style");
+
+style.innerHTML=`
+
+@keyframes ripple{
+
+0%{
+
+opacity:.6;
+transform:translate(-50%,-50%) scale(0);
+
+}
+
+100%{
+
+opacity:0;
+transform:translate(-50%,-50%) scale(3);
+
+}
+
+}
+
+`;
+
+document.head.appendChild(style);
