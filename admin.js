@@ -253,7 +253,11 @@ window.deleteGallery = async (id) => {
     }
 };
 
-// Profile & Admin Credentials Settings
+// ==========================================
+// PROFILE & CREDENTIALS UPDATE LOGIC (REAL)
+// ==========================================
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
 async function loadProfile() {
     try {
         const adminDoc = await getDoc(doc(db, "users", "adminProfile"));
@@ -288,6 +292,7 @@ if(profileUpdateForm) {
         const newEmail = document.getElementById('adminEmail').value;
         const newPhone = document.getElementById('adminPhone').value;
         const newAddress = document.getElementById('adminAddress').value;
+        const newPassword = document.getElementById('adminPassword').value;
         const photoInput = document.getElementById('adminPhotoInput');
 
         let profileData = { 
@@ -299,22 +304,43 @@ if(profileUpdateForm) {
         };
 
         try {
+            const user = auth.currentUser;
+
+            // Agar naya password dala hai toh Firebase Auth me password update karo
+            if(user && newPassword && newPassword.trim() !== "") {
+                if(newPassword.length < 6) {
+                    alert("⚠️ Password should be at least 6 characters long!");
+                    return;
+                }
+                
+                // Security ke liye user ka current password maangna padta hai ya direct update
+                await updatePassword(user, newPassword);
+            }
+
+            // Photo upload handling (Base64)
             if(photoInput.files.length > 0) {
                 const reader = new FileReader();
                 reader.onload = async function(event) {
                     profileData.photoUrl = event.target.result;
                     await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-                    alert("✅ Profile Updated Successfully!");
+                    alert("✅ Profile & Password Updated Successfully!");
+                    document.getElementById('adminPassword').value = ""; // Clear password field
                     loadProfile();
                 };
                 reader.readAsDataURL(photoInput.files[0]);
             } else {
                 await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
-                alert("✅ Profile Updated Successfully!");
+                alert("✅ Profile & Password Updated Successfully!");
+                document.getElementById('adminPassword').value = ""; // Clear password field
                 loadProfile();
             }
         } catch(err) {
-            alert("Error updating profile: " + err.message);
+            console.error("Profile update error:", err);
+            if(err.code === 'auth/requires-recent-login') {
+                alert("⚠️ Security Alert: Please logout and login again before changing your password!");
+            } else {
+                alert("Error updating profile: " + err.message);
+            }
         }
     });
 }
