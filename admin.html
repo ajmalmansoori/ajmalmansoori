@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CMS Dashboard | Ajmal Mansoori</title>
+  <title>CMS Dashboard | Learnify Classes</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="admin.css">
 
   <style> 
-    body { display: none; background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; } 
+    body { display: none; background-color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; margin: 0; } 
     .header-right { position: relative; display: flex; align-items: center; }
     .user-profile { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 6px 12px; border-radius: 8px; transition: 0.2s; border: 1px solid transparent; }
     .user-profile:hover { background: #f1f5f9; border: 1px solid #e2e8f0; }
@@ -27,7 +27,8 @@
     .metric-card { background: white; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
     .card-label { font-size: 0.9rem; color: #64748b; margin-bottom: 8px; font-weight: 600; }
     .card-val { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
-    
+    .revenue-val { color: #10b981; }
+
     .recruit-section-box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
     .recruit-section-box h4 { margin-bottom: 15px; color: #334155; font-size: 1.05rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
     .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
@@ -35,59 +36,80 @@
     /* =======================================
        PREMIUM APPX COURSE MODAL CSS
        ======================================= */
-    .premium-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #F8FAFC; z-index: 9999; overflow-y: auto; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .premium-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #FFFFFF; z-index: 9999; overflow-y: auto; font-family: 'Plus Jakarta Sans', sans-serif; }
     .premium-form-header { display: flex; justify-content: space-between; align-items: center; padding: 15px 30px; background: white; border-bottom: 1px solid #E2E8F0; position: sticky; top: 0; z-index: 10; }
-    .premium-form-header h2 { font-size: 1.2rem; font-weight: 700; color: #0F172A; margin: 0; }
+    .premium-form-header h2 { font-size: 1.3rem; font-weight: 700; color: #0F172A; margin: 0; }
     .header-actions { display: flex; gap: 12px; }
     .btn-outline-cancel { padding: 8px 16px; border: 1px solid #CBD5E1; background: white; border-radius: 8px; font-weight: 600; color: #475569; cursor: pointer; transition: 0.2s; }
     .btn-outline-cancel:hover { background: #F1F5F9; }
-    .btn-dark-publish { padding: 8px 20px; border: none; background: #1E293B; border-radius: 8px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
+    .btn-dark-publish { padding: 8px 24px; border: none; background: #1E293B; border-radius: 8px; font-weight: 600; color: white; cursor: pointer; transition: 0.2s; }
     .btn-dark-publish:hover { background: #0F172A; }
     
-    .stepper-container { display: flex; align-items: center; justify-content: center; padding: 25px 0; gap: 15px; }
-    .step { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #94A3B8; font-weight: 600; }
+    .stepper-container { display: flex; align-items: center; justify-content: center; padding: 25px 0; gap: 15px; background: #FAFAFA; border-bottom: 1px solid #E2E8F0; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; color: #94A3B8; font-weight: 600; cursor: pointer;}
     .step.active { color: #0F172A; }
-    .step-num { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #E2E8F0; color: #64748B; font-size: 0.8rem; }
+    .step-num { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #E2E8F0; color: #64748B; font-size: 0.8rem; font-weight: 700;}
     .step.active .step-num { background: #0F172A; color: white; }
     .step-line { width: 50px; height: 2px; background: #E2E8F0; }
 
-    .premium-form-body { display: flex; gap: 40px; padding: 0 40px 40px 40px; max-width: 1300px; margin: 0 auto; }
-    .form-left-panel { flex: 1; background: white; padding: 30px; border-radius: 12px; border: 1px solid #E2E8F0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .premium-form-body { display: flex; gap: 40px; padding: 40px; max-width: 1400px; margin: 0 auto; }
+    .form-left-panel { flex: 1; border-right: 1px solid #E2E8F0; padding-right: 40px; }
     .form-right-panel { width: 350px; position: sticky; top: 100px; height: max-content; }
     
     .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .input-group-modern { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .input-group-modern { display: flex; flex-direction: column; gap: 8px; margin-bottom: 25px; }
     .input-group-modern label { font-size: 0.85rem; font-weight: 600; color: #334155; }
     .text-danger { color: #EF4444; }
     .input-with-icon { position: relative; display: flex; align-items: center; }
     .input-with-icon i { position: absolute; left: 15px; color: #94A3B8; }
-    .input-with-icon input { width: 100%; padding: 12px 15px 12px 40px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; }
-    .input-with-icon input:focus { border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
+    .input-with-icon input, .input-with-icon select { width: 100%; padding: 12px 15px 12px 40px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; font-family: inherit; }
+    .input-without-icon { width: 100%; padding: 12px 15px; border: 1px solid #CBD5E1; border-radius: 8px; font-size: 0.95rem; outline: none; transition: 0.2s; font-family: inherit; background: white;}
+    .input-with-icon input:focus, .input-without-icon:focus { border-color: #6366F1; box-shadow: 0 0 0 3px rgba(99,102,241,0.1); }
 
-    .ai-banner { display: flex; align-items: center; gap: 15px; background: #F5F3FF; border: 1px solid #EDE9FE; padding: 15px 20px; border-radius: 10px; margin: 25px 0; }
-    .ai-icon { width: 40px; height: 40px; background: #7C3AED; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-    .ai-text { flex: 1; }
-    .ai-badge { background: #7C3AED; color: white; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-    .ai-text p { font-size: 0.85rem; color: #5B21B6; margin: 5px 0 0 0; font-weight: 500; }
-    .btn-ai { background: #7C3AED; color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; gap: 8px; align-items: center; transition: 0.2s; }
-    .btn-ai:hover { background: #6D28D9; }
+    /* Drag & Drop Upload UI */
+    .upload-media-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+    .upload-section { display: flex; flex-direction: column; gap: 10px; }
+    .upload-section label { font-size: 0.85rem; font-weight: 600; color: #334155; }
+    .upload-boxes { display: flex; gap: 15px; height: 110px; }
+    .preview-box { width: 120px; height: 100%; background: #F1F5F9; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #94A3B8; font-size: 0.8rem; overflow: hidden; border: 1px solid #E2E8F0; }
+    .preview-box img { width: 100%; height: 100%; object-fit: cover; }
+    .preview-box i { font-size: 1.5rem; margin-bottom: 5px; }
+    .drag-drop-box { flex: 1; height: 100%; border: 2px dashed #CBD5E1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; cursor: pointer; transition: 0.2s; color: #64748B; background: #FAFAFA; padding: 10px;}
+    .drag-drop-box:hover { border-color: #6366F1; background: #EEF2FF; color: #4F46E5; }
+    .drag-drop-box b { font-size: 0.9rem; margin-bottom: 4px; color: #334155; }
+    .drag-drop-box small { font-size: 0.75rem; color: #94A3B8; }
 
-    .rich-text-editor { border: 1px solid #CBD5E1; border-radius: 8px; overflow: hidden; }
-    .editor-toolbar { background: #F8FAFC; padding: 10px 15px; border-bottom: 1px solid #CBD5E1; display: flex; gap: 15px; color: #64748B; flex-wrap: wrap;}
-    .editor-toolbar i { cursor: pointer; transition: 0.2s; }
-    .editor-toolbar i:hover { color: #0F172A; }
-    .rich-text-editor textarea { width: 100%; border: none; padding: 15px; outline: none; resize: vertical; font-size: 0.95rem; font-family: inherit; }
+    /* Segmented Control (Validity) */
+    .segmented-control { display: flex; background: #F1F5F9; padding: 4px; border-radius: 10px; border: 1px solid #E2E8F0; }
+    .segment-btn { flex: 1; padding: 10px; text-align: center; font-size: 0.85rem; font-weight: 600; color: #64748B; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .segment-btn.active { background: white; color: #0F172A; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
-    .step-footer { display: flex; justify-content: flex-end; margin-top: 30px; border-top: 1px solid #E2E8F0; padding-top: 20px; }
-    .btn-dark-next { background: #1E293B; color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;}
+    /* Validity Settings Box */
+    .validity-settings-box { background: #FAFAFA; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; margin-top: 15px; }
+    .validity-input-group { display: flex; gap: 0; }
+    .validity-input-group select { padding: 12px 15px; border: 1px solid #CBD5E1; border-right: none; border-radius: 8px 0 0 8px; outline: none; background: white; font-family: inherit; font-size: 0.9rem;}
+    .validity-input-group input { flex: 1; padding: 12px 15px; border: 1px solid #CBD5E1; border-radius: 0 8px 8px 0; outline: none; font-family: inherit; font-size: 0.9rem;}
+
+    /* Footer Buttons */
+    .step-footer { display: flex; justify-content: flex-end; margin-top: 40px; padding-top: 20px; gap: 15px; }
+    .btn-dark-next { background: #1E293B; color: white; border: none; padding: 12px 28px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;}
     .btn-dark-next:hover { background: #0F172A; }
+    .btn-outline-back { background: white; color: #475569; border: 1px solid #CBD5E1; padding: 12px 28px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.2s;}
+    .btn-outline-back:hover { background: #F1F5F9; }
 
+    /* Live Preview Panel */
     .preview-label { font-size: 0.8rem; font-weight: 700; color: #64748B; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
-    .preview-card-mockup { background: white; border: 1px solid #E2E8F0; border-radius: 12px; overflow: hidden; height: 350px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
-    .mockup-img { height: 160px; background: #F1F5F9; display: flex; align-items: center; justify-content: center; color: #CBD5E1; font-size: 2rem;}
-    .mockup-content { padding: 20px; }
-    .mockup-line { height: 12px; background: #E2E8F0; border-radius: 6px; margin-bottom: 12px; }
-    .w-75 { width: 75%; } .w-100 { width: 100%; } .w-50 { width: 50%; }
+    .preview-card-mockup { background: white; border: 1px solid #E2E8F0; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+    .mockup-img { height: 180px; background: #E2E8F0; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; color: #94A3B8;}
+    .mockup-content { padding: 25px; }
+    .preview-title { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 15px; min-height: 24px;}
+    .preview-desc-box { background: #E2E8F0; height: 50px; border-radius: 8px; margin-bottom: 20px; }
+    .preview-price-row { display: flex; justify-content: space-between; align-items: center; font-weight: 700;}
+    .preview-price { font-size: 1.2rem; color: #0F172A;}
+    .preview-discount { color: #10B981; font-size: 0.9rem;}
+
+    /* Utility */
+    .d-none { display: none !important; }
   </style>
 </head>
 <body>
@@ -106,16 +128,13 @@
       <li class="menu-item" data-tab="sec-admit-card"><a href="#"><span class="item-label"><i class="fa-solid fa-id-card left-icon"></i> Admit Card</span></a></li>
       <li class="menu-item" data-tab="sec-result"><a href="#"><span class="item-label"><i class="fa-solid fa-square-poll-vertical left-icon"></i> Result</span></a></li>
       <li class="menu-item" data-tab="sec-recruitment"><a href="#"><span class="item-label"><i class="fa-solid fa-briefcase left-icon"></i> Upload Recruitment</span></a></li>
-      
-      <!-- NEW COURSES TAB -->
       <li class="menu-item" data-tab="sec-courses"><a href="#"><span class="item-label"><i class="fa-solid fa-video left-icon"></i> Courses</span></a></li>
-      
       <hr style="border-top: 1px solid var(--border-color); margin: 10px 0;">
       <li class="menu-item" data-tab="sec-profile"><a href="#"><span class="item-label"><i class="fa-solid fa-gear left-icon"></i> Profile Settings</span></a></li>
     </ul>
   </aside>
 
-  <!-- Main Content -->
+  <!-- Main Dashboard Content -->
   <div class="wrapper">
     <header class="top-header">
       <button class="toggle-btn" id="sidebarToggleBtn"><i class="fa-solid fa-bars-staggered"></i></button>
@@ -125,188 +144,183 @@
           <span class="profile-name" id="displayAdminName">Ajmal Mansoori</span>
           <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #64748b;"></i>
         </div>
-        <div class="profile-dropdown-menu" id="profileDropdownMenu">
-           <ul class="profile-menu-items">
-              <li><a href="#" id="updateProfileBtn"><i class="fa-solid fa-user-pen"></i> Update Profile</a></li>
-              <hr>
-              <li><a href="#" id="logoutBtn" style="color: #ef4444;"><i class="fa-solid fa-right-from-bracket"></i> Logout</a></li>
-           </ul>
-        </div>
       </div>
     </header>
 
     <main class="main-content">
-      
-      <!-- DASHBOARD TAB -->
       <div id="sec-dashboard" class="tab-section active">
         <h1 class="page-head">Analytics Overview</h1>
         <div class="metrics-grid">
-          <div class="metric-card">
-            <div class="card-label">Total Website Views</div>
-            <div class="card-val" id="totalViewsCount">0</div>
-          </div>
-          <div class="metric-card">
-            <div class="card-label">Total Published Posts</div>
-            <div class="card-val" id="totalPostsCount">0</div>
-          </div>
+          <div class="metric-card"><div class="card-label">Total Views</div><div class="card-val" id="totalViewsCount">0</div></div>
+          <div class="metric-card"><div class="card-label">Total Posts</div><div class="card-val" id="totalPostsCount">0</div></div>
         </div>
       </div>
 
-      <!-- NORMAL POSTS (NEWS) -->
-      <div id="sec-news" class="tab-section" style="display: none;">
-        <div class="dash-top-bar">
-          <h2 class="page-head">News & Updates</h2>
-          <button class="btn-action-primary" id="openPostFormBtn">+ Add New Post</button>
-        </div>
-        
-        <div id="addPostFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <h3 style="margin-bottom: 15px; font-size: 1.2rem;">Create Normal Post</h3>
-          <!-- Form content here -->
-        </div>
-        <div class="data-card-container" id="newsList"><p>Loading news...</p></div>
-      </div>
-
-      <!-- ADMIT CARD TAB -->
-      <div id="sec-admit-card" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Admit Card</h2></div>
-        <div class="data-card-container" id="admitCardList"><p>Loading...</p></div>
-      </div>
-
-      <!-- RESULT TAB -->
-      <div id="sec-result" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Result</h2></div>
-        <div class="data-card-container" id="resultList"><p>Loading...</p></div>
-      </div>
-
-      <!-- MEGA RECRUITMENT UPLOAD TAB -->
-      <div id="sec-recruitment" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Upload New Recruitment Detail</h2></div>
-        <div class="data-card-container" style="max-width: 900px;"><p>Recruitment form...</p></div>
-      </div>
-
-      <!-- NEW COURSES TAB -->
       <div id="sec-courses" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Manage Courses</h2>
           <button class="btn-action-primary" id="openCourseFormBtn"><i class="fa-solid fa-plus"></i> Add New Course</button>
         </div>
-        <div class="data-card-container" id="coursesList">
-          <p style="color: #64748b;">Loading courses...</p>
-        </div>
+        <div class="data-card-container"><p>No courses published yet.</p></div>
       </div>
-
-      <!-- PROFILE SETTINGS TAB -->
-      <div id="sec-profile" class="tab-section" style="display: none;">
-        <h2 class="page-head">Profile Settings</h2>
-        <div class="data-card-container"><p>Profile form...</p></div>
-      </div>
-
     </main>
   </div>
 
   <!-- APPX STYLE FULLSCREEN FORM OVERLAY (For Courses) -->
   <div id="premiumFormOverlay" class="premium-overlay" style="display: none;">
-    <form id="premiumCourseForm">
-      <!-- Top Navbar -->
-      <div class="premium-form-header">
-        <h2>Add New Course</h2>
-        <div class="header-actions">
-          <button type="button" class="btn-outline-cancel" id="closePremiumForm"><i class="fa-solid fa-xmark"></i> Close</button>
-          <button type="button" class="btn-dark-publish"><i class="fa-solid fa-arrow-up-from-bracket"></i> Publish</button>
-        </div>
+    
+    <!-- Top Navbar -->
+    <div class="premium-form-header">
+      <h2>Add New Course</h2>
+      <div class="header-actions">
+        <button type="button" class="btn-outline-cancel" id="closePremiumForm"><i class="fa-solid fa-xmark"></i> Close</button>
+        <button type="button" class="btn-dark-publish"><i class="fa-solid fa-arrow-up-from-bracket"></i> Publish</button>
       </div>
+    </div>
 
-      <!-- Stepper (Progress) -->
-      <div class="stepper-container">
-        <div class="step active"><span class="step-num">1</span> Basic Course Information</div>
-        <div class="step-line"></div>
-        <div class="step"><span class="step-num">2</span> Pricing</div>
-        <div class="step-line"></div>
-        <div class="step"><span class="step-num">3</span> Content</div>
-        <div class="step-line"></div>
-        <div class="step"><span class="step-num">4</span> Additional Settings</div>
-      </div>
+    <!-- Stepper (Progress) -->
+    <div class="stepper-container">
+      <div class="step active" id="indicator1"><span class="step-num">1</span> Basic Course Information</div>
+      <div class="step-line"></div>
+      <div class="step" id="indicator2"><span class="step-num">2</span> Media & Settings</div>
+      <div class="step-line"></div>
+      <div class="step" id="indicator3"><span class="step-num">3</span> Content</div>
+    </div>
 
-      <!-- Main Form Layout (Two Columns) -->
-      <div class="premium-form-body">
+    <!-- Main Form Layout -->
+    <div class="premium-form-body">
+      
+      <!-- LEFT SIDE: Form Fields -->
+      <div class="form-left-panel">
         
-        <!-- LEFT SIDE: Form Fields -->
-        <div class="form-left-panel">
-          <div class="form-step-content" id="step1">
-            <div class="input-grid">
-              <div class="input-group-modern">
-                <label>Title <span class="text-danger">*</span></label>
-                <div class="input-with-icon">
-                  <i class="fa-regular fa-file-lines"></i>
-                  <input type="text" id="courseName" placeholder="Course Name" required>
-                </div>
-              </div>
-              <div class="input-group-modern">
-                <label>Price <span class="text-danger">*</span></label>
-                <div class="input-with-icon">
-                  <i class="fa-solid fa-indian-rupee-sign"></i>
-                  <input type="text" id="coursePrice" placeholder="Enter Price" required>
-                </div>
-                <small style="color: #94A3B8; font-size: 0.75rem; margin-top: 4px;">This is the final price student will pay</small>
+        <!-- STEP 1: BASIC INFO -->
+        <div id="formStep1">
+          <div class="input-grid">
+            <div class="input-group-modern">
+              <label>Title <span class="text-danger">*</span></label>
+              <div class="input-with-icon">
+                <i class="fa-regular fa-file-lines"></i>
+                <input type="text" id="courseTitleInput" placeholder="Course Name">
               </div>
             </div>
-
-            <!-- AI Banner -->
-            <div class="ai-banner">
-              <div class="ai-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-              <div class="ai-text">
-                <span class="ai-badge">NEW</span>
-                <p>Let our AI tool work its magic to generate a compelling course description in seconds!</p>
+            <div class="input-group-modern">
+              <label>Price <span class="text-danger">*</span></label>
+              <div class="input-with-icon">
+                <i class="fa-solid fa-indian-rupee-sign"></i>
+                <input type="number" id="coursePriceInput" placeholder="Enter Price">
               </div>
-              <button type="button" class="btn-ai"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate using AI</button>
+              <small style="color: #94A3B8; font-size: 0.75rem; margin-top: 4px;">This is the final price student will pay</small>
             </div>
-
-            <!-- Rich Text Editor Shell -->
-            <div class="input-group-modern mt-3">
-              <label>Course Description</label>
-              <div class="rich-text-editor">
-                <div class="editor-toolbar">
-                  <i class="fa-solid fa-bold"></i>
-                  <i class="fa-solid fa-italic"></i>
-                  <i class="fa-solid fa-strikethrough"></i>
-                  <i class="fa-solid fa-list-ul"></i>
-                  <i class="fa-solid fa-list-ol"></i>
-                  <i class="fa-solid fa-link"></i>
-                  <i class="fa-solid fa-image"></i>
-                  <i class="fa-solid fa-table"></i>
-                  <span style="border-left: 1px solid #CBD5E1; padding-left: 15px; font-size: 0.85rem; cursor: pointer;">Styles <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i></span>
-                  <span style="font-size: 0.85rem; cursor: pointer;">Format <i class="fa-solid fa-chevron-down" style="font-size: 0.7rem;"></i></span>
-                </div>
-                <textarea rows="6" placeholder="Write description here..."></textarea>
-              </div>
-            </div>
-
-            <div class="step-footer">
-              <button type="button" class="btn-dark-next">Next <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+          </div>
+          <div class="step-footer">
+            <button type="button" class="btn-dark-next" onclick="goToStep(2)">Next <i class="fa-solid fa-arrow-right"></i></button>
           </div>
         </div>
 
-        <!-- RIGHT SIDE: Live Preview -->
-        <div class="form-right-panel">
-          <p class="preview-label">PREVIEW</p>
-          <div class="preview-card-mockup">
-            <div class="mockup-img"><i class="fa-regular fa-image"></i></div>
-            <div class="mockup-content">
-              <div class="mockup-line w-75"></div>
-              <div class="mockup-line w-100"></div>
-              <div class="mockup-line w-50"></div>
+        <!-- STEP 2: MEDIA & SETTINGS (As per Screenshot) -->
+        <div id="formStep2" class="d-none">
+          
+          <!-- Image & Video Upload Area -->
+          <div class="upload-media-container">
+            <!-- Cover Image -->
+            <div class="upload-section">
+              <label>Cover Image</label>
+              <div class="upload-boxes">
+                <div class="preview-box" id="coverPreviewBox">
+                  <i class="fa-regular fa-image"></i>
+                  <span>No Image</span>
+                </div>
+                <div class="drag-drop-box" onclick="document.getElementById('coverInput').click()">
+                  <input type="file" id="coverInput" accept="image/*" hidden>
+                  <b>Upload Image</b>
+                  <small>Click or Drag & Drop<br>Recommended: 960x540</small>
+                </div>
+              </div>
             </div>
+            <!-- Demo Video -->
+            <div class="upload-section">
+              <label>Demo Video</label>
+              <div class="upload-boxes">
+                <div class="preview-box">
+                  <i class="fa-solid fa-video"></i>
+                  <span>No Video</span>
+                </div>
+                <div class="drag-drop-box">
+                  <b>Upload Video</b>
+                  <small>Click or Drag & Drop<br>your file here.</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories & Sections -->
+          <div class="input-grid">
+            <div class="input-group-modern">
+              <label>Categories</label>
+              <select class="input-without-icon">
+                <option>Select Categories</option>
+                <option>CUET UG</option>
+                <option>AU PGAT</option>
+              </select>
+            </div>
+            <div class="input-group-modern">
+              <label>Sections <span class="text-danger">*</span></label>
+              <select class="input-without-icon">
+                <option>Select Sections</option>
+                <option>Section 1</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Validity Section -->
+          <div class="input-group-modern">
+            <label>Validity <span class="text-danger">*</span></label>
+            <div class="segmented-control">
+              <div class="segment-btn active">Set Validity</div>
+              <div class="segment-btn">End Date</div>
+              <div class="segment-btn">Lifetime Access</div>
+            </div>
+            
+            <div class="validity-settings-box">
+              <label style="display:block; margin-bottom:8px;">Set Validity <span class="text-danger">*</span></label>
+              <div class="validity-input-group">
+                <select>
+                  <option>Months</option>
+                  <option>Days</option>
+                  <option>Years</option>
+                </select>
+                <input type="number" placeholder="6">
+              </div>
+            </div>
+          </div>
+
+          <div class="step-footer" style="justify-content: space-between;">
+            <button type="button" class="btn-outline-back" onclick="goToStep(1)"><i class="fa-solid fa-arrow-left"></i> Back</button>
+            <button type="button" class="btn-dark-next" onclick="alert('Publish logic will go here!')">Finish <i class="fa-solid fa-check"></i></button>
           </div>
         </div>
 
       </div>
-    </form>
+
+      <!-- RIGHT SIDE: Live Preview -->
+      <div class="form-right-panel">
+        <p class="preview-label">PREVIEW</p>
+        <div class="preview-card-mockup">
+          <div class="mockup-img" id="livePreviewImg"></div>
+          <div class="mockup-content">
+            <div class="preview-title" id="livePreviewTitle">Course Title</div>
+            <div class="preview-desc-box"></div>
+            <div class="preview-price-row">
+              <span class="preview-price" id="livePreviewPrice">₹0</span>
+              <span class="preview-discount">20% OFF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
-  <script type="module" src="admin.js"></script>
-  
-  <!-- UI Interactions Script -->
   <script>
     document.body.style.display = 'block';
 
@@ -317,30 +331,69 @@
           e.preventDefault();
           document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
           document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
-          
           item.classList.add('active');
           const targetTab = document.getElementById(item.getAttribute('data-tab'));
           if (targetTab) targetTab.style.display = 'block';
         });
       });
 
-      // 2. Open / Close Course Premium Modal Logic
+      // 2. Open / Close Course Premium Modal
       const openCourseBtn = document.getElementById('openCourseFormBtn');
       const closeCourseBtn = document.getElementById('closePremiumForm');
       const premiumModal = document.getElementById('premiumFormOverlay');
 
       if(openCourseBtn) {
-        openCourseBtn.addEventListener('click', () => {
-          premiumModal.style.display = 'block';
-        });
+        openCourseBtn.addEventListener('click', () => premiumModal.style.display = 'block');
+      }
+      if(closeCourseBtn) {
+        closeCourseBtn.addEventListener('click', () => premiumModal.style.display = 'none');
       }
 
-      if(closeCourseBtn) {
-        closeCourseBtn.addEventListener('click', () => {
-          premiumModal.style.display = 'none';
-        });
-      }
+      // 3. Live Preview Listeners
+      const titleInput = document.getElementById('courseTitleInput');
+      const priceInput = document.getElementById('coursePriceInput');
+      const previewTitle = document.getElementById('livePreviewTitle');
+      const previewPrice = document.getElementById('livePreviewPrice');
+
+      titleInput.addEventListener('input', (e) => {
+        previewTitle.innerText = e.target.value || "Course Title";
+      });
+
+      priceInput.addEventListener('input', (e) => {
+        previewPrice.innerText = e.target.value ? `₹${e.target.value}` : "₹0";
+      });
+
+      // 4. Image Upload & Preview Logic
+      const coverInput = document.getElementById('coverInput');
+      const coverPreviewBox = document.getElementById('coverPreviewBox');
+      const livePreviewImg = document.getElementById('livePreviewImg');
+
+      coverInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if(file) {
+          const url = URL.createObjectURL(file);
+          coverPreviewBox.innerHTML = `<img src="${url}" alt="Cover">`;
+          livePreviewImg.style.backgroundImage = `url(${url})`;
+          livePreviewImg.innerHTML = ""; // Remove icon
+        }
+      });
     });
+
+    // 5. Stepper Logic (Next / Back)
+    function goToStep(stepNumber) {
+      document.getElementById('formStep1').classList.add('d-none');
+      document.getElementById('formStep2').classList.add('d-none');
+      
+      document.getElementById('indicator1').classList.remove('active');
+      document.getElementById('indicator2').classList.remove('active');
+
+      document.getElementById(`formStep${stepNumber}`).classList.remove('d-none');
+      document.getElementById(`indicator${stepNumber}`).classList.add('active');
+      
+      if(stepNumber === 2) {
+          document.getElementById('indicator1').classList.add('active'); // Keep previous step highlighted
+      }
+    }
   </script>
 </body>
 </html>
