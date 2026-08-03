@@ -30,13 +30,10 @@
     .card-val { font-size: 1.8rem; font-weight: 700; color: #0f172a; }
     .earning-val { color: #10b981; }
 
-    .recruit-section-box { background: #f8fafc; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 20px; }
-    .recruit-section-box h4 { margin-bottom: 15px; color: #334155; font-size: 1.05rem; border-bottom: 1px solid #cbd5e1; padding-bottom: 8px; }
-    .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    
-    /* Real Profile Upload Box */
+    /* Profile Styles */
     .profile-img-upload { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
-    .profile-preview-lg { width: 80px; height: 80px; border-radius: 50%; background: #e2e8f0; object-fit: cover; border: 2px solid #cbd5e1; }
+    .profile-preview-lg { width: 85px; height: 85px; border-radius: 50%; background: #e2e8f0; object-fit: cover; border: 2px solid #cbd5e1; }
+    .section-title-divider { font-size: 1.1rem; font-weight: 700; color: #1e293b; margin: 25px 0 15px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; }
   </style>
 </head>
 <body>
@@ -86,7 +83,7 @@
 
     <main class="main-content">
       
-      <!-- DASHBOARD TAB (Analytics + History) -->
+      <!-- DASHBOARD TAB -->
       <div id="sec-dashboard" class="tab-section active">
         <h1 class="page-head">Analytics Overview</h1>
         <div class="metrics-grid">
@@ -99,123 +96,98 @@
         <div class="data-card-container" id="dashboardHistoryList"><p>Loading history...</p></div>
       </div>
 
-      <!-- UPDATES TAB -->
+      <!-- UNIVERSAL POST SECTIONS (Updates, Admit Card, Result, Cutoff, Admission, Recruitment) -->
+      
+      <!-- 1. UPDATES -->
       <div id="sec-updates" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Updates Management</h2>
-          <button class="btn-action-primary" id="openUpdateFormBtn">+ Add New Update</button>
+          <button class="btn-action-primary" onclick="openUniversalForm('Updates')">+ Add Update</button>
         </div>
-        <div id="updateFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <h3 style="margin-bottom: 15px;">Create New Update</h3>
-          <form id="addUpdateForm">
-            <div class="input-group"><label>Title</label><input type="text" id="upTitle" required placeholder="Enter update title"></div>
-            <div class="input-group"><label>Category</label>
-              <select id="upCategory" class="custom-select"><option value="Updates">Updates</option></select>
-            </div>
-            <div class="input-group"><label>Link / URL</label><input type="url" id="upLink" required placeholder="Paste link"></div>
-            <button type="submit" class="btn-action-primary">Publish Update</button>
-            <button type="button" class="btn-secondary-reset" id="cancelUpdateBtn" style="margin-left: 10px;">Cancel</button>
-          </form>
-        </div>
-        <div class="data-card-container" id="updatesList"><p>Loading updates...</p></div>
+        <div class="data-card-container" id="updatesList"><p>Loading...</p></div>
       </div>
 
-      <!-- ADMIT CARD TAB -->
+      <!-- 2. ADMIT CARD -->
       <div id="sec-admit-card" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Admit Card Management</h2>
-          <button class="btn-action-primary" id="openAdmitFormBtn">+ Add Admit Card</button>
-        </div>
-        <div id="admitFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <form id="addAdmitForm">
-            <div class="input-group"><label>Title</label><input type="text" id="admitTitle" required placeholder="Admit card title"></div>
-            <input type="hidden" id="admitCategory" value="Admit Card">
-            <div class="input-group"><label>Link</label><input type="url" id="admitLink" required placeholder="Link"></div>
-            <button type="submit" class="btn-action-primary">Publish</button>
-          </form>
+          <button class="btn-action-primary" onclick="openUniversalForm('Admit Card')">+ Add Admit Card</button>
         </div>
         <div class="data-card-container" id="admitCardList"><p>Loading...</p></div>
       </div>
 
-      <!-- RESULT TAB -->
+      <!-- 3. RESULT -->
       <div id="sec-result" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Result Management</h2>
-          <button class="btn-action-primary" id="openResultFormBtn">+ Add Result</button>
-        </div>
-        <div id="resultFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <form id="addResultForm">
-            <div class="input-group"><label>Title</label><input type="text" id="resTitle" required placeholder="Result title"></div>
-            <input type="hidden" id="resCategory" value="Result">
-            <div class="input-group"><label>Link</label><input type="url" id="resLink" required placeholder="Link"></div>
-            <button type="submit" class="btn-action-primary">Publish</button>
-          </form>
+          <button class="btn-action-primary" onclick="openUniversalForm('Result')">+ Add Result</button>
         </div>
         <div class="data-card-container" id="resultList"><p>Loading...</p></div>
       </div>
 
-      <!-- CUTOFF TAB -->
+      <!-- 4. CUTOFF -->
       <div id="sec-cutoff" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Cutoff Management</h2>
-          <button class="btn-action-primary" id="openCutoffFormBtn">+ Add Cutoff</button>
-        </div>
-        <div id="cutoffFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <form id="addCutoffForm">
-            <div class="input-group"><label>Title</label><input type="text" id="cutTitle" required placeholder="Cutoff title"></div>
-            <input type="hidden" id="cutCategory" value="Cutoff">
-            <div class="input-group"><label>Link</label><input type="url" id="cutLink" required placeholder="Link"></div>
-            <button type="submit" class="btn-action-primary">Publish</button>
-          </form>
+          <button class="btn-action-primary" onclick="openUniversalForm('Cutoff')">+ Add Cutoff</button>
         </div>
         <div class="data-card-container" id="cutoffList"><p>Loading...</p></div>
       </div>
 
-      <!-- ADMISSION TAB -->
+      <!-- 5. ADMISSION -->
       <div id="sec-admission" class="tab-section" style="display: none;">
         <div class="dash-top-bar">
           <h2 class="page-head">Admission Management</h2>
-          <button class="btn-action-primary" id="openAdmissionFormBtn">+ Add Admission</button>
-        </div>
-        <div id="admissionFormContainer" class="data-card-container" style="display: none; margin-bottom: 20px;">
-          <form id="addAdmissionForm">
-            <div class="input-group"><label>Title</label><input type="text" id="admTitle" required placeholder="Admission title"></div>
-            <input type="hidden" id="admCategory" value="Admission">
-            <div class="input-group"><label>Link</label><input type="url" id="admLink" required placeholder="Link"></div>
-            <button type="submit" class="btn-action-primary">Publish</button>
-          </form>
+          <button class="btn-action-primary" onclick="openUniversalForm('Admission')">+ Add Admission</button>
         </div>
         <div class="data-card-container" id="admissionList"><p>Loading...</p></div>
       </div>
 
-      <!-- RECRUITMENT TAB -->
+      <!-- 6. RECRUITMENT -->
       <div id="sec-recruitment" class="tab-section" style="display: none;">
-        <div class="dash-top-bar"><h2 class="page-head">Recruitment Form Management</h2></div>
-        <div class="data-card-container" style="max-width: 900px;">
-          <form id="megaRecruitmentForm">
-            <div class="recruit-section-box">
-              <h4>1. Page Header</h4>
-              <div class="input-group"><label>Recruitment Title (H1)</label><input type="text" id="recTitle" required placeholder="e.g. Allahabad University Non Teaching..."></div>
-              <div class="input-group"><label>Badge Text</label><input type="text" id="recBadge" required placeholder="e.g. Recruitment 2026"></div>
-            </div>
-            <div class="recruit-section-box">
-              <h4>2. Important Dates</h4>
-              <div class="grid-2-col">
-                <div class="input-group"><label>Application Begin</label><input type="text" id="dateStart"></div>
-                <div class="input-group"><label>Last Date Apply Online</label><input type="text" id="dateEnd"></div>
-              </div>
-            </div>
-            <button type="submit" class="btn-action-primary" style="width: 100%; padding: 15px;">🚀 Publish Recruitment Page</button>
-            <p id="recruitmentStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Published Successfully!</p>
-          </form>
+        <div class="dash-top-bar">
+          <h2 class="page-head">Recruitment Management</h2>
+          <button class="btn-action-primary" onclick="openUniversalForm('Recruitment')">+ Add Recruitment</button>
         </div>
+        <div class="data-card-container" id="recruitmentList"><p>Loading...</p></div>
+      </div>
+
+      <!-- SHARED UNIVERSAL POST MODAL / FORM CONTAINER -->
+      <div id="universalFormModal" class="data-card-container" style="display: none; margin-bottom: 25px; border: 2px solid #6366f1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <h3 id="formModalTitle" style="margin: 0; color: #1e293b;">Add New Post</h3>
+          <button type="button" onclick="closeUniversalForm()" style="background:none; border:none; font-size:1.2rem; cursor:pointer;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="universalPostForm">
+          <div class="input-group">
+            <label>Title <span style="color:red;">*</span></label>
+            <input type="text" id="uniTitle" required placeholder="Enter post title">
+          </div>
+          <div class="input-group">
+            <label>Category <span style="color:red;">*</span></label>
+            <select id="uniCategory" required class="custom-select">
+              <option value="Updates">Updates</option>
+              <option value="Admit Card">Admit Card</option>
+              <option value="Result">Result</option>
+              <option value="Cutoff">Cutoff</option>
+              <option value="Admission">Admission</option>
+              <option value="Recruitment">Recruitment</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Link / URL <span style="color:red;">*</span></label>
+            <input type="url" id="uniLink" required placeholder="https://...">
+          </div>
+          <div style="display: flex; gap: 10px; margin-top: 20px;">
+            <button type="submit" class="btn-action-primary">Publish Post</button>
+            <button type="button" class="btn-secondary-reset" onclick="closeUniversalForm()">Cancel</button>
+          </div>
+        </form>
       </div>
 
       <!-- GALLERY TAB -->
       <div id="sec-gallery" class="tab-section" style="display: none;">
-        <div class="dash-top-bar">
-          <h2 class="page-head">Photo Gallery Management</h2>
-        </div>
+        <div class="dash-top-bar"><h2 class="page-head">Photo Gallery Management</h2></div>
         <div class="data-card-container">
           <form id="galleryUploadForm">
             <div class="input-group"><label>Photo Title / Caption</label><input type="text" id="galleryTitle" required placeholder="Enter photo title"></div>
@@ -226,11 +198,12 @@
         <div class="data-card-container" id="galleryList" style="margin-top: 20px;"><p>Loading gallery...</p></div>
       </div>
 
-      <!-- REAL PROFILE SETTINGS TAB -->
+      <!-- PROFILE SETTINGS TAB -->
       <div id="sec-profile" class="tab-section" style="display: none;">
-        <h2 class="page-head">Profile Settings</h2>
-        <div class="data-card-container" style="max-width: 600px;">
+        <h2 class="page-head">Profile & Admin Credentials Settings</h2>
+        <div class="data-card-container" style="max-width: 700px;">
           <form id="profileUpdateForm">
+            
             <div class="profile-img-upload">
               <img src="" id="profilePreviewImg" class="profile-preview-lg" style="display:none;">
               <div class="profile-preview-lg" id="profilePreviewInitial" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:#64748b;">AM</div>
@@ -239,10 +212,23 @@
                 <input type="file" id="adminPhotoInput" accept="image/*">
               </div>
             </div>
+
             <div class="input-group"><label>Full Name</label><input type="text" id="adminName" required></div>
-            <div class="input-group"><label>Email</label><input type="email" id="adminEmail" required></div>
-            <button type="submit" class="btn-action-primary">Save Profile</button>
-            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile Updated Successfully!</p>
+            <div class="input-group"><label>Email Address</label><input type="email" id="adminEmail" required></div>
+            <div class="input-group"><label>Contact No</label><input type="text" id="adminPhone" placeholder="Enter contact number"></div>
+            <div class="input-group"><label>Address</label><textarea id="adminAddress" rows="2" placeholder="Enter address" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;"></textarea></div>
+
+            <!-- Admin Credentials Updates -->
+            <div class="section-title-divider">Admin Panel Credentials Update</div>
+            <div class="input-group"><label>Admin Username / Login Email</label><input type="email" id="adminUsername" placeholder="Username for login"></div>
+            <div class="input-group"><label>New Password</label><input type="password" id="adminPassword" placeholder="Leave blank to keep old password"></div>
+
+            <div style="display: flex; gap: 15px; margin-top: 25px;">
+              <button type="submit" class="btn-action-primary">Save Changes</button>
+              <button type="reset" class="btn-secondary-reset" id="profileResetBtn" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; padding:10px 20px; border-radius:8px; cursor:pointer;">Reset</button>
+            </div>
+            
+            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile & Credentials Updated Successfully!</p>
           </form>
         </div>
       </div>
