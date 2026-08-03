@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         updateListContainer.innerHTML = '<p style="color: #fff; text-align: center; padding: 20px;">Loading live updates...</p>';
 
         try {
+            // Fetching posts without strict orderBy first to prevent index errors, or fallback smoothly
             const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
             const snapshot = await getDocs(q);
 
@@ -43,8 +44,10 @@ document.addEventListener("DOMContentLoaded", async () => {
                 }
 
                 const targetLink = item.link || item.pdfUrl || item.photoUrl || "#";
-                const categoryName = item.category ? item.category.toUpperCase() : 'UPDATE';
-                const categoryClass = item.category ? item.category.toLowerCase().replace(/\s+/g, '-') : 'updates';
+                const rawCategory = item.category ? item.category.trim() : 'Updates';
+                const categoryName = rawCategory.toUpperCase();
+                // Normalized class for flexible filtering
+                const categoryClass = rawCategory.toLowerCase().replace(/\s+/g, '-');
 
                 html += `
                 <div class="update-card" data-category="${categoryClass}">
@@ -79,7 +82,39 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         } catch (error) {
             console.error("Firebase Load Error:", error);
-            updateListContainer.innerHTML = '<p style="color: #ff4040; text-align: center; padding: 20px;">Error loading data. Check Firestore Rules.</p>';
+            // Fallback query if index is missing
+            try {
+                const fallbackSnapshot = await getDocs(collection(db, "posts"));
+                let html = "";
+                if (fallbackSnapshot.empty) {
+                    updateListContainer.innerHTML = '<p style="color: #9d9d9d; text-align: center; padding: 20px;">No updates found.</p>';
+                    return;
+                }
+                fallbackSnapshot.forEach((docSnap) => {
+                    const item = docSnap.data();
+                    const targetLink = item.link || item.pdfUrl || item.photoUrl || "#";
+                    const rawCategory = item.category ? item.category.trim() : 'Updates';
+                    html += `
+                    <div class="update-card" data-category="${rawCategory.toLowerCase().replace(/\s+/g, '-')}">
+                        <div class="left">
+                            <div class="icon green"><i class="fa-solid fa-bullhorn"></i></div>
+                            <div class="content">
+                                <span>${rawCategory.toUpperCase()}</span>
+                                <h3>${item.title}</h3>
+                                <p>Click arrow or link to view details.</p>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="status new">NEW</div>
+                            <a href="${targetLink}" target="_blank" class="arrow" style="text-decoration: none;"><i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
+                    </div>`;
+                });
+                updateListContainer.innerHTML = html;
+                initFiltersAndSearch();
+            } catch (err) {
+                updateListContainer.innerHTML = '<p style="color: #ff4040; text-align: center; padding: 20px;">Error loading data. Check Firestore Rules.</p>';
+            }
         }
     }
 
@@ -99,7 +134,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 cards.forEach(card => {
                     const category = card.getAttribute("data-category") || "";
-                    if (filterValue === "all" || category.includes(filterValue.replace(/\s+/g, '-'))) {
+                    // Flexible matching (handles Results vs Result, Admit Card, etc.)
+                    if (
+                        filterValue === "all" || 
+                        category.includes(filterValue) || 
+                        filterValue.includes(category) ||
+                        (filterValue === "results" && category.includes("result")) ||
+                        (filterValue === "admit card" && category.includes("admit"))
+                    ) {
                         card.style.display = "flex";
                     } else {
                         card.style.display = "none";
