@@ -27,7 +27,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Sidebar & Tabs UI Switching
+// Sidebar & Tabs UI Switching (Fixed)
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -40,15 +40,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if(toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
     if(overlay) overlay.addEventListener('click', toggleSidebar);
 
+    // Initial load par sirf active wala dikhe, baaki sab hide ho jayein
+    const tabSections = document.querySelectorAll('.tab-section');
+    tabSections.forEach(sec => {
+        if (!sec.classList.contains('active')) {
+            sec.style.display = 'none';
+        }
+    });
+
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
-            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.tab-section').forEach(sec => sec.style.display = 'none');
             
+            // Remove active class and hide all sections
+            document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            tabSections.forEach(sec => {
+                sec.style.display = 'none';
+                sec.classList.remove('active');
+            });
+            
+            // Activate clicked menu and show target section
             item.classList.add('active');
-            const target = document.getElementById(item.getAttribute('data-tab'));
-            if(target) target.style.display = 'block';
+            const targetId = item.getAttribute('data-tab');
+            const target = document.getElementById(targetId);
+            
+            if(target) {
+                target.style.display = 'block';
+                target.classList.add('active');
+            }
+            
             if(sidebar && sidebar.classList.contains('open')) toggleSidebar();
         });
     });
@@ -58,17 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if(profileBtn) {
         profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profileMenu.classList.toggle('show'); });
     }
-    document.addEventListener('click', (e) => { if(profileMenu && !profileBtn.contains(e.target)) profileMenu.classList.remove('show'); });
+    document.addEventListener('click', (e) => { if(profileMenu && profileBtn && !profileBtn.contains(e.target)) profileMenu.classList.remove('show'); });
 
     const updateProfileLink = document.getElementById('updateProfileBtn');
     if(updateProfileLink) {
         updateProfileLink.addEventListener('click', (e) => {
             e.preventDefault();
             if(profileMenu) profileMenu.classList.remove('show');
-            document.querySelectorAll('.tab-section').forEach(tab => tab.style.display = 'none');
+            
+            tabSections.forEach(tab => {
+                tab.style.display = 'none';
+                tab.classList.remove('active');
+            });
             document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+            
             const profileSec = document.getElementById('sec-profile');
             if(profileSec) profileSec.style.display = 'block';
+            
             const profileMenuTab = document.querySelector('.menu-item[data-tab="sec-profile"]');
             if(profileMenuTab) profileMenuTab.classList.add('active');
         });
