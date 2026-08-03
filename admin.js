@@ -368,6 +368,70 @@ async function loadProfile() {
     } catch (error) { console.error("Error loading profile:", error); }
 }
 
+// Profile Form Submit Logic (Added & Fixed)
+const profileUpdateForm = document.getElementById('profileUpdateForm');
+if(profileUpdateForm) {
+    profileUpdateForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const newName = document.getElementById('adminName').value.trim();
+        const newEmail = document.getElementById('adminEmail').value.trim();
+        const newPhone = document.getElementById('adminPhone').value.trim();
+        const newAddress = document.getElementById('adminAddress').value.trim();
+        const newPassword = document.getElementById('adminPassword').value;
+        const photoInput = document.getElementById('adminPhotoInput');
+
+        let profileData = { 
+            name: newName, 
+            email: newEmail, 
+            phone: newPhone, 
+            address: newAddress, 
+            updatedAt: serverTimestamp() 
+        };
+
+        try {
+            const user = auth.currentUser;
+            
+            // Update password if provided
+            if(user && newPassword && newPassword.trim() !== "") {
+                if(newPassword.length < 6) {
+                    alert("⚠️ Password should be at least 6 characters long!");
+                    return;
+                }
+                await updatePassword(user, newPassword);
+            }
+
+            // Handle photo upload if selected
+            if(photoInput && photoInput.files && photoInput.files.length > 0) {
+                const readFileAsDataURL = (file) => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = () => resolve(reader.result);
+                        reader.onerror = error => reject(error);
+                        reader.readAsDataURL(file);
+                    });
+                };
+                profileData.photoUrl = await readFileAsDataURL(photoInput.files[0]);
+            }
+
+            // Save data to Firestore
+            await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
+
+            alert("✅ Profile & Password Updated Successfully!");
+            
+            if(document.getElementById('adminPassword')) {
+                document.getElementById('adminPassword').value = "";
+            }
+            
+            loadProfile();
+
+        } catch(err) {
+            console.error("Profile Update Error:", err);
+            alert("❌ Error updating profile: " + err.message);
+        }
+    });
+}
+
 // Live typing update listeners for preview card
 document.addEventListener('input', (e) => {
     if(e.target.id === 'adminName') {
