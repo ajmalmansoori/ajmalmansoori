@@ -190,42 +190,62 @@
         <div class="data-card-container" id="galleryList" style="margin-top: 20px;"><p>Loading gallery...</p></div>
       </div>
 
-      <!-- PROFILE SETTINGS TAB -->
-      <div id="sec-profile" class="tab-section" style="display: none;">
-        <h2 class="page-head">Profile & Admin Credentials Settings</h2>
-        <div class="data-card-container" style="max-width: 700px;">
-          <form id="profileUpdateForm">
-            
-            <div class="profile-img-upload">
-              <img src="" id="profilePreviewImg" class="profile-preview-lg" style="display:none;">
-              <div class="profile-preview-lg" id="profilePreviewInitial" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; color:#64748b;">AM</div>
-              <div>
-                <label style="font-weight:600; display:block; margin-bottom:5px;">Profile Photo</label>
-                <input type="file" id="adminPhotoInput" accept="image/*">
-              </div>
-            </div>
+    <!-- PROFILE SETTINGS TAB -->
+<div id="sec-profile" class="tab-section" style="display: none;">
+  <h2 class="page-head">Profile & Admin Credentials Settings</h2>
+  
+  <div class="profile-layout-container">
+    <!-- Left Form Section -->
+    <div class="data-card-container profile-form-box">
+      <form id="profileUpdateForm">
+        
+        <div class="input-group"><label>Full Name</label><input type="text" id="adminName"></div>
+        <div class="input-group"><label>Email Address</label><input type="email" id="adminEmail"></div>
+        <div class="input-group"><label>Contact No</label><input type="text" id="adminPhone" placeholder="Enter contact number"></div>
+        <div class="input-group"><label>Address</label><textarea id="adminAddress" rows="2" placeholder="Enter address" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;"></textarea></div>
 
-            <div class="input-group"><label>Full Name</label><input type="text" id="adminName"></div>
-            <div class="input-group"><label>Email Address</label><input type="email" id="adminEmail"></div>
-            <div class="input-group"><label>Contact No</label><input type="text" id="adminPhone" placeholder="Enter contact number"></div>
-            <div class="input-group"><label>Address</label><textarea id="adminAddress" rows="2" placeholder="Enter address" style="width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font-family:inherit;"></textarea></div>
+        <div class="section-title-divider">Admin Panel Credentials Update</div>
+        <div class="input-group"><label>Admin Username / Login Email</label><input type="email" id="adminUsername" placeholder="Username"></div>
+        <div class="input-group"><label>New Password</label><input type="password" id="adminPassword" placeholder="Leave blank to keep old password"></div>
 
-            <div class="section-title-divider">Admin Panel Credentials Update</div>
-            <div class="input-group"><label>Admin Username / Login Email</label><input type="email" id="adminUsername" placeholder="Username"></div>
-            <div class="input-group"><label>New Password</label><input type="password" id="adminPassword" placeholder="Leave blank to keep old password"></div>
+        <div class="input-group">
+          <label>Update Profile Photo</label>
+          <input type="file" id="adminPhotoInput" accept="image/*">
+        </div>
 
-            <div style="display: flex; gap: 15px; margin-top: 25px;">
-              <button type="submit" class="btn-action-primary">Save Changes</button>
-              <button type="reset" class="btn-secondary-reset" id="profileResetBtn" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; padding:10px 20px; border-radius:8px; cursor:pointer;">Reset</button>
-            </div>
-            
-            <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile & Credentials Updated Successfully!</p>
-          </form>
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+          <button type="submit" class="btn-action-primary">Save Changes</button>
+          <button type="reset" class="btn-secondary-reset" id="profileResetBtn" style="background:#f1f5f9; color:#475569; border:1px solid #cbd5e1; padding:10px 20px; border-radius:8px; cursor:pointer;">Reset</button>
+        </div>
+        
+        <p id="profileStatusMsg" style="color: #166534; background: #dcfce7; padding: 10px; border-radius: 8px; margin-top: 15px; display: none;">✅ Profile & Credentials Updated Successfully!</p>
+      </form>
+    </div>
+
+    <!-- Right Profile Preview Card Section -->
+    <div class="profile-preview-card">
+      <div class="preview-card-header"></div>
+      <div class="preview-avatar-container">
+        <img src="" id="profilePreviewImg" class="preview-avatar-lg" style="display:none;">
+        <div class="preview-avatar-lg preview-initial-box" id="profilePreviewInitial">AM</div>
+      </div>
+      <div class="preview-info">
+        <h3 id="previewCardName">Ajmal Mansoori</h3>
+        <p id="previewCardEmail" class="preview-subtext">admin@example.com</p>
+        <span class="preview-badge"><i class="fa-solid fa-shield-halved"></i> Super Admin</span>
+        
+        <div class="preview-details-list">
+          <div class="preview-detail-item">
+            <i class="fa-solid fa-phone"></i> <span id="previewCardPhone">Not provided</span>
+          </div>
+          <div class="preview-detail-item">
+            <i class="fa-solid fa-location-dot"></i> <span id="previewCardAddress">Not provided</span>
+          </div>
         </div>
       </div>
-
-    </main>
+    </div>
   </div>
+</div>
 
   <script type="module" src="admin.js"></script>
 </body>
