@@ -162,17 +162,19 @@ if(addPostForm) {
 }
 
 // ==========================================
-// 5. FETCH & DISTRIBUTE POSTS (News, Result, Admit Card)
+// 5. FETCH & DISTRIBUTE POSTS (News, Result, Admit Card, Recruitment)
 // ==========================================
 async function loadAllPosts() {
     // Containers select karna
     const newsContainer = document.querySelectorAll('#sec-news .data-card-container')[1]; 
     const admitCardContainer = document.getElementById('admitCardList');
     const resultContainer = document.getElementById('resultList');
+    const recruitmentContainer = document.getElementById('recruitmentList'); // NAYA RECRUITMENT CONTAINER
 
     if(newsContainer) newsContainer.innerHTML = '<p style="color: #64748b;">Loading...</p>';
     if(admitCardContainer) admitCardContainer.innerHTML = '<p style="color: #64748b;">Loading...</p>';
     if(resultContainer) resultContainer.innerHTML = '<p style="color: #64748b;">Loading...</p>';
+    if(recruitmentContainer) recruitmentContainer.innerHTML = '<p style="color: #64748b;">Loading...</p>';
 
     try {
         const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
@@ -181,6 +183,7 @@ async function loadAllPosts() {
         let newsHTML = '';
         let admitHTML = '';
         let resultHTML = '';
+        let recruitmentHTML = ''; // NAYA RECRUITMENT HTML STRING
 
         querySnapshot.forEach((docSnap) => {
             const item = docSnap.data();
@@ -205,6 +208,8 @@ async function loadAllPosts() {
                 resultHTML += itemHTML;
             } else if(item.category === 'Admit Card') {
                 admitHTML += itemHTML;
+            } else if(item.category === 'Recruitment') {
+                recruitmentHTML += itemHTML; // RECRUITMENT LOGIC ADDED HERE
             } else {
                 newsHTML += itemHTML;
             }
@@ -213,6 +218,7 @@ async function loadAllPosts() {
         if(newsContainer) newsContainer.innerHTML = newsHTML || '<p style="color: #64748b;">No updates found.</p>';
         if(admitCardContainer) admitCardContainer.innerHTML = admitHTML || '<p style="color: #64748b;">No admit cards found.</p>';
         if(resultContainer) resultContainer.innerHTML = resultHTML || '<p style="color: #64748b;">No results found.</p>';
+        if(recruitmentContainer) recruitmentContainer.innerHTML = recruitmentHTML || '<p style="color: #64748b;">No recruitment posts found.</p>';
 
     } catch (error) {
         console.error("Error fetching posts:", error);
