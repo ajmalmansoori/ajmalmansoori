@@ -27,7 +27,7 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// Sidebar & Tabs UI
+// Sidebar & Tabs UI Switching
 document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
@@ -109,7 +109,7 @@ window.closeUniversalForm = function() {
     if(form) form.reset();
 }
 
-// Universal Post Submission with Base64 for PDF & Photo
+// Universal Post Submission (Base64 for PDF & Photo, No Asterisks required)
 const universalForm = document.getElementById('universalPostForm');
 if(universalForm) {
     universalForm.addEventListener('submit', async (e) => {
@@ -130,7 +130,6 @@ if(universalForm) {
         };
 
         try {
-            // Helper function to read files as Base64
             const readFileAsDataURL = (file) => {
                 return new Promise((resolve, reject) => {
                     const reader = new FileReader();
@@ -156,7 +155,7 @@ if(universalForm) {
     });
 }
 
-// Load History & Categorized Lists with Timestamp display
+// Load History & Categorized Lists with Timestamps
 async function loadAllPostsHistory() {
     const historyContainer = document.getElementById('dashboardHistoryList');
     const updatesContainer = document.getElementById('updatesList');
@@ -180,7 +179,6 @@ async function loadAllPostsHistory() {
             const item = docSnap.data();
             const id = docSnap.id;
             
-            // Format Timestamp nicely
             let dateStr = "Just now";
             if(item.createdAt && item.createdAt.toDate) {
                 dateStr = item.createdAt.toDate().toLocaleString('en-IN', { 
