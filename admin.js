@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getAuth, signOut, onAuthStateChanged, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, getCountFromServer, doc, setDoc, getDoc, getDocs, deleteDoc, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -109,22 +109,45 @@ window.closeUniversalForm = function() {
     if(form) form.reset();
 }
 
-// Universal Post Submission
+// Universal Post Submission with Base64 for PDF & Photo
 const universalForm = document.getElementById('universalPostForm');
 if(universalForm) {
     universalForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const title = document.getElementById('uniTitle').value;
+        const title = document.getElementById('uniTitle').value || "Untitled Post";
         const category = document.getElementById('uniCategory').value;
-        const link = document.getElementById('uniLink').value;
+        const link = document.getElementById('uniLink').value || "";
+        const pdfInput = document.getElementById('uniPdfInput');
+        const photoInput = document.getElementById('uniPhotoInput');
+
+        let postData = {
+            title: title,
+            category: category,
+            link: link,
+            pdfUrl: "",
+            photoUrl: "",
+            createdAt: serverTimestamp()
+        };
 
         try {
-            await addDoc(collection(db, "posts"), {
-                title: title,
-                category: category,
-                link: link,
-                createdAt: serverTimestamp()
-            });
+            // Helper function to read files as Base64
+            const readFileAsDataURL = (file) => {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
+            };
+
+            if(pdfInput.files.length > 0) {
+                postData.pdfUrl = await readFileAsDataURL(pdfInput.files[0]);
+            }
+            if(photoInput.files.length > 0) {
+                postData.photoUrl = await readFileAsDataURL(photoInput.files[0]);
+            }
+
+            await addDoc(collection(db, "posts"), postData);
             alert("✅ Post Published Successfully!");
             closeUniversalForm();
             fetchDashboardStats();
@@ -133,7 +156,7 @@ if(universalForm) {
     });
 }
 
-// Load History & Categorized Lists
+// Load History & Categorized Lists with Timestamp display
 async function loadAllPostsHistory() {
     const historyContainer = document.getElementById('dashboardHistoryList');
     const updatesContainer = document.getElementById('updatesList');
@@ -156,15 +179,31 @@ async function loadAllPostsHistory() {
         snapshot.forEach((docSnap) => {
             const item = docSnap.data();
             const id = docSnap.id;
+            
+            // Format Timestamp nicely
+            let dateStr = "Just now";
+            if(item.createdAt && item.createdAt.toDate) {
+                dateStr = item.createdAt.toDate().toLocaleString('en-IN', { 
+                    day: 'numeric', month: 'short', year: 'numeric', 
+                    hour: '2-digit', minute: '2-digit' 
+                });
+            }
+
+            let mediaLinksHTML = '';
+            if(item.link) mediaLinksHTML += `<a href="${item.link}" target="_blank" style="padding: 6px 10px; background: #f8fafc; color: #6366f1; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; border: 1px solid #e2e8f0;">Link</a>`;
+            if(item.pdfUrl) mediaLinksHTML += `<a href="${item.pdfUrl}" target="_blank" download="document.pdf" style="padding: 6px 10px; background: #fef2f2; color: #dc2626; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; border: 1px solid #fecaca;">PDF</a>`;
+            if(item.photoUrl) mediaLinksHTML += `<a href="${item.photoUrl}" target="_blank" style="padding: 6px 10px; background: #f0fdf4; color: #16a34a; border-radius: 6px; text-decoration: none; font-size: 0.8rem; font-weight: 600; border: 1px solid #bbf7d0;">Photo</a>`;
+
             const html = `
               <div style="background: white; padding: 15px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
                 <div>
                   <span style="background: #e0e7ff; color: #4338ca; padding: 4px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">${item.category}</span>
-                  <h4 style="margin: 8px 0 0 0; font-size: 1rem;">${item.title}</h4>
+                  <h4 style="margin: 8px 0 2px 0; font-size: 1rem; color:#1e293b;">${item.title}</h4>
+                  <span class="post-timestamp"><i class="fa-regular fa-clock"></i> Uploaded on: ${dateStr}</span>
                 </div>
-                <div style="display: flex; gap: 10px;">
-                  <a href="${item.link}" target="_blank" style="padding: 8px 12px; background: #f8fafc; color: #6366f1; border-radius: 6px; text-decoration: none; font-size: 0.85rem; font-weight: 600; border: 1px solid #e2e8f0;">Open</a>
-                  <button onclick="deletePost('${id}')" style="padding: 8px 12px; background: #fee2e2; color: #ef4444; border: none; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  ${mediaLinksHTML}
+                  <button onclick="deletePost('${id}')" style="padding: 6px 10px; background: #fee2e2; color: #ef4444; border: none; border-radius: 6px; cursor: pointer;"><i class="fa-solid fa-trash"></i></button>
                 </div>
               </div>`;
 
@@ -234,11 +273,19 @@ async function loadGallery() {
         snapshot.forEach(docSnap => {
             const item = docSnap.data();
             const id = docSnap.id;
+            
+            let dateStr = "";
+            if(item.createdAt && item.createdAt.toDate) {
+                dateStr = item.createdAt.toDate().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+            }
+
             html += `
               <div style="background:white; border:1px solid #e2e8f0; border-radius:8px; overflow:hidden; padding:10px;">
                 <img src="${item.imageUrl}" style="width:100%; height:120px; object-fit:cover; border-radius:6px;">
-                <p style="font-size:0.9rem; font-weight:600; margin:8px 0 5px 0;">${item.title}</p>
-                <button onclick="deleteGallery('${id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem;">Delete</button>
+                <p style="font-size:0.9rem; font-weight:600; margin:8px 0 2px 0;">${item.title}</p>
+                <small style="color:#64748b; font-size:0.75rem;"><i class="fa-regular fa-clock"></i> ${dateStr}</small>
+                <br>
+                <button onclick="deleteGallery('${id}')" style="background:#fee2e2; color:#ef4444; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; font-size:0.8rem; margin-top:8px;">Delete</button>
               </div>`;
         });
         html += '</div>';
@@ -253,11 +300,7 @@ window.deleteGallery = async (id) => {
     }
 };
 
-// ==========================================
-// PROFILE & CREDENTIALS UPDATE LOGIC (REAL)
-// ==========================================
-import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-
+// Profile & Admin Credentials Settings
 async function loadProfile() {
     try {
         const adminDoc = await getDoc(doc(db, "users", "adminProfile"));
@@ -305,42 +348,32 @@ if(profileUpdateForm) {
 
         try {
             const user = auth.currentUser;
-
-            // Agar naya password dala hai toh Firebase Auth me password update karo
             if(user && newPassword && newPassword.trim() !== "") {
                 if(newPassword.length < 6) {
                     alert("⚠️ Password should be at least 6 characters long!");
                     return;
                 }
-                
-                // Security ke liye user ka current password maangna padta hai ya direct update
                 await updatePassword(user, newPassword);
             }
 
-            // Photo upload handling (Base64)
             if(photoInput.files.length > 0) {
                 const reader = new FileReader();
                 reader.onload = async function(event) {
                     profileData.photoUrl = event.target.result;
                     await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
                     alert("✅ Profile & Password Updated Successfully!");
-                    document.getElementById('adminPassword').value = ""; // Clear password field
+                    document.getElementById('adminPassword').value = "";
                     loadProfile();
                 };
                 reader.readAsDataURL(photoInput.files[0]);
             } else {
                 await setDoc(doc(db, "users", "adminProfile"), profileData, { merge: true });
                 alert("✅ Profile & Password Updated Successfully!");
-                document.getElementById('adminPassword').value = ""; // Clear password field
+                document.getElementById('adminPassword').value = "";
                 loadProfile();
             }
         } catch(err) {
-            console.error("Profile update error:", err);
-            if(err.code === 'auth/requires-recent-login') {
-                alert("⚠️ Security Alert: Please logout and login again before changing your password!");
-            } else {
-                alert("Error updating profile: " + err.message);
-            }
+            alert("Error updating profile: " + err.message);
         }
     });
 }
