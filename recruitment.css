@@ -1,451 +1,303 @@
 /*=========================================
+        GLOBAL & CONTAINER SETTINGS
+=========================================*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #050505;
+    color: #e4e4e4;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/*=========================================
         RECRUITMENT DETAILS PAGE
 =========================================*/
-
-.recruitment-page{
-    padding:100px 0;
-    background:#050505;
+.recruitment-page {
+    padding: 80px 0;
+    background: #050505;
 }
 
-.recruitment-header{
-    text-align:center;
-    margin-bottom:60px;
+.recruitment-header {
+    text-align: center;
+    margin-bottom: 60px;
 }
 
-.recruitment-badge{
-    display:inline-block;
-    padding:10px 22px;
-    border-radius:40px;
-    background:rgba(32,255,105,.12);
-    border:1px solid rgba(32,255,105,.25);
-    color:#20ff69;
-    font-weight:700;
-    margin-bottom:22px;
+.recruitment-badge {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 40px;
+    background: rgba(32, 255, 105, 0.12);
+    border: 1px solid rgba(32, 255, 105, 0.25);
+    color: #20ff69;
+    font-weight: 700;
+    margin-bottom: 22px;
 }
 
-.recruitment-header h1{
-    font-size:52px;
-    color:#fff;
-    margin-bottom:18px;
-    line-height:1.3;
+.recruitment-header h1 {
+    font-size: 48px;
+    color: #fff;
+    margin-bottom: 18px;
+    line-height: 1.3;
 }
 
-.recruitment-header p{
-    color:#a8a8a8;
-    font-size:18px;
-    max-width:750px;
-    margin:auto;
-    line-height:1.8;
-}
-
-/*============================*/
-
-.info-box{
-
-    background:#101010;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:24px;
-
-    overflow:hidden;
-
-    margin-bottom:35px;
-
-    transition:.35s;
-
-}
-
-.info-box:hover{
-
-    border-color:#20ff69;
-
-    box-shadow:0 20px 45px rgba(32,255,105,.12);
-
-}
-
-/*============================*/
-
-.box-title{
-
-    background:#20ff69;
-
-    color:#000;
-
-    font-size:24px;
-
-    font-weight:700;
-
-    padding:18px 25px;
-
-}
-
-/*============================*/
-
-.info-box table{
-
-    width:100%;
-
-    border-collapse:collapse;
-
-}
-
-.info-box table tr{
-
-    border-bottom:1px solid rgba(255,255,255,.06);
-
-    transition:.3s;
-
-}
-
-.info-box table tr:last-child{
-
-    border-bottom:none;
-
-}
-
-.info-box table tr:hover{
-
-    background:#171717;
-
-}
-
-.info-box table td{
-
-    padding:18px 24px;
-
-    color:#e4e4e4;
-
-    font-size:16px;
-
-    line-height:1.7;
-
-}
-
-.info-box table td:first-child{
-
-    width:35%;
-
-    font-weight:700;
-
-    color:#20ff69;
-
-}
-
-/*============================*/
-
-.info-box table th{
-
-    background:#151515;
-
-    color:#20ff69;
-
-    padding:18px;
-
-    font-size:17px;
-
-    font-weight:700;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-/*=========================================
-        SELECTION PROCESS
-=========================================*/
-
-.selection-list{
-    list-style:none;
-    padding:25px;
-}
-
-.selection-list li{
-
-    position:relative;
-
-    padding:16px 18px 16px 55px;
-
-    margin-bottom:15px;
-
-    background:#141414;
-
-    border:1px solid rgba(255,255,255,.06);
-
-    border-radius:16px;
-
-    color:#fff;
-
-    transition:.35s;
-
-}
-
-.selection-list li:last-child{
-    margin-bottom:0;
-}
-
-.selection-list li::before{
-
-    content:"✓";
-
-    position:absolute;
-
-    left:20px;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    width:22px;
-    height:22px;
-
-    border-radius:50%;
-
-    background:#20ff69;
-
-    color:#000;
-
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    font-size:13px;
-
-    font-weight:700;
-
-}
-
-.selection-list li:hover{
-
-    border-color:#20ff69;
-
-    background:#181818;
-
-    transform:translateX(8px);
-
+.recruitment-header p {
+    color: #a8a8a8;
+    font-size: 18px;
+    max-width: 750px;
+    margin: auto;
+    line-height: 1.8;
 }
 
 /*=========================================
-        IMPORTANT LINKS
+        INFO BOXES & TABLES
 =========================================*/
-
-.links-table td{
-
-    padding:22px 24px !important;
-
+.info-box {
+    background: #101010;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 35px;
+    transition: 0.35s ease;
 }
 
-.links-table a{
-
-    display:inline-flex;
-
-    justify-content:center;
-    align-items:center;
-
-    min-width:180px;
-
-    height:48px;
-
-    text-decoration:none;
-
-    background:#20ff69;
-
-    color:#000;
-
-    font-weight:700;
-
-    border-radius:12px;
-
-    transition:.35s;
-
+.info-box:hover {
+    border-color: #20ff69;
+    box-shadow: 0 15px 35px rgba(32, 255, 105, 0.08);
 }
 
-.links-table a:hover{
+.box-title {
+    background: #20ff69;
+    color: #000;
+    font-size: 22px;
+    font-weight: 700;
+    padding: 16px 25px;
+}
 
-    transform:translateY(-4px);
+.info-box table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    box-shadow:0 15px 35px rgba(32,255,105,.25);
+.info-box table tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    transition: 0.3s;
+}
 
+.info-box table tr:last-child {
+    border-bottom: none;
+}
+
+.info-box table tr:hover {
+    background: #171717;
+}
+
+.info-box table td {
+    padding: 18px 24px;
+    color: #e4e4e4;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.info-box table td:first-child {
+    width: 40%;
+    font-weight: 600;
+    color: #20ff69;
+}
+
+.info-box table th {
+    background: #151515;
+    color: #20ff69;
+    padding: 18px 24px;
+    font-size: 17px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: left;
+}
+
+/* Table Hover Effect (Specific for standard tables) */
+.info-box tbody tr:hover td {
+    color: #fff;
+}
+.info-box tbody tr:hover td:first-child {
+    color: #20ff69;
 }
 
 /*=========================================
-        TABLE EFFECT
+        SELECTION PROCESS LIST
 =========================================*/
-
-.info-box tbody tr{
-
-    transition:.35s;
-
+.selection-list {
+    list-style: none;
+    padding: 25px;
 }
 
-.info-box tbody tr:hover{
-
-    background:#161616;
-
+.selection-list li {
+    position: relative;
+    padding: 16px 18px 16px 55px;
+    margin-bottom: 15px;
+    background: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    color: #fff;
+    transition: 0.35s;
+    font-size: 16px;
 }
 
-.info-box tbody tr:hover td{
-
-    color:#fff;
-
+.selection-list li:last-child {
+    margin-bottom: 0;
 }
 
-.info-box tbody tr:hover td:first-child{
+.selection-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #20ff69;
+    color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 700;
+}
 
-    color:#20ff69;
-
+.selection-list li:hover {
+    border-color: #20ff69;
+    background: #181818;
+    transform: translateX(8px);
 }
 
 /*=========================================
-        SCROLL ANIMATION READY
+        IMPORTANT LINKS (BUTTONS)
 =========================================*/
-
-.info-box{
-
-    opacity:0;
-
-    transform:translateY(60px);
-
+.links-table td {
+    padding: 20px 24px !important;
 }
 
-.info-box.show{
+.links-table td:first-child {
+    width: 60%; /* Buttons ke liye jagah chhodne ke liye */
+}
 
-    opacity:1;
+.links-table a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 160px;
+    height: 45px;
+    text-decoration: none;
+    background: #20ff69;
+    color: #000;
+    font-weight: 700;
+    border-radius: 8px;
+    transition: 0.35s ease;
+    font-size: 15px;
+}
 
-    transform:translateY(0);
-
-    transition:.7s ease;
-
+.links-table a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(32, 255, 105, 0.25);
+    background: #1ae55e;
 }
 
 /*=========================================
-        RESPONSIVE
+        SCROLL ANIMATION (Requires JS)
 =========================================*/
-
-@media(max-width:992px){
-
-.recruitment-header h1{
-
-font-size:40px;
-
+.info-box {
+    opacity: 0;
+    transform: translateY(40px);
 }
 
-.box-title{
-
-font-size:21px;
-
+.info-box.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: 0.7s ease;
 }
 
+/*=========================================
+        RESPONSIVE DESIGN (Mobiles/Tablets)
+=========================================*/
+@media(max-width: 992px) {
+    .recruitment-header h1 {
+        font-size: 40px;
+    }
+    .box-title {
+        font-size: 20px;
+    }
 }
 
-@media(max-width:768px){
-
-.recruitment-page{
-
-padding:70px 0;
-
+@media(max-width: 768px) {
+    .recruitment-page {
+        padding: 60px 0;
+    }
+    .recruitment-header {
+        margin-bottom: 40px;
+    }
+    .recruitment-header h1 {
+        font-size: 32px;
+    }
+    .recruitment-header p {
+        font-size: 15px;
+        padding: 0 10px;
+    }
+    .info-box {
+        border-radius: 16px;
+    }
+    .box-title {
+        font-size: 18px;
+        padding: 15px 20px;
+    }
+    .info-box table th,
+    .info-box table td {
+        padding: 15px 20px;
+        font-size: 14px;
+    }
+    
+    /* Mobile me table scrollable banane ke liye */
+    .info-box table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .links-table a {
+        min-width: 130px;
+        height: 40px;
+        font-size: 14px;
+    }
+    .selection-list {
+        padding: 20px;
+    }
+    .selection-list li {
+        font-size: 14px;
+        padding: 14px 14px 14px 45px;
+    }
+    .selection-list li::before {
+        left: 15px;
+    }
 }
 
-.recruitment-header{
-
-margin-bottom:40px;
-
-}
-
-.recruitment-header h1{
-
-font-size:30px;
-
-}
-
-.recruitment-header p{
-
-font-size:15px;
-
-}
-
-.info-box{
-
-border-radius:18px;
-
-}
-
-.box-title{
-
-font-size:18px;
-
-padding:16px 18px;
-
-}
-
-.info-box table th,
-.info-box table td{
-
-padding:15px;
-
-font-size:14px;
-
-}
-
-.info-box table{
-
-display:block;
-
-overflow-x:auto;
-
-white-space:nowrap;
-
-}
-
-.links-table a{
-
-min-width:140px;
-
-height:42px;
-
-font-size:14px;
-
-}
-
-.selection-list{
-
-padding:18px;
-
-}
-
-.selection-list li{
-
-font-size:14px;
-
-padding:14px 14px 14px 48px;
-
-}
-
-}
-
-@media(max-width:480px){
-
-.recruitment-header h1{
-
-font-size:24px;
-
-}
-
-.recruitment-badge{
-
-font-size:13px;
-
-}
-
-.box-title{
-
-font-size:17px;
-
-}
-
-.info-box table td:first-child{
-
-width:45%;
-
-}
-
+@media(max-width: 480px) {
+    .recruitment-header h1 {
+        font-size: 26px;
+    }
+    .recruitment-badge {
+        font-size: 13px;
+        padding: 8px 18px;
+    }
+    .box-title {
+        font-size: 17px;
+    }
 }
