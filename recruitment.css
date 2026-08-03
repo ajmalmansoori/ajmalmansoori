@@ -68,6 +68,7 @@ body {
     overflow: hidden;
     margin-bottom: 35px;
     transition: 0.35s ease;
+    /* Opacity aur TranslateY hata diya gaya hai, ab hamesha dikhega */
 }
 
 .info-box:hover {
@@ -124,7 +125,7 @@ body {
     text-align: left;
 }
 
-/* Table Hover Effect (Specific for standard tables) */
+/* Table Hover Effect */
 .info-box tbody tr:hover td {
     color: #fff;
 }
@@ -188,7 +189,7 @@ body {
 }
 
 .links-table td:first-child {
-    width: 60%; /* Buttons ke liye jagah chhodne ke liye */
+    width: 60%;
 }
 
 .links-table a {
@@ -210,20 +211,6 @@ body {
     transform: translateY(-3px);
     box-shadow: 0 10px 25px rgba(32, 255, 105, 0.25);
     background: #1ae55e;
-}
-
-/*=========================================
-        SCROLL ANIMATION (Requires JS)
-=========================================*/
-.info-box {
-    opacity: 0;
-    transform: translateY(40px);
-}
-
-.info-box.show {
-    opacity: 1;
-    transform: translateY(0);
-    transition: 0.7s ease;
 }
 
 /*=========================================
@@ -265,7 +252,6 @@ body {
         font-size: 14px;
     }
     
-    /* Mobile me table scrollable banane ke liye */
     .info-box table {
         display: block;
         overflow-x: auto;
